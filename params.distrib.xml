@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Default values for parameters. Do NOT alter this file, use params.local.xml instead -->
+<parameters>
+	<itop_url>http://myitop.com</itop_url>
+	<itop_login>admin</itop_login>
+	<itop_password>admin</itop_password>
+	<microsoft_login_url>https://login.microsoftonline.com/</microsoft_login_url>
+	<microsoft_auth_mode>/oauth2/token</microsoft_auth_mode>
+	<microsoft_resource>https://management.azure.com/</microsoft_resource>
+	<azure_clientid></azure_clientid>
+	<azure_clientsecret></azure_clientsecret>
+	<azure_tenantid></azure_tenantid>
+</parameters>

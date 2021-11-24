@@ -1,0 +1,94 @@
+{
+  "name": "$azuresubscription_synchro_name$ - $azure_tenant_id$",
+  "description": "Collect Azure subscription by collector",
+  "status": "implementation",
+  "user_id": "$synchro_user$",
+  "notify_contact_id": "$contact_to_notify$",
+  "scope_class": "AzureSubscription",
+  "database_table_name": "synchro_data_azuresubscription_$azure_tenant_id$",
+  "scope_restriction": "",
+  "full_load_periodicity": "0",
+  "reconciliation_policy": "use_attributes",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "attribute_list": [
+    {
+      "attcode": "contacts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "contacts_list"
+    },
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "subscriptionid",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "subscriptionid"
+    },
+    {
+      "attcode": "azureid",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "azureid"
+    },
+    {
+      "attcode": "offer",
+      "update": "1",
+      "reconcile": "",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "offer"
+    },
+    {
+      "attcode": "org_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "org_id"
+    },
+    {
+      "attcode": "provider_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "provider_id"
+    },
+    {
+      "attcode": "status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    }
+  ],
+  "user_delete_policy": "nobody",
+  "url_icon": "",
+  "url_application": "",
+  "notify_contact_id_obsolescence_flag": ""
+}
