@@ -9,4 +9,15 @@
 	<azure_clientid></azure_clientid>
 	<azure_clientsecret></azure_clientsecret>
 	<azure_tenantid></azure_tenantid>
+
+
+	<!-- mapping tables -->
+	<subscription_status_mapping type="array">
+		<pattern>/Deleted/obsolete</pattern>
+		<pattern>/Disabled/implementation</pattern>
+		<pattern>/Enabled/production</pattern>
+		<pattern>/PastDue/obsolete</pattern>
+		<pattern>/Warned/implementation</pattern>
+	</subscription_status_mapping>
+
 </parameters>

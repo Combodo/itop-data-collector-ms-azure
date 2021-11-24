@@ -1,20 +1,22 @@
 <?php
 
 class AzureSubscriptionJsonCollector extends AzureJsonCollector {
-	/**
-	 * @inheritdoc
-	 */
-	protected function GetUrl($iSubscription) {
-		$sUrl = $this->sResource.'/subscriptions?api-version='.$this->sApiVersion;
+	private $oStatusMapping;
 
-		return $sUrl;
+	/**
+	 *  Tell what URL to use to collect the requested class
+	 *
+	 * @return string
+	 */
+	private function GetUrl(): string {
+		return $this->sResource.'/subscriptions?api-version='.$this->sApiVersion;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function RetrieveDataFromAzure() {
-		$sUrl = $this->GetUrl(0);
+	protected function RetrieveDataFromAzure(): bool {
+		$sUrl = $this->GetUrl();
 		$aEmpty = [];
 		$aOptionnalHeaders = [
 			'Content-type: application/json',
@@ -27,9 +29,7 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 			$aResults = json_decode($sResponse, true);
 			if (isset($aResults['error'])) {
 				Utils::Log(LOG_ERR,
-					"Data collection for ".$this->sAzureClass." failed: 
-					                Error code: ".$aResults['error']['code']."
-					                Message: ".$aResults['error']['message']);
+					'Data collection for '.$this->sAzureClass.' failed: Error code: '.$aResults['error']['code'].' Message: '.$aResults['error']['message']);
 
 				return false;
 			} else {
@@ -50,6 +50,29 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function Prepare(): bool {
+		// Create MappingTable
+		$this->oStatusMapping = new MappingTable('subscription_status_mapping');
+
+		return parent::Prepare();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function Fetch() {
+		$aData = parent::Fetch();
+		if ($aData !== false) {
+			// Then process each collected status
+			$aData['status'] = $this->oStatusMapping->MapValue($aData['status'], 'implementation');
+		}
+
+		return $aData;
 	}
 
 }

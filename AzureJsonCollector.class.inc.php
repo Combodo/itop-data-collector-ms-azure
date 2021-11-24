@@ -61,8 +61,9 @@ class AzureJsonCollector extends JsonCollector {
 	 * Read authentication parameters stored in file
 	 *
 	 * @return boolean
+	 * @throws \Exception
 	 */
-	private function ReadAuthParamsFromFile() {
+	private function ReadAuthParamsFromFile(): bool {
 		$bStatus = false;
 		$sTokenFile = Utils::GetDataFilePath(self::BEARER_TOKEN_FILE_NAME);
 
@@ -105,8 +106,9 @@ class AzureJsonCollector extends JsonCollector {
 	 * Tells if authentication is already done
 	 *
 	 * @return boolean
+	 * @throws \Exception
 	 */
-	private function IsAuthenticated() {
+	private function IsAuthenticated(): bool {
 		if (!$this->bIsAuthenticated) {
 			// Read stored parameters
 			if ($this->ReadAuthParamsFromFile()) {
@@ -139,8 +141,9 @@ class AzureJsonCollector extends JsonCollector {
 	 * Perform the authentication to Azure. A token is expected in return.
 	 *
 	 * @return boolean
+	 * @throws \Exception
 	 */
-	private function Authenticate() {
+	private function Authenticate(): bool {
 		Utils::Log(LOG_INFO, "Start authentication.");
 
 		$sURL = $this->sLoginUrl.$this->sTenantId.$this->sAuthMode;
@@ -195,24 +198,11 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
-	 *  Tell what URL to use to collect the requested class
-	 *
-	 * @param $iSubscription
-	 *
-	 * @return string
-	 */
-	protected function GetUrl($iSubscription) {
-		$sUrl = '';
-
-		return $sUrl;
-	}
-
-	/**
 	 *  Retrieve data from Azure for the class that implements the method and store them in given file
 	 *
 	 * @return bool
 	 */
-	protected function RetrieveDataFromAzure() {
+	protected function RetrieveDataFromAzure(): bool {
 		return true;
 	}
 
@@ -223,7 +213,9 @@ class AzureJsonCollector extends JsonCollector {
 	 *
 	 * @see jsonCollector::Prepare()
 	 */
-	public function Prepare() {
+	public function Prepare(): bool {
+		Utils::Log(LOG_DEBUG, '----------------');
+
 		// Check Azure class is set
 		if ($this->sAzureClass == '') {
 			Utils::Log(LOG_ERR, 'Parameter "azure_class" is not defined within the current collector parameters!');
@@ -256,9 +248,4 @@ class AzureJsonCollector extends JsonCollector {
 		return parent::Prepare();
 	}
 
-	public function Test() {
-		if (!$this->IsAuthenticated()) {
-			$bTest = $this->Authenticate();
-		}
-	}
 }
