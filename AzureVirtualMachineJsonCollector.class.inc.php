@@ -17,10 +17,10 @@ class AzureVirtualMachineJsonCollector extends AzureJsonCollector {
 	 * @inheritdoc
 	 */
 	protected function RetrieveDataFromAzure(): bool {
-		$aSubscriptionsToConsider = AzureCollectionPlan::GetResourceGroupsToConsider();
+		$aResourceGroupsToConsider = $this->oAzureCollectionPlan->GetResourceGroupsToConsider();
 		$aConcatenatedResults = [];
-		foreach ($aSubscriptionsToConsider as $iSubscription => $aParam) {
-			foreach ($aParam['RRS'] as $sResourceGroupName) {
+		foreach ($aResourceGroupsToConsider as $iSubscription => $aParam) {
+			foreach ($aParam['ResourceGroup'] as $sResourceGroupName) {
 				$sUrl = $this->GetUrl($iSubscription, $sResourceGroupName);
 				$aEmpty = [];
 				$aOptionnalHeaders = [
@@ -56,14 +56,8 @@ class AzureVirtualMachineJsonCollector extends AzureJsonCollector {
 			}
 		}
 
-		$hJSON = file_put_contents($this->sJsonFile, json_encode($aConcatenatedResults));
-		if ($hJSON === false) {
-			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
-
-			return false;
-		}
-
-		return true;
+		// Store JSON data
+		return $this->StoreJsonDataInFile(json_encode($aConcatenatedResults));
 	}
 
 }

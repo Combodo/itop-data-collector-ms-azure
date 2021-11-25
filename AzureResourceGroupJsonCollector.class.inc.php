@@ -16,7 +16,7 @@ class AzureResourceGroupJsonCollector extends AzureJsonCollector {
 	 * @inheritdoc
 	 */
 	protected function RetrieveDataFromAzure(): bool {
-		$aSubscriptionsToConsider = AzureCollectionPlan::GetSubscriptionsToConsider();
+		$aSubscriptionsToConsider = $this->oAzureCollectionPlan->GetSubscriptionsToConsider();
 		$aConcatenatedResults = [];
 		foreach ($aSubscriptionsToConsider as $iSubscription) {
 			$sUrl = $this->GetUrl($iSubscription);
@@ -38,10 +38,17 @@ class AzureResourceGroupJsonCollector extends AzureJsonCollector {
 
 					return false;
 				} else {
-					if (empty($aConcatenatedResults)) {
-						$aConcatenatedResults = $aResults;
-					} else {
-						$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+					if (!empty($aResults['value'])) {
+						if (empty($aConcatenatedResults)) {
+							$aConcatenatedResults = $aResults;
+						} else {
+							$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+						}
+					}
+
+					// Report list of discovered resource group to the collection plan
+					foreach ($aResults['value'] as $aResource) {
+						$this->oAzureCollectionPlan->AddResourceGroupsToConsider($iSubscription, $aResource['name']);
 					}
 					Utils::Log(LOG_DEBUG,
 						'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
@@ -53,14 +60,8 @@ class AzureResourceGroupJsonCollector extends AzureJsonCollector {
 			}
 		}
 
-		$hJSON = file_put_contents($this->sJsonFile, json_encode($aConcatenatedResults));
-		if ($hJSON === false) {
-			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
-
-			return false;
-		}
-
-		return true;
+		// Store JSON data
+		return $this->StoreJsonDataInFile(json_encode($aConcatenatedResults));
 	}
 
 }

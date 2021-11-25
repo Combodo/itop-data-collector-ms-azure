@@ -42,14 +42,8 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 			return false;
 		}
 
-		$hJSON = file_put_contents($this->sJsonFile, $sResponse);
-		if ($hJSON === false) {
-			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
-
-			return false;
-		}
-
-		return true;
+		// Store JSON data
+		return $this->StoreJsonDataInFile($sResponse);
 	}
 
 	/**

@@ -31,6 +31,7 @@ class AzureJsonCollector extends JsonCollector {
 	protected $sAzureClass = '';
 	protected $sApiVersion = '';
 	protected $sJsonFile = '';
+	protected $oAzureCollectionPlan;
 
 	public function __construct() {
 		parent::__construct();
@@ -42,19 +43,18 @@ class AzureJsonCollector extends JsonCollector {
 		$this->sClientSecret = Utils::GetConfigurationValue('azure_clientsecret', '');
 		$this->sTenantId = Utils::GetConfigurationValue('azure_tenantid', '');
 
-		$this->aParamsSourceJson = Utils::GetConfigurationValue(get_class($this), array());
-		if (empty($this->aParamsSourceJson)) {
-			$this->aParamsSourceJson = Utils::GetConfigurationValue(strtolower(get_class($this)), array());
-		}
-		if (isset($this->aParamsSourceJson["azure_class"])) {
+		$this->aParamsSourceJson = Utils::GetConfigurationValue(strtolower(get_class($this)), array());
+		if (isset($this->aParamsSourceJson['azure_class'])) {
 			$this->sAzureClass = $this->aParamsSourceJson['azure_class'];
 		}
 		if (isset($this->aParamsSourceJson['azure_api_version'])) {
 			$this->sApiVersion = $this->aParamsSourceJson['azure_api_version'];
 		}
-		if (isset($this->aParamsSourceJson["jsonfile"])) {
-			$this->sJsonFile = $this->aParamsSourceJson["jsonfile"];
+		if (isset($this->aParamsSourceJson['jsonfile'])) {
+			$this->sJsonFile = $this->aParamsSourceJson['jsonfile'];
 		}
+
+		$this->oAzureCollectionPlan = AzureCollectionPlan::GetPlan();
 	}
 
 	/**
@@ -144,6 +144,11 @@ class AzureJsonCollector extends JsonCollector {
 	 * @throws \Exception
 	 */
 	private function Authenticate(): bool {
+		// Check we are notalready authenticated, first
+		if ($this->IsAuthenticated()) {
+			return true;
+		}
+
 		Utils::Log(LOG_INFO, "Start authentication.");
 
 		$sURL = $this->sLoginUrl.$this->sTenantId.$this->sAuthMode;
@@ -207,6 +212,25 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
+	 * Store JSON encoded data in  file
+	 *
+	 * @param $sData
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function StoreJsonDataInFile($sData): bool {
+		$hJSON = file_put_contents($this->sJsonFile, $sData);
+		if ($hJSON === false) {
+			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Runs the configured query to start fetching the data from the database
 	 * Store result in fson data file
 	 * Pass file to parent JsonCollector class to translate it into a csv file
@@ -224,12 +248,10 @@ class AzureJsonCollector extends JsonCollector {
 		}
 
 		// Make sure we are authenticated
-		if (!$this->IsAuthenticated()) {
-			if (!$this->Authenticate()) {
-				Utils::Log(LOG_ERR, 'Collect of '.$this->sAzureClass.' is not possible: collector cannot authenticate!');
+		if (!$this->Authenticate()) {
+			Utils::Log(LOG_ERR, 'Collect of '.$this->sAzureClass.' is not possible: collector cannot authenticate!');
 
-				return false;
-			}
+			return false;
 		}
 
 		// Check JSON file name where tor store collection exists
