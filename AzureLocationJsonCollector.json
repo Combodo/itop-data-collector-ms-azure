@@ -45,6 +45,14 @@
       "friendlyname": "city"
     },
     {
+      "attcode": "code",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "code"
+    },
+    {
       "attcode": "country",
       "update": "0",
       "reconcile": "0",

@@ -1,9 +1,7 @@
 <?php
 
-class AzureLocationJsonCollector extends AzureJsonCollector {
-	private $aLookupFields = ['code'];
-
-	/*
+class AzureVNetJsonCollector extends AzureJsonCollector {
+	/**
 	 *  Tell what URL to use to collect the requested class
 	 *
 	 * @param $iSubscription
@@ -11,7 +9,7 @@ class AzureLocationJsonCollector extends AzureJsonCollector {
 	 * @return string
 	 */
 	private function GetUrl($iSubscription): string {
-		return $this->sResource.'/subscriptions/'.$iSubscription.'/providers/Microsoft.DocumentDB/locations?api-version='.$this->sApiVersion;
+		return $this->sResource.'/subscriptions/'.$iSubscription.'/providers/Microsoft.Network/virtualNetworks?api-version='.$this->sApiVersion;
 	}
 
 	/**
@@ -47,6 +45,11 @@ class AzureLocationJsonCollector extends AzureJsonCollector {
 							$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
 						}
 					}
+
+					// Report list of discovered resource group to the collection plan
+					foreach ($aResults['value'] as $aResource) {
+						$this->oAzureCollectionPlan->AddResourceGroupsToConsider($iSubscription, $aResource['name']);
+					}
 					Utils::Log(LOG_DEBUG,
 						'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
 				}
@@ -75,9 +78,20 @@ class AzureLocationJsonCollector extends AzureJsonCollector {
 		$sResult = false;
 		$sData = '';
 		switch ($sDestField) {
-			case 'code':
+			case 'azureresourcegroup_id':
 				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
-					$sData = strstr($aLookupKey['primary_key'], 'locations');
+					$sData = strstr($aLookupKey['primary_key'], 'resourceGroups');
+					if ($sData !== false) {
+						$aData = explode('/', $sData);
+						$sData = $aData[1];
+						$sResult = true;
+					}
+				}
+				break;
+
+			case 'azuresubscription_id':
+				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
+					$sData = strstr($aLookupKey['primary_key'], 'subscriptions');
 					if ($sData !== false) {
 						$aData = explode('/', $sData);
 						$sData = $aData[1];
@@ -98,9 +112,13 @@ class AzureLocationJsonCollector extends AzureJsonCollector {
 	 */
 	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex) {
 		// Process each line of the CSV
-		if (!$this->Lookup($aLineData, array('primary_key'), 'code', $iLineIndex, true, false)) {
+		if (!$this->Lookup($aLineData, array('primary_key'), 'azureresourcegroup_id', $iLineIndex, true, false)) {
+			throw new IgnoredRowException('Unknown code');
+		}
+		if (!$this->Lookup($aLineData, array('primary_key'), 'azuresubscription_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
 		}
 	}
+
 }
 

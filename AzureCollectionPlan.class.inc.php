@@ -9,7 +9,7 @@ class AzureCollectionPlan {
 		self::$oAzureCollectionPlan = $this;
 
 		// Fetch from iTop the list of subscriptions to discover
-		Utils::Log(LOG_INFO, 'Fetch from iTop the list of Subsriptions to discover');
+		Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Subscriptions to discover ----------');
 		$oRestClient = new RestClient();
 		try {
 			$aResult = $oRestClient->Get('AzureSubscription', 'SELECT AzureSubscription WHERE discover_objects = \'yes\'');
@@ -20,15 +20,13 @@ class AzureCollectionPlan {
 					// No object found
 					Utils::Log(LOG_INFO, "There is no Azure subscription stored in iTop for which objects need to be discovered.");
 				} else {
-					Utils::Log(LOG_INFO, "---------- Azure subscriptions to discover ----------");
 					foreach ($aResult['objects'] as $sKey => $aData) {
 						$aAzureSubscriptionAttributes = $aData['fields'];
 						$iSubscriptionId = $aAzureSubscriptionAttributes['subscriptionid'];
 						$this->aSubscriptionsToDiscover[] = $iSubscriptionId;
 						$this->aResourceGroupsToConsider[$iSubscriptionId] = array();
 
-						Utils::Log(LOG_INFO,
-							'Name :'.$aAzureSubscriptionAttributes['name'].' - ID :'.$iSubscriptionId);
+						Utils::Log(LOG_INFO, 'Name: '.$aAzureSubscriptionAttributes['name'].' - ID: '.$iSubscriptionId);
 					}
 				}
 			}
@@ -37,6 +35,41 @@ class AzureCollectionPlan {
 			if (is_a($e, "IOException")) {
 				Utils::Log(LOG_ERR, $sMessage);
 				throw $e;
+			}
+		}
+
+		// Fetch from iTop the list of resource that belong to subscriptions to discover
+		if (!empty($this->aSubscriptionsToDiscover)) {
+			Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Resource groups ----------');
+			$sSubscriptionList = "'".implode("','", $this->aSubscriptionsToDiscover)."'";
+			$oRestClient = new RestClient();
+			try {
+				$aResult = $oRestClient->Get('AzureResourceGroup',
+					'SELECT AzureResourceGroup AS rg JOIN AzureSubscription AS s ON rg.azuresubscription_id =  s.id WHERE s.subscriptionid IN ('.$sSubscriptionList.')');
+				if ($aResult['code'] != 0) {
+					Utils::Log(LOG_ERR, "{$aResult['message']} ({$aResult['code']})");
+				} else {
+					if (empty($aResult['objects'])) {
+						// No object found
+						Utils::Log(LOG_INFO,
+							"There is no Azure resource groups already stored in iTop within the subscriptions to discover.");
+					} else {
+						foreach ($aResult['objects'] as $sKey => $aData) {
+							$aAzureResourceGroupAttributes = $aData['fields'];
+							$sResourceGroupName = $aAzureResourceGroupAttributes['name'];
+							$this->AddResourceGroupsToConsider($aAzureResourceGroupAttributes['azuresubscription_id'], $sResourceGroupName);
+
+							Utils::Log(LOG_INFO,
+								'Subscription ID: '.$aAzureResourceGroupAttributes['azuresubscription_name'].' - Name: '.$sResourceGroupName);
+						}
+					}
+				}
+			} catch (Exception $e) {
+				$sMessage = 'Cannot fetch subscriptions from iTop: '.$e->getMessage();
+				if (is_a($e, "IOException")) {
+					Utils::Log(LOG_ERR, $sMessage);
+					throw $e;
+				}
 			}
 		}
 
@@ -67,6 +100,18 @@ class AzureCollectionPlan {
 
 				return false;
 			}
+			if ($sCollectorClass::NeedsResourceGroupsForCollector()) {
+				if (empty($this->aResourceGroupsToConsider)) {
+					$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupJsonCollector'), array());
+					if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
+						Utils::Log(LOG_WARNING, $sCollectorClass.' will not be launched as no resource group should be discovered');
+
+						return false;
+					}
+				}
+			}
+
+			Utils::Log(LOG_INFO, $sCollectorClass.' will launched !');
 
 			return true;
 		}

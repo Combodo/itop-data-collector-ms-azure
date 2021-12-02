@@ -1,6 +1,6 @@
 <?php
 
-class AzureVirtualMachineJsonCollector extends AzureJsonCollector {
+class AzureLoadBalancerJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
@@ -12,12 +12,11 @@ class AzureVirtualMachineJsonCollector extends AzureJsonCollector {
 	 *  Tell what URL to use to collect the requested class
 	 *
 	 * @param $iSubscription
-	 * @param $sResourceGroupName
 	 *
 	 * @return string
 	 */
 	private function GetUrl($iSubscription, $sResourceGroupName): string {
-		return $this->sResource.'/subscriptions/'.$iSubscription.'/resourceGroups/'.$sResourceGroupName.'/providers/Microsoft.Compute/virtualMachines?api-version='.$this->sApiVersion;
+		return $this->sResource.'/subscriptions/'.$iSubscription.'/resourceGroups/'.$sResourceGroupName.'/providers/Microsoft.Network/loadBalancers?api-version='.$this->sApiVersion;
 	}
 
 	/**
@@ -124,5 +123,4 @@ class AzureVirtualMachineJsonCollector extends AzureJsonCollector {
 	}
 
 }
-
 

@@ -27,10 +27,11 @@ class AzureJsonCollector extends JsonCollector {
 	protected $sBearerToken = '';
 	private $sBearerTokenRequestTime;
 	private $sBearerTokenExpirationDelay;
-	protected $aParamsSourceJson = array();
+	protected $aParamsSourceJson = [];
 	protected $sAzureClass = '';
 	protected $sApiVersion = '';
 	protected $sJsonFile = '';
+	protected $aFieldsPos = [];
 	protected $oAzureCollectionPlan;
 
 	public function __construct() {
@@ -203,6 +204,15 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
+	 * Tells if resource groups are necessary to collect the class
+	 *
+	 * @return bool
+	 */
+	public static function NeedsResourceGroupsForCollector(): bool {
+		return false;
+	}
+
+	/**
 	 *  Retrieve data from Azure for the class that implements the method and store them in given file
 	 *
 	 * @return bool
@@ -269,5 +279,87 @@ class AzureJsonCollector extends JsonCollector {
 
 		return parent::Prepare();
 	}
+
+	/**
+	 * Initializes the mapping between the column names (given by the first line of the CSV) and their index, for the given columns
+	 *
+	 * @param hash $aLineHeaders An array of strings (the "headers" i.e. first line of the CSV file)
+	 * @param array $aFields The fields for which a mapping is requested, as an array of strings
+	 */
+	protected function InitLineMappings($aLineHeaders, $aFields) {
+		foreach ($aLineHeaders as $idx => $sHeader) {
+			if (in_array($sHeader, $aFields)) {
+				$this->aFieldsPos[$sHeader] = $idx;
+			}
+		}
+
+		// Check that all requested fields were found in the headers
+		foreach ($aFields as $sField) {
+			if (!array_key_exists($sField, $this->aFieldsPos)) {
+				Utils::Log(LOG_ERR, "'$sField' is not a valid column name in the CSV file. Mapping will fail.");
+			}
+		}
+	}
+
+	/**
+	 * Compute the lookup
+	 *
+	 * @param $aLookupKey
+	 * @param $sDestField
+	 *
+	 * @return array
+	 */
+	protected function DoLookup($aLookupKey, $sDestField): array {
+		return [false, ''];
+	}
+
+	/**
+	 * Replaces a given field in the CSV data by the content of given lookup fields
+	 *
+	 * @param $aLineData
+	 * @param $aLookupFields
+	 * @param $sDestField
+	 * @param $iLineIndex
+	 * @param $bIgnoreMappingErrors
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function Lookup(&$aLineData, $aLookupFields, $sDestField, $iLineIndex, $bIgnoreMappingErrors): bool {
+		$bRet = true;
+		if ($iLineIndex == 0) {
+			$this->InitLineMappings($aLineData, array_merge($aLookupFields, array($sDestField)));
+		} else {
+			$aLookupKey = array();
+			foreach ($aLookupFields as $sField) {
+				$iPos = $this->aFieldsPos[$sField];
+				if ($iPos !== null) {
+					$aLookupKey[$sField] = $aLineData[$iPos];
+				} else {
+					$aLookupKey[$sField] = ''; // missing column ??
+				}
+			}
+			list($bResult, $sField) = $this->DoLookup($aLookupKey, $sDestField);
+			if (!$bResult) {
+				if ($bIgnoreMappingErrors) {
+					// Mapping *errors* are expected, just report them in debug mode
+					Utils::Log(LOG_DEBUG, "No mapping found for attribute '$sDestField' which will be set to zero.");
+				} else {
+					Utils::Log(LOG_WARNING, "No mapping found for attribute '$sDestField' which will be set to zero.");
+				}
+				$bRet = false;
+			} else {
+				$iPos = $this->aFieldsPos[$sDestField];
+				if ($iPos !== null) {
+					$aLineData[$iPos] = $sField;
+				} else {
+					Utils::Log(LOG_WARNING, "'$sDestField' is not a valid column name in the CSV file. Mapping will be ignored.");
+				}
+			}
+		}
+
+		return $bRet;
+	}
+
 
 }
