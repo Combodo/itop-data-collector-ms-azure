@@ -4,11 +4,9 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 	private $oStatusMapping;
 
 	/**
-	 *  Tell what URL to use to collect the requested class
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
-	private function GetUrl(): string {
+	protected function GetUrl($iSubscription, $sResourceGroupName): string {
 		return $this->sResource.'/subscriptions?api-version='.$this->sApiVersion;
 	}
 
@@ -16,7 +14,7 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 	 * @inheritdoc
 	 */
 	protected function RetrieveDataFromAzure(): bool {
-		$sUrl = $this->GetUrl();
+		$sUrl = $this->GetUrl('', '');
 		$aEmpty = [];
 		$aOptionnalHeaders = [
 			'Content-type: application/json',

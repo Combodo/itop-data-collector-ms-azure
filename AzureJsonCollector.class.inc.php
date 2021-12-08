@@ -213,12 +213,148 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
+	 *  Tell what URL to use to collect the requested class
+	 *
+	 * @param $iSubscription
+	 * @param $sResourceGroupName
+	 *
+	 * @return string
+	 */
+	protected function GetUrl($iSubscription, $sResourceGroupName): string {
+		return '';
+	}
+
+	/**
+	 *  Report list of discovered resource group to the collection plan
+	 *
+	 * @param $aData
+	 * @param $iSubscription
+	 *
+	 * @return void
+	 */
+	protected function ReportResourceGroups($aData, $iSubscription): void {
+	}
+
+	/**
+	 *  Retrieve data from Azure for the class that require Subscriptions only
+	 *
+	 * @return array
+	 */
+	protected function RetrieveDataFromAzureSubscriptions(): array {
+		$aSubscriptionsToConsider = $this->oAzureCollectionPlan->GetSubscriptionsToConsider();
+		$aConcatenatedResults = [];
+		foreach ($aSubscriptionsToConsider as $iSubscription) {
+			$sUrl = $this->GetUrl($iSubscription, '');
+			$aEmpty = [];
+			$aOptionnalHeaders = [
+				'Content-type: application/json',
+				'Authorization: Bearer '.$this->sBearerToken,
+			];
+			$sOptionnalHeaders = implode("\n", $aOptionnalHeaders);
+			$aCurlOptions = array(CURLOPT_POSTFIELDS => "");
+			try {
+				$sResponse = utils::DoPostRequest($sUrl, $aEmpty, $sOptionnalHeaders, $aEmpty, $aCurlOptions);
+				$aResults = json_decode($sResponse, true);
+				if (isset($aResults['error'])) {
+					Utils::Log(LOG_ERR,
+						"Data collection for ".$this->sAzureClass." failed: 
+					                Error code: ".$aResults['error']['code']."
+					                Message: ".$aResults['error']['message']);
+
+					return [false, []];
+				} else {
+					if (!empty($aResults['value'])) {
+						if (empty($aConcatenatedResults)) {
+							$aConcatenatedResults = $aResults;
+						} else {
+							$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+						}
+					}
+
+					// Report list of discovered resource group to the collection plan
+					$this->ReportResourceGroups($aResults, $iSubscription);
+
+					Utils::Log(LOG_DEBUG,
+						'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
+				}
+			} catch (Exception $e) {
+				Utils::Log(LOG_WARNING, "Query failed: ".$e->getMessage());
+
+				return [false, []];
+			}
+		}
+
+		// Return array of objects
+		return [true, $aConcatenatedResults];
+	}
+
+	/**
+	 *  Retrieve data from Azure for the class that require both Subscriptions and ResourceGroups
+	 *
+	 * @return array
+	 */
+	protected function RetrieveDataFromAzureResourceGroups(): array {
+		$aResourceGroupsToConsider = $this->oAzureCollectionPlan->GetResourceGroupsToConsider();
+		$aConcatenatedResults = [];
+		foreach ($aResourceGroupsToConsider as $iSubscription => $aParam) {
+			foreach ($aParam['ResourceGroup'] as $sResourceGroupName) {
+				$sUrl = $this->GetUrl($iSubscription, $sResourceGroupName);
+				$aEmpty = [];
+				$aOptionnalHeaders = [
+					'Content-type: application/json',
+					'Authorization: Bearer '.$this->sBearerToken,
+				];
+				$sOptionnalHeaders = implode("\n", $aOptionnalHeaders);
+				$aCurlOptions = array(CURLOPT_POSTFIELDS => "");
+				try {
+					$sResponse = utils::DoPostRequest($sUrl, $aEmpty, $sOptionnalHeaders, $aEmpty, $aCurlOptions);
+					$aResults = json_decode($sResponse, true);
+					if (isset($aResults['error'])) {
+						Utils::Log(LOG_ERR,
+							"Data collection for ".$this->sAzureClass." failed: 
+					                Error code: ".$aResults['error']['code']."
+					                Message: ".$aResults['error']['message']);
+
+						return [false, []];
+					} else {
+						if (!empty($aResults['value'])) {
+							if (empty($aConcatenatedResults)) {
+								$aConcatenatedResults = $aResults;
+							} else {
+								$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+							}
+						}
+						Utils::Log(LOG_DEBUG,
+							'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
+					}
+				} catch (Exception $e) {
+					Utils::Log(LOG_WARNING, "Resource group query failed for subscription '.$iSubscription.': ".$e->getMessage());
+				}
+			}
+		}
+
+		// Return array of objects
+		return [true, $aConcatenatedResults];
+	}
+
+	/**
 	 *  Retrieve data from Azure for the class that implements the method and store them in given file
 	 *
 	 * @return bool
 	 */
 	protected function RetrieveDataFromAzure(): bool {
-		return true;
+		if ($this::NeedsResourceGroupsForCollector()) {
+			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureResourceGroups();
+		} else {
+			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureSubscriptions();
+
+		}
+		if (!$bSucceed) {
+			return false;
+		}
+
+		// Store JSON data
+		return $this->StoreJsonDataInFile(json_encode($aResults));
 	}
 
 	/**
@@ -283,7 +419,7 @@ class AzureJsonCollector extends JsonCollector {
 	/**
 	 * Initializes the mapping between the column names (given by the first line of the CSV) and their index, for the given columns
 	 *
-	 * @param hash $aLineHeaders An array of strings (the "headers" i.e. first line of the CSV file)
+	 * @param array $aLineHeaders An array of strings (the "headers" i.e. first line of the CSV file)
 	 * @param array $aFields The fields for which a mapping is requested, as an array of strings
 	 */
 	protected function InitLineMappings($aLineHeaders, $aFields) {
