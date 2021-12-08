@@ -38,7 +38,7 @@ class AzureCollectionPlan {
 			}
 		}
 
-		// Fetch from iTop the list of resource that belong to subscriptions to discover
+		// Fetch from iTop the list of Resource Groups that belong to subscriptions to discover
 		if (!empty($this->aSubscriptionsToDiscover)) {
 			Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Resource groups ----------');
 			$sSubscriptionList = "'".implode("','", $this->aSubscriptionsToDiscover)."'";
@@ -57,7 +57,8 @@ class AzureCollectionPlan {
 						foreach ($aResult['objects'] as $sKey => $aData) {
 							$aAzureResourceGroupAttributes = $aData['fields'];
 							$sResourceGroupName = $aAzureResourceGroupAttributes['name'];
-							$this->AddResourceGroupsToConsider($aAzureResourceGroupAttributes['azuresubscription_id'], $sResourceGroupName);
+							$this->AddResourceGroupsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
+								$sResourceGroupName);
 
 							Utils::Log(LOG_INFO,
 								'Subscription ID: '.$aAzureResourceGroupAttributes['azuresubscription_name'].' - Name: '.$sResourceGroupName);
@@ -83,7 +84,7 @@ class AzureCollectionPlan {
 	}
 
 	/**
-	 * Tellif a collector need to be orchestrated or not
+	 * Tell if a collector need to be orchestrated or not
 	 *
 	 * @param $sCollectorClass
 	 *
@@ -96,7 +97,7 @@ class AzureCollectionPlan {
 			return false;
 		} elseif (isset($aParamsSourceJson['enable']) && ($aParamsSourceJson['enable'] == 'yes')) {
 			if (empty($this->aSubscriptionsToDiscover) && ($sCollectorClass != 'AzureSubscriptionJsonCollector')) {
-				Utils::Log(LOG_WARNING, $sCollectorClass.' will  not be launched as no subscription should be discovered');
+				Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no subscription should be discovered');
 
 				return false;
 			}
@@ -104,14 +105,14 @@ class AzureCollectionPlan {
 				if (empty($this->aResourceGroupsToConsider)) {
 					$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupJsonCollector'), array());
 					if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
-						Utils::Log(LOG_WARNING, $sCollectorClass.' will not be launched as no resource group should be discovered');
+						Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no resource group should be discovered');
 
 						return false;
 					}
 				}
 			}
 
-			Utils::Log(LOG_INFO, $sCollectorClass.' will launched !');
+			Utils::Log(LOG_INFO, $sCollectorClass.' will be launched !');
 
 			return true;
 		}
