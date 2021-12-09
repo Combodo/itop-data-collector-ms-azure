@@ -342,38 +342,15 @@ class AzureJsonCollector extends JsonCollector {
 	 *
 	 * @return bool
 	 */
-	protected function RetrieveDataFromAzure(): bool {
+	protected function RetrieveDataFromAzure(): array {
 		if ($this::NeedsResourceGroupsForCollector()) {
 			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureResourceGroups();
 		} else {
 			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureSubscriptions();
 
 		}
-		if (!$bSucceed) {
-			return false;
-		}
 
-		// Store JSON data
-		return $this->StoreJsonDataInFile(json_encode($aResults));
-	}
-
-	/**
-	 * Store JSON encoded data in  file
-	 *
-	 * @param $sData
-	 *
-	 * @return bool
-	 * @throws \Exception
-	 */
-	protected function StoreJsonDataInFile($sData): bool {
-		$hJSON = file_put_contents($this->sJsonFile, $sData);
-		if ($hJSON === false) {
-			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
-
-			return false;
-		}
-
-		return true;
+		return [$bSucceed, $aResults];
 	}
 
 	/**
@@ -409,8 +386,25 @@ class AzureJsonCollector extends JsonCollector {
 
 		// Retrieve data from Azure
 		Utils::Log(LOG_DEBUG, 'Retrieve '.$this->sAzureClass.' data from Azure');
-		if (!$this->RetrieveDataFromAzure()) {
+		list ($bSucceed, $aResults) = $this->RetrieveDataFromAzure();
+		if (!$bSucceed) {
 			Utils::Log(LOG_DEBUG, 'Retrieval failed !');
+
+			return false;
+		}
+
+		// Store JSON data in file
+		// JSON_FORCE_OBJECT makes sure that an empty json file ( {} ) is created if $aResults is empty
+		$hJSON = file_put_contents($this->sJsonFile, json_encode($aResults, JSON_FORCE_OBJECT));
+		if ($hJSON === false) {
+			Utils::Log(LOG_ERR, "Failed to write retrieved data in '$this->sJsonFile' !");
+
+			return false;
+		}
+		if (empty($aResults)) {
+			Utils::Log(LOG_INFO, "Result of collect is empty !");
+
+			return true;    // It is important to return true here as the synchro should proceed even if no object have been retrieved.
 		}
 
 		return parent::Prepare();

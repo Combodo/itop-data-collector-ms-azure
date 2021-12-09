@@ -13,7 +13,7 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function RetrieveDataFromAzure(): bool {
+	protected function RetrieveDataFromAzure(): array {
 		$sUrl = $this->GetUrl('', '');
 		$aEmpty = [];
 		$aOptionnalHeaders = [
@@ -29,7 +29,7 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 				Utils::Log(LOG_ERR,
 					'Data collection for '.$this->sAzureClass.' failed: Error code: '.$aResults['error']['code'].' Message: '.$aResults['error']['message']);
 
-				return false;
+				return [false, $aEmpty];
 			} else {
 				Utils::Log(LOG_DEBUG,
 					'Data for class '.$this->sAzureClass.' have been retrieved from Azure. Count '.$aResults['count']['type'].' = '.$aResults['count']['value']);
@@ -37,11 +37,10 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 		} catch (Exception $e) {
 			Utils::Log(LOG_WARNING, "Query failed: ".$e->getMessage());
 
-			return false;
+			return [false, $aEmpty];
 		}
 
-		// Store JSON data
-		return $this->StoreJsonDataInFile($sResponse);
+		return [true, $aResults];
 	}
 
 	/**
