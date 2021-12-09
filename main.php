@@ -10,6 +10,7 @@ require_once(APPROOT.'collectors/AzureResourceGroupJsonCollector.class.inc.php')
 require_once(APPROOT.'collectors/AzureSubscriptionJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureVirtualMachineJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureVNetJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureVNetGatewayJsonCollector.class.inc.php');
 
 // List of collector to potentially launch.
 // --->>> Warning: order is important for the first 3 classes; alphabetical order is ok afterwards <<<---
@@ -23,6 +24,7 @@ $aCollectorClasses = [
 	'AzureLoadBalancerJsonCollector',       // Load Balancers
 	'AzureVirtualMachineJsonCollector',     // Virtual Machines
 	'AzureVNetJsonCollector',               // Virtual Networks
+	'AzureVNetGatewayJsonCollector',        // Virtual Network gateways
 ];
 
 // Initialize collection plan

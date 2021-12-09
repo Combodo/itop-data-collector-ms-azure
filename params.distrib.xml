@@ -185,31 +185,6 @@
 		</defaults>
 	</azuresubscriptionjsoncollector>
 
-	<!-- VNETs -->
-	<azurevnetjsoncollector>
-		<enable>yes</enable>
-		<azure_class>VNet</azure_class>
-		<azure_api_version>2021-03-01</azure_api_version>
-		<jsonfile>data/AzureVNet.json</jsonfile>
-		<path>value</path>
-		<fields>
-			<primary_key>id</primary_key>
-			<azureid>id</azureid>
-			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
-			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
-			<location_id>location</location_id>
-			<name>name</name>
-			<org_id>org_id</org_id>
-			<status>state</status>
-		</fields>
-		<defaults>
-			<org_id>Demo</org_id>
-			<azureresourcegroup_id></azureresourcegroup_id>
-			<azuresubscription_id></azuresubscription_id>
-			<status>implementation</status>
-		</defaults>
-	</azurevnetjsoncollector>
-
 	<!-- Virtual machines -->
 	<azurevirtualmachinejsoncollector>
 		<enable>yes</enable>
@@ -235,6 +210,56 @@
 		</defaults>
 	</azurevirtualmachinejsoncollector>
 
+	<!-- VNETs -->
+	<azurevnetjsoncollector>
+		<enable>yes</enable>
+		<azure_class>VNet</azure_class>
+		<azure_api_version>2021-03-01</azure_api_version>
+		<jsonfile>data/AzureVNet.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<location_id>location</location_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<org_id>Demo</org_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<status>implementation</status>
+		</defaults>
+	</azurevnetjsoncollector>
+
+	<!-- VNET Gateways -->
+	<azurevnetgatewayjsoncollector>
+		<enable>yes</enable>
+		<azure_class>VNetGateway</azure_class>
+		<azure_api_version>2021-03-01</azure_api_version>
+		<jsonfile>data/AzureVNetGateway.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<location_id>location</location_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<org_id>Demo</org_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<status>implementation</status>
+		</defaults>
+	</azurevnetgatewayjsoncollector>
+
 	<json_placeholders>
 		<!-- For compatibility with the version 1.1.x of the collector, define the data table names as following:
 		<prefix></prefix>
@@ -243,7 +268,7 @@
 		 -->
 		<azure_tenantid_short>c3cf8f43d5cd</azure_tenantid_short>
 		<azureappservice_synchro_name>Azure App Services Discovery</azureappservice_synchro_name>
-		<azurecloudervice_synchro_name>Azure Cloud Services Discovery</azurecloudervice_synchro_name>
+		<azurecloudservice_synchro_name>Azure Cloud Services Discovery</azurecloudservice_synchro_name>
 		<azurecontainerregistry_synchro_name>Azure Container Registries Discovery</azurecontainerregistry_synchro_name>
 		<azureloadbalancer_synchro_name>Azure Load Balancers Discovery</azureloadbalancer_synchro_name>
 		<azurelocation_synchro_name>Azure Locations Discovery</azurelocation_synchro_name>
@@ -251,6 +276,7 @@
 		<azuresubscription_synchro_name>Azure Subscriptions Discovery</azuresubscription_synchro_name>
 		<azurevirtualmachine_synchro_name>Azure Virtual Machines Discovery</azurevirtualmachine_synchro_name>
 		<azurevnet_synchro_name>Azure VNets Discovery</azurevnet_synchro_name>
+		<azurevnetgateway_synchro_name>Azure VNet Gateways Discovery</azurevnetgateway_synchro_name>
 	</json_placeholders>
 
 	<!-- mapping tables -->
