@@ -266,7 +266,7 @@
 		<persons_data_table>synchro_data_PersonAD</persons_data_table>
 		<users_data_table></users_data_table>
 		 -->
-		<azure_tenantid_short>c3cf8f43d5cd</azure_tenantid_short>
+		<azure_tenantid_short></azure_tenantid_short>
 		<azureappservice_synchro_name>Azure App Services Discovery</azureappservice_synchro_name>
 		<azurecloudservice_synchro_name>Azure Cloud Services Discovery</azurecloudservice_synchro_name>
 		<azurecontainerregistry_synchro_name>Azure Container Registries Discovery</azurecontainerregistry_synchro_name>
