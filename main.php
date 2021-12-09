@@ -2,6 +2,8 @@
 require_once(APPROOT.'collectors/AzureCollectionPlan.class.inc.php');
 require_once(APPROOT.'collectors/AzureJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureAppServiceJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureCloudServiceJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureContainerRegistryJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureLoadBalancerJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureLocationJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureResourceGroupJsonCollector.class.inc.php');
@@ -16,6 +18,8 @@ $aCollectorClasses = [
 	'AzureLocationJsonCollector',           // 2- Locations
 	'AzureResourceGroupJsonCollector',      // 3- Resources group
 	'AzureAppServiceJsonCollector',         // App Services
+	'AzureCloudServiceJsonCollector',       // Cloud Services
+	'AzureContainerRegistryJsonCollector',  // Container Registries
 	'AzureLoadBalancerJsonCollector',       // Load Balancers
 	'AzureVirtualMachineJsonCollector',     // Virtual Machines
 	'AzureVNetJsonCollector',               // Virtual Networks

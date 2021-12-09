@@ -40,6 +40,56 @@
 		</defaults>
 	</azureappservicejsoncollector>
 
+	<!-- Cloud Services -->
+	<azurecloudservicejsoncollector>
+		<enable>yes</enable>
+		<azure_class>AzureCloudService</azure_class>
+		<azure_api_version>2021-03-01</azure_api_version>
+		<jsonfile>data/AzureCloudService.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<location_id>location</location_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<org_id>Demo</org_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<status>implementation</status>
+		</defaults>
+	</azurecloudservicejsoncollector>
+
+	<!-- Container Registries -->
+	<azurecontainerregistryjsoncollector>
+		<enable>yes</enable>
+		<azure_class>AzureContainerRegistry</azure_class>
+		<azure_api_version>2019-05-01</azure_api_version>
+		<jsonfile>data/AzureContainerRegistry.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<location_id>location</location_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<org_id>Demo</org_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<status>implementation</status>
+		</defaults>
+	</azurecontainerregistryjsoncollector>
+
 	<!-- Load balancers -->
 	<azureloadbalancerjsoncollector>
 		<enable>yes</enable>
@@ -67,7 +117,7 @@
 
 	<!-- Locations -->
 	<azurelocationjsoncollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<azure_class>locations</azure_class>
 		<azure_api_version>2021-04-01-preview</azure_api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
@@ -88,7 +138,7 @@
 
 	<!-- Resources group -->
 	<azureresourcegroupjsoncollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<azure_class>resourceGroups</azure_class>
 		<azure_api_version>2020-09-01</azure_api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -193,6 +243,8 @@
 		 -->
 		<azure_tenantid_short>c3cf8f43d5cd</azure_tenantid_short>
 		<azureappservice_synchro_name>Azure App Services Discovery</azureappservice_synchro_name>
+		<azurecloudervice_synchro_name>Azure Cloud Services Discovery</azurecloudervice_synchro_name>
+		<azurecontainerregistry_synchro_name>Azure Container Registries Discovery</azurecontainerregistry_synchro_name>
 		<azureloadbalancer_synchro_name>Azure Load Balancers Discovery</azureloadbalancer_synchro_name>
 		<azurelocation_synchro_name>Azure Locations Discovery</azurelocation_synchro_name>
 		<azureresourcegroup_synchro_name>Azure Resources Group Discovery</azureresourcegroup_synchro_name>
