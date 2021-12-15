@@ -10,6 +10,11 @@ class AzureJsonCollector extends JsonCollector {
 	const DEFAULT_MICROSOFT_AUTH_MODE = '/oauth2/token';
 	const DEFAULT_MICROSOFT_RESOURCE = 'https://management.azure.com/';
 
+	// Name of URI parameters that can be required
+	const URI_PARAM_SUBSCRIPTION = 'Subscription';
+	const URI_PARAM_RESOURCEGROUP = 'ResourceGroup';
+	const URI_PARAM_SERVER = 'Server';
+
 	// Parameters of the file where the token is stored
 	const BEARER_TOKEN_FILE_NAME = 'BearerToken.csv';
 	const BEARER_TOKEN_NAME = 'TokenName';
@@ -30,6 +35,7 @@ class AzureJsonCollector extends JsonCollector {
 	protected $aParamsSourceJson = [];
 	protected $sAzureClass = '';
 	protected $sApiVersion = '';
+	protected $aURIPArameters = [];
 	protected $sJsonFile = '';
 	protected $aFieldsPos = [];
 	protected $oAzureCollectionPlan;
@@ -54,6 +60,9 @@ class AzureJsonCollector extends JsonCollector {
 		if (isset($this->aParamsSourceJson['jsonfile'])) {
 			$this->sJsonFile = $this->aParamsSourceJson['jsonfile'];
 		}
+
+		// Set minimum required parameter to build URI
+		$this->aURIPArameters[1] = self::URI_PARAM_SUBSCRIPTION;
 
 		$this->oAzureCollectionPlan = AzureCollectionPlan::GetPlan();
 	}
@@ -204,6 +213,15 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
+	 * Provides the list of parameters required to build the URI
+	 *
+	 * @return array
+	 */
+	protected function GetRequiredURIParameters(): array {
+		return [];
+	}
+
+	/**
 	 * Tells if resource groups are necessary to collect the class
 	 *
 	 * @return bool
@@ -233,6 +251,18 @@ class AzureJsonCollector extends JsonCollector {
 	 * @return void
 	 */
 	protected function ReportResourceGroups($aData, $iSubscription): void {
+	}
+
+	/**
+	 *  Report list of discovered objects to the collection plan
+	 *
+	 * @param $aData
+	 * @param $sObjectL1
+	 * @param $sObjectL2
+	 *
+	 * @return void
+	 */
+	protected function ReportObjects($aData, $sObjectL1, $sObjectL2): void {
 	}
 
 	/**
@@ -337,20 +367,128 @@ class AzureJsonCollector extends JsonCollector {
 		return [true, $aConcatenatedResults];
 	}
 
+	protected function PostAndProcess($iSubscription, $sUrl): array {
+		$bSucceed = false;
+		$aResults = [];
+		$aEmpty = [];
+		$aOptionnalHeaders = [
+			'Content-type: application/json',
+			'Authorization: Bearer '.$this->sBearerToken,
+		];
+		$sOptionnalHeaders = implode("\n", $aOptionnalHeaders);
+		$aCurlOptions = array(CURLOPT_POSTFIELDS => "");
+		try {
+			$sResponse = utils::DoPostRequest($sUrl, $aEmpty, $sOptionnalHeaders, $aEmpty, $aCurlOptions);
+			$aResults = json_decode($sResponse, true);
+			if (isset($aResults['error'])) {
+				Utils::Log(LOG_ERR,
+					"Data collection for ".$this->sAzureClass." failed: 
+					                Error code: ".$aResults['error']['code']."
+					                Message: ".$aResults['error']['message']);
+
+			} else {
+				$bSucceed = true;
+				Utils::Log(LOG_DEBUG,
+					'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
+			}
+		} catch (Exception $e) {
+			Utils::Log(LOG_WARNING, "Resource group query failed for subscription '.$iSubscription.': ".$e->getMessage());
+		}
+
+		// Return array of objects
+		return [$bSucceed, $aResults];
+	}
+
 	/**
 	 *  Retrieve data from Azure for the class that implements the method and store them in given file
 	 *
 	 * @return bool
 	 */
 	protected function RetrieveDataFromAzure(): array {
-		if ($this::NeedsResourceGroupsForCollector()) {
-			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureResourceGroups();
-		} else {
-			list($bSucceed, $aResults) = $this->RetrieveDataFromAzureSubscriptions();
+		$aMigratedClasses = [
+			'AzureResourceGroupJsonCollector',
+			'AzureMariaDBServerJsonCollector',
+			'AzureMariaDBJsonCollector',
+			'AzureLoadBalancerJsonCollector',
+		];
+		$bSucceed = false;
+		if (!in_array(get_class($this), $aMigratedClasses)) {
+			if ($this::NeedsResourceGroupsForCollector()) {
+				list($bSucceed, $aResults) = $this->RetrieveDataFromAzureResourceGroups();
+			} else {
+				list($bSucceed, $aResults) = $this->RetrieveDataFromAzureSubscriptions();
+			}
 
+			return [$bSucceed, $aResults];
+		} else {
+			$aObjectsToConsider = $this->oAzureCollectionPlan->GetAzureObjectsToConsider();
+			$aConcatenatedResults = [];
+			switch (sizeof($this->aURIPArameters)) {
+				case 1:
+					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+						$sUrl = $this->BuildUrl([$this->aURIPArameters[1] => $sObjectL1]);
+						list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
+						if ($bSucceed && !empty($aResults['value'])) {
+							if (empty($aConcatenatedResults)) {
+								$aConcatenatedResults = $aResults;
+							} else {
+								$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+							}
+							// Report list of discovered resource group to the collection plan
+							$this->ReportObjects($aResults, $sObjectL1, null);
+						}
+					}
+					break;
+
+				case 2:
+					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+						foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
+							$sUrl = $this->BuildUrl([$this->aURIPArameters[1] => $sObjectL1, $this->aURIPArameters[2] => $sObjectL2]);
+							list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
+							if ($bSucceed && !empty($aResults['value'])) {
+								if (empty($aConcatenatedResults)) {
+									$aConcatenatedResults = $aResults;
+								} else {
+									$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+								}
+								// Report list of discovered resource group to the collection plan
+								$this->ReportObjects($aResults, $sObjectL1, $sObjectL2);
+							}
+						}
+					}
+					break;
+
+				case 3:
+					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+						foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
+							foreach ($aObjectL2 as $sObjectL3 => $aObjectL3) {
+								$sUrl = $this->BuildUrl([
+									$this->aURIPArameters[1] => $sObjectL1,
+									$this->aURIPArameters[2] => $sObjectL2,
+									$this->aURIPArameters[3] => $sObjectL3,
+								]);
+								list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
+								if ($bSucceed && !empty($aResults['value'])) {
+									if (empty($aConcatenatedResults)) {
+										$aConcatenatedResults = $aResults;
+									} else {
+										$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+									}
+									// Report list of discovered resource group to the collection plan
+									$this->ReportObjects($aResults, $sObjectL1, $sObjectL2, $sObjectL3);
+								}
+							}
+						}
+					}
+					break;
+
+				default:
+					break;
+			}
+
+			return [$bSucceed, $aConcatenatedResults];
 		}
 
-		return [$bSucceed, $aResults];
 	}
 
 	/**

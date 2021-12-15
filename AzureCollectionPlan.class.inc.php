@@ -4,6 +4,7 @@ class AzureCollectionPlan {
 	static protected $oAzureCollectionPlan;
 	private $aSubscriptionsToDiscover = [];
 	private $aResourceGroupsToConsider = [];
+	private $aAzureObjectsToConsider = [];
 
 	public function __construct() {
 		self::$oAzureCollectionPlan = $this;
@@ -24,7 +25,8 @@ class AzureCollectionPlan {
 						$aAzureSubscriptionAttributes = $aData['fields'];
 						$iSubscriptionId = $aAzureSubscriptionAttributes['subscriptionid'];
 						$this->aSubscriptionsToDiscover[] = $iSubscriptionId;
-						$this->aResourceGroupsToConsider[$iSubscriptionId] = array();
+						$this->aResourceGroupsToConsider[$iSubscriptionId] = [];
+						$this->aAzureObjectsToConsider[$iSubscriptionId] = [];
 
 						Utils::Log(LOG_INFO, 'Name: '.$aAzureSubscriptionAttributes['name'].' - ID: '.$iSubscriptionId);
 					}
@@ -143,6 +145,14 @@ class AzureCollectionPlan {
 			$this->aResourceGroupsToConsider[$iSubscription]['ResourceGroup'] = [];
 		}
 		$this->aResourceGroupsToConsider[$iSubscription]['ResourceGroup'][] = $sResourceGroupName;
+
+		if (!array_key_exists($iSubscription, $this->aAzureObjectsToConsider)) {
+			$this->aAzureObjectsToConsider[$iSubscription] = [];
+		}
+		if (!array_key_exists($sResourceGroupName, $this->aAzureObjectsToConsider[$iSubscription])) {
+			$this->aAzureObjectsToConsider[$iSubscription][$sResourceGroupName] = [];
+		}
+
 	}
 
 	/**
@@ -154,4 +164,33 @@ class AzureCollectionPlan {
 
 		return $this->aResourceGroupsToConsider;
 	}
+
+	public function AddAzureObjectsToConsider($sObjectL1, $sObjectL2, $sObjectL3) {
+		if ($sObjectL1 != null) {
+			if (!array_key_exists($sObjectL1, $this->aAzureObjectsToConsider)) {
+				$this->aAzureObjectsToConsider[$sObjectL1] = [];
+			}
+			if ($sObjectL2 != null) {
+				if (!array_key_exists($sObjectL2, $this->aAzureObjectsToConsider[$sObjectL1])) {
+					$this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2] = [];
+				}
+				if ($sObjectL3 != null) {
+					if (!array_key_exists($sObjectL3, $this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2])) {
+						$this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2][$sObjectL3] = [];
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Provide the list of resource group  to consider during the collection
+	 *
+	 * @return array|\string[][][]
+	 */
+	public function GetAzureObjectsToConsider(): array {
+
+		return $this->aAzureObjectsToConsider;
+	}
+
 }

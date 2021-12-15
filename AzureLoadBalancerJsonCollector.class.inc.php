@@ -1,6 +1,12 @@
 <?php
 
 class AzureLoadBalancerJsonCollector extends AzureJsonCollector {
+	public function __construct() {
+		parent::__construct();
+
+		$this->aURIPArameters[2] = self::URI_PARAM_RESOURCEGROUP;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -14,6 +20,16 @@ class AzureLoadBalancerJsonCollector extends AzureJsonCollector {
 	protected function GetUrl($iSubscription, $sResourceGroupName): string {
 		return $this->sResource.'/subscriptions/'.$iSubscription.'/resourceGroups/'.$sResourceGroupName.'/providers/Microsoft.Network/loadBalancers?api-version='.$this->sApiVersion;
 	}
+
+	protected function GetUrl2($aParameters): string {
+		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
+				$aParameters)) {
+			return '';
+		} else {
+			return $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION].'/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP].'/providers/Microsoft.Network/loadBalancers?api-version='.$this->sApiVersion;
+		}
+	}
+
 
 	/**
 	 * @inheritdoc
