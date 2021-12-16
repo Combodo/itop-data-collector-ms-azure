@@ -35,7 +35,7 @@ class AzureJsonCollector extends JsonCollector {
 	protected $aParamsSourceJson = [];
 	protected $sAzureClass = '';
 	protected $sApiVersion = '';
-	protected $aURIPArameters = [];
+	protected static $aURIPArameters = [];
 	protected $sJsonFile = '';
 	protected $aFieldsPos = [];
 	protected $oAzureCollectionPlan;
@@ -62,7 +62,7 @@ class AzureJsonCollector extends JsonCollector {
 		}
 
 		// Set minimum required parameter to build URI
-		$this->aURIPArameters[1] = self::URI_PARAM_SUBSCRIPTION;
+//		$this->aURIPArameters[1] = self::URI_PARAM_SUBSCRIPTION;
 
 		$this->oAzureCollectionPlan = AzureCollectionPlan::GetPlan();
 	}
@@ -213,44 +213,27 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
-	 * Provides the list of parameters required to build the URI
-	 *
-	 * @return array
-	 */
-	protected function GetRequiredURIParameters(): array {
-		return [];
-	}
-
-	/**
 	 * Tells if resource groups are necessary to collect the class
 	 *
 	 * @return bool
 	 */
 	public static function NeedsResourceGroupsForCollector(): bool {
+		if (array_key_exists(2, static::$aURIPArameters)) {
+			return true;
+		}
+
 		return false;
 	}
 
 	/**
-	 *  Tell what URL to use to collect the requested class
+	 *  Build the URL used to collect the requested class
 	 *
-	 * @param $iSubscription
-	 * @param $sResourceGroupName
+	 * @param $aParameters
 	 *
 	 * @return string
 	 */
-	protected function GetUrl($iSubscription, $sResourceGroupName): string {
+	protected function BuildUrl($aParameters): string {
 		return '';
-	}
-
-	/**
-	 *  Report list of discovered resource group to the collection plan
-	 *
-	 * @param $aData
-	 * @param $iSubscription
-	 *
-	 * @return void
-	 */
-	protected function ReportResourceGroups($aData, $iSubscription): void {
 	}
 
 	/**
@@ -266,108 +249,15 @@ class AzureJsonCollector extends JsonCollector {
 	}
 
 	/**
-	 *  Retrieve data from Azure for the class that require Subscriptions only
+	 * Post URL and process errors from microsoft
+	 *
+	 * @param $iSubscription
+	 * @param $sUrl
 	 *
 	 * @return array
+	 * @throws \Exception
 	 */
-	protected function RetrieveDataFromAzureSubscriptions(): array {
-		$aSubscriptionsToConsider = $this->oAzureCollectionPlan->GetSubscriptionsToConsider();
-		$aConcatenatedResults = [];
-		foreach ($aSubscriptionsToConsider as $iSubscription) {
-			$sUrl = $this->GetUrl($iSubscription, '');
-			$aEmpty = [];
-			$aOptionnalHeaders = [
-				'Content-type: application/json',
-				'Authorization: Bearer '.$this->sBearerToken,
-			];
-			$sOptionnalHeaders = implode("\n", $aOptionnalHeaders);
-			$aCurlOptions = array(CURLOPT_POSTFIELDS => "");
-			try {
-				$sResponse = utils::DoPostRequest($sUrl, $aEmpty, $sOptionnalHeaders, $aEmpty, $aCurlOptions);
-				$aResults = json_decode($sResponse, true);
-				if (isset($aResults['error'])) {
-					Utils::Log(LOG_ERR,
-						"Data collection for ".$this->sAzureClass." failed: 
-					                Error code: ".$aResults['error']['code']."
-					                Message: ".$aResults['error']['message']);
-
-					return [false, []];
-				} else {
-					if (!empty($aResults['value'])) {
-						if (empty($aConcatenatedResults)) {
-							$aConcatenatedResults = $aResults;
-						} else {
-							$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
-						}
-					}
-
-					// Report list of discovered resource group to the collection plan
-					$this->ReportResourceGroups($aResults, $iSubscription);
-
-					Utils::Log(LOG_DEBUG,
-						'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
-				}
-			} catch (Exception $e) {
-				Utils::Log(LOG_WARNING, "Query failed: ".$e->getMessage());
-
-				return [false, []];
-			}
-		}
-
-		// Return array of objects
-		return [true, $aConcatenatedResults];
-	}
-
-	/**
-	 *  Retrieve data from Azure for the class that require both Subscriptions and ResourceGroups
-	 *
-	 * @return array
-	 */
-	protected function RetrieveDataFromAzureResourceGroups(): array {
-		$aResourceGroupsToConsider = $this->oAzureCollectionPlan->GetResourceGroupsToConsider();
-		$aConcatenatedResults = [];
-		foreach ($aResourceGroupsToConsider as $iSubscription => $aParam) {
-			foreach ($aParam['ResourceGroup'] as $sResourceGroupName) {
-				$sUrl = $this->GetUrl($iSubscription, $sResourceGroupName);
-				$aEmpty = [];
-				$aOptionnalHeaders = [
-					'Content-type: application/json',
-					'Authorization: Bearer '.$this->sBearerToken,
-				];
-				$sOptionnalHeaders = implode("\n", $aOptionnalHeaders);
-				$aCurlOptions = array(CURLOPT_POSTFIELDS => "");
-				try {
-					$sResponse = utils::DoPostRequest($sUrl, $aEmpty, $sOptionnalHeaders, $aEmpty, $aCurlOptions);
-					$aResults = json_decode($sResponse, true);
-					if (isset($aResults['error'])) {
-						Utils::Log(LOG_ERR,
-							"Data collection for ".$this->sAzureClass." failed: 
-					                Error code: ".$aResults['error']['code']."
-					                Message: ".$aResults['error']['message']);
-
-						return [false, []];
-					} else {
-						if (!empty($aResults['value'])) {
-							if (empty($aConcatenatedResults)) {
-								$aConcatenatedResults = $aResults;
-							} else {
-								$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
-							}
-						}
-						Utils::Log(LOG_DEBUG,
-							'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
-					}
-				} catch (Exception $e) {
-					Utils::Log(LOG_WARNING, "Resource group query failed for subscription '.$iSubscription.': ".$e->getMessage());
-				}
-			}
-		}
-
-		// Return array of objects
-		return [true, $aConcatenatedResults];
-	}
-
-	protected function PostAndProcess($iSubscription, $sUrl): array {
+	protected function Post($iSubscription, $sUrl): array {
 		$bSucceed = false;
 		$aResults = [];
 		$aEmpty = [];
@@ -389,7 +279,7 @@ class AzureJsonCollector extends JsonCollector {
 			} else {
 				$bSucceed = true;
 				Utils::Log(LOG_DEBUG,
-					'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription'.$iSubscription.'. Count Total = '.count($aResults['value']));
+					'Data for class '.$this->sAzureClass.' have been retrieved from Azure for Subscription '.$iSubscription.'. Count Total = '.count($aResults['value']));
 			}
 		} catch (Exception $e) {
 			Utils::Log(LOG_WARNING, "Resource group query failed for subscription '.$iSubscription.': ".$e->getMessage());
@@ -405,29 +295,31 @@ class AzureJsonCollector extends JsonCollector {
 	 * @return bool
 	 */
 	protected function RetrieveDataFromAzure(): array {
-		$aMigratedClasses = [
-			'AzureResourceGroupJsonCollector',
-			'AzureMariaDBServerJsonCollector',
-			'AzureMariaDBJsonCollector',
-			'AzureLoadBalancerJsonCollector',
-		];
 		$bSucceed = false;
-		if (!in_array(get_class($this), $aMigratedClasses)) {
-			if ($this::NeedsResourceGroupsForCollector()) {
-				list($bSucceed, $aResults) = $this->RetrieveDataFromAzureResourceGroups();
-			} else {
-				list($bSucceed, $aResults) = $this->RetrieveDataFromAzureSubscriptions();
-			}
+		$aObjectsToConsider = $this->oAzureCollectionPlan->GetAzureObjectsToConsider();
+		$aConcatenatedResults = [];
+		switch (sizeof(static::$aURIPArameters)) {
+			case 1:
+				foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+					$sUrl = $this->BuildUrl([static::$aURIPArameters[1] => $sObjectL1]);
+					list($bSucceed, $aResults) = $this->Post($sObjectL1, $sUrl);
+					if ($bSucceed && !empty($aResults['value'])) {
+						if (empty($aConcatenatedResults)) {
+							$aConcatenatedResults = $aResults;
+						} else {
+							$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
+						}
+						// Report list of discovered resource group to the collection plan
+						$this->ReportObjects($aResults, $sObjectL1, null);
+					}
+				}
+				break;
 
-			return [$bSucceed, $aResults];
-		} else {
-			$aObjectsToConsider = $this->oAzureCollectionPlan->GetAzureObjectsToConsider();
-			$aConcatenatedResults = [];
-			switch (sizeof($this->aURIPArameters)) {
-				case 1:
-					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
-						$sUrl = $this->BuildUrl([$this->aURIPArameters[1] => $sObjectL1]);
-						list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
+			case 2:
+				foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+					foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
+						$sUrl = $this->BuildUrl([static::$aURIPArameters[1] => $sObjectL1, static::$aURIPArameters[2] => $sObjectL2]);
+						list($bSucceed, $aResults) = $this->Post($sObjectL1, $sUrl);
 						if ($bSucceed && !empty($aResults['value'])) {
 							if (empty($aConcatenatedResults)) {
 								$aConcatenatedResults = $aResults;
@@ -435,16 +327,22 @@ class AzureJsonCollector extends JsonCollector {
 								$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
 							}
 							// Report list of discovered resource group to the collection plan
-							$this->ReportObjects($aResults, $sObjectL1, null);
+							$this->ReportObjects($aResults, $sObjectL1, $sObjectL2);
 						}
 					}
-					break;
+				}
+				break;
 
-				case 2:
-					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
-						foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
-							$sUrl = $this->BuildUrl([$this->aURIPArameters[1] => $sObjectL1, $this->aURIPArameters[2] => $sObjectL2]);
-							list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
+			case 3:
+				foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
+					foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
+						foreach ($aObjectL2 as $sObjectL3 => $aObjectL3) {
+							$sUrl = $this->BuildUrl([
+								static::$aURIPArameters[1] => $sObjectL1,
+								static::$aURIPArameters[2] => $sObjectL2,
+								static::$aURIPArameters[3] => $sObjectL3,
+							]);
+							list($bSucceed, $aResults) = $this->Post($sObjectL1, $sUrl);
 							if ($bSucceed && !empty($aResults['value'])) {
 								if (empty($aConcatenatedResults)) {
 									$aConcatenatedResults = $aResults;
@@ -452,43 +350,18 @@ class AzureJsonCollector extends JsonCollector {
 									$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
 								}
 								// Report list of discovered resource group to the collection plan
-								$this->ReportObjects($aResults, $sObjectL1, $sObjectL2);
+								$this->ReportObjects($aResults, $sObjectL1, $sObjectL2, $sObjectL3);
 							}
 						}
 					}
-					break;
+				}
+				break;
 
-				case 3:
-					foreach ($aObjectsToConsider as $sObjectL1 => $aObjectL1) {
-						foreach ($aObjectL1 as $sObjectL2 => $aObjectL2) {
-							foreach ($aObjectL2 as $sObjectL3 => $aObjectL3) {
-								$sUrl = $this->BuildUrl([
-									$this->aURIPArameters[1] => $sObjectL1,
-									$this->aURIPArameters[2] => $sObjectL2,
-									$this->aURIPArameters[3] => $sObjectL3,
-								]);
-								list($bSucceed, $aResults) = $this->PostAndProcess($sObjectL1, $sUrl);
-								if ($bSucceed && !empty($aResults['value'])) {
-									if (empty($aConcatenatedResults)) {
-										$aConcatenatedResults = $aResults;
-									} else {
-										$aConcatenatedResults['value'] = array_merge($aConcatenatedResults['value'], $aResults);
-									}
-									// Report list of discovered resource group to the collection plan
-									$this->ReportObjects($aResults, $sObjectL1, $sObjectL2, $sObjectL3);
-								}
-							}
-						}
-					}
-					break;
-
-				default:
-					break;
-			}
-
-			return [$bSucceed, $aConcatenatedResults];
+			default:
+				break;
 		}
 
+		return [$bSucceed, $aConcatenatedResults];
 	}
 
 	/**
@@ -499,8 +372,6 @@ class AzureJsonCollector extends JsonCollector {
 	 * @see jsonCollector::Prepare()
 	 */
 	public function Prepare(): bool {
-		Utils::Log(LOG_DEBUG, '----------------');
-
 		// Check Azure class is set
 		if ($this->sAzureClass == '') {
 			Utils::Log(LOG_ERR, 'Parameter "azure_class" is not defined within the current collector parameters!');
@@ -546,6 +417,16 @@ class AzureJsonCollector extends JsonCollector {
 		}
 
 		return parent::Prepare();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function Collect($iMaxChunkSize = 0): bool {
+		Utils::Log(LOG_INFO, '----------------');
+
+		return parent::Collect($iMaxChunkSize);
 	}
 
 	/**

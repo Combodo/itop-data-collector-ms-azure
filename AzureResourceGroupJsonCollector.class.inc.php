@@ -1,27 +1,21 @@
 <?php
 
 class AzureResourceGroupJsonCollector extends AzureJsonCollector {
+	protected static $aURIPArameters = [
+		1 => self::URI_PARAM_SUBSCRIPTION,
+	];
+
 	/**
 	 * @inheritdoc
 	 */
-	protected function GetUrl($iSubscription, $sResourceGroupName): string {
-		return $this->sResource.'/subscriptions/'.$iSubscription.'/resourcegroups?api-version='.$this->sApiVersion;
-	}
-
 	protected function BuildUrl($aParameters): string {
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
 			return '';
 		} else {
-			return $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION].'/resourcegroups?api-version='.$this->sApiVersion;
-		}
-	}
+			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
+			$sUrl .= '/resourcegroups?api-version='.$this->sApiVersion;
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function ReportResourceGroups($aData, $iSubscription): void {
-		foreach ($aData['value'] as $aResource) {
-			$this->oAzureCollectionPlan->AddResourceGroupsToConsider($iSubscription, $aResource['name']);
+			return $sUrl;
 		}
 	}
 

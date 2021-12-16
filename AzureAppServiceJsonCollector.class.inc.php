@@ -1,11 +1,22 @@
 <?php
 
 class AzureAppServiceJsonCollector extends AzureJsonCollector {
+	protected static $aURIPArameters = [
+		1 => self::URI_PARAM_SUBSCRIPTION,
+	];
+
 	/**
 	 * @inheritdoc
 	 */
-	protected function GetUrl($iSubscription, $sResourceGroupName): string {
-		return $this->sResource.'/subscriptions/'.$iSubscription.'/providers/Microsoft.Web/sites?api-version='.$this->sApiVersion;
+	protected function BuildUrl($aParameters): string {
+		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
+			return '';
+		} else {
+			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
+			$sUrl .= '/providers/Microsoft.Web/sites?api-version='.$this->sApiVersion;
+
+			return $sUrl;
+		}
 	}
 
 	/**

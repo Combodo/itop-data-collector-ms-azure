@@ -1,18 +1,25 @@
 <?php
 
 class AzureVNetGatewayJsonCollector extends AzureJsonCollector {
-	/**
-	 * @inheritdoc
-	 */
-	public static function NeedsResourceGroupsForCollector(): bool {
-		return true;
-	}
+	protected static $aURIPArameters = [
+		1 => self::URI_PARAM_SUBSCRIPTION,
+		2 => self::URI_PARAM_RESOURCEGROUP,
+	];
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function GetUrl($iSubscription, $sResourceGroupName): string {
-		return $this->sResource.'/subscriptions/'.$iSubscription.'/resourceGroups/'.$sResourceGroupName.'/providers/Microsoft.Network/virtualNetworkGateways?api-version='.$this->sApiVersion;
+	protected function BuildUrl($aParameters): string {
+		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
+				$aParameters)) {
+			return '';
+		} else {
+			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
+			$sUrl .= '/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP];
+			$sUrl .= '/providers/Microsoft.Network/virtualNetworkGateways?api-version='.$this->sApiVersion;
+
+			return $sUrl;
+		}
 	}
 
 	/**

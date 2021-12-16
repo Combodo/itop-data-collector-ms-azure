@@ -1,12 +1,11 @@
 <?php
 
 class AzureMariaDBJsonCollector extends AzureJsonCollector {
-	public function __construct() {
-		parent::__construct();
-
-		$this->aURIPArameters[2] = self::URI_PARAM_RESOURCEGROUP;
-		$this->aURIPArameters[3] = self::URI_PARAM_SERVER;
-	}
+	protected static $aURIPArameters = [
+		1 => self::URI_PARAM_SUBSCRIPTION,
+		2 => self::URI_PARAM_RESOURCEGROUP,
+		3 => self::URI_PARAM_SERVER,
+	];
 
 	/**
 	 * @inheritdoc
@@ -39,6 +38,17 @@ class AzureMariaDBJsonCollector extends AzureJsonCollector {
 		$sResult = false;
 		$sData = '';
 		switch ($sDestField) {
+			case 'azuredbserver_id':
+				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
+					$sData = strstr($aLookupKey['primary_key'], 'servers');
+					if ($sData !== false) {
+						$aData = explode('/', $sData);
+						$sData = $aData[1];
+						$sResult = true;
+					}
+				}
+				break;
+
 			case 'azureresourcegroup_id':
 				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
 					$sData = strstr($aLookupKey['primary_key'], 'resourceGroups');
@@ -73,6 +83,9 @@ class AzureMariaDBJsonCollector extends AzureJsonCollector {
 	 */
 	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex) {
 		// Process each line of the CSV
+		if (!$this->Lookup($aLineData, array('primary_key'), 'azuredbserver_id', $iLineIndex, true, false)) {
+			throw new IgnoredRowException('Unknown code');
+		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azureresourcegroup_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
 		}

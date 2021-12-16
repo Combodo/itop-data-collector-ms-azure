@@ -17,7 +17,7 @@
 
 	<!-- App Services -->
 	<azureappservicejsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>Site</azure_class>
 		<azure_api_version>2021-02-01</azure_api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -42,7 +42,7 @@
 
 	<!-- Cloud Services -->
 	<azurecloudservicejsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>AzureCloudService</azure_class>
 		<azure_api_version>2021-03-01</azure_api_version>
 		<jsonfile>data/AzureCloudService.json</jsonfile>
@@ -67,7 +67,7 @@
 
 	<!-- Container Registries -->
 	<azurecontainerregistryjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>AzureContainerRegistry</azure_class>
 		<azure_api_version>2019-05-01</azure_api_version>
 		<jsonfile>data/AzureContainerRegistry.json</jsonfile>
@@ -92,7 +92,7 @@
 
 	<!-- Cosmos DB Accounts -->
 	<azurecosmosdbaccountjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>AzureCosmosDBAccount</azure_class>
 		<azure_api_version>2021-04-01-preview</azure_api_version>
 		<jsonfile>data/AzureCosmosDBAccount.json</jsonfile>
@@ -117,7 +117,7 @@
 
 	<!-- Disks -->
 	<azurediskjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>Disk</azure_class>
 		<azure_api_version>2020-12-01</azure_api_version>
 		<jsonfile>data/AzureDisk.json</jsonfile>
@@ -142,7 +142,7 @@
 
 	<!-- Fabric Clusters -->
 	<azurefabricclusterjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>AzureFabricCluster</azure_class>
 		<azure_api_version>2019-11-01-preview</azure_api_version>
 		<jsonfile>data/AzureFabricClusterService.json</jsonfile>
@@ -167,7 +167,7 @@
 
 	<!-- IoT Hubs -->
 	<azureiothubjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>IotHub</azure_class>
 		<azure_api_version>2018-04-01</azure_api_version>
 		<jsonfile>data/AzureIoTHub.json</jsonfile>
@@ -192,7 +192,7 @@
 
 	<!-- Load balancers -->
 	<azureloadbalancerjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>LoadBalancer</azure_class>
 		<azure_api_version>2021-03-01</azure_api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -246,15 +246,16 @@
 		<fields>
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
+			<azuredbserver_id>azuredbserver_id</azuredbserver_id>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
-			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
 			<status>state</status>
 		</fields>
 		<defaults>
 			<org_id>Demo</org_id>
+			<azuredbserver_id></azuredbserver_id>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
@@ -275,7 +276,7 @@
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<location_id>location</location_id>
 			<name>name</name>
-			<azuredbservertype_id>azuredbservertype_id</azuredbservertype_id>
+			<azuredbservertype_id>type</azuredbservertype_id>
 			<org_id>org_id</org_id>
 			<status>state</status>
 		</fields>
@@ -290,7 +291,7 @@
 
 	<!-- Resources group -->
 	<azureresourcegroupjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>resourceGroups</azure_class>
 		<azure_api_version>2020-09-01</azure_api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -313,7 +314,7 @@
 
 	<!-- Storage accounts -->
 	<azurestorageaccountjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>storageAccount</azure_class>
 		<azure_api_version>2021-04-01</azure_api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
@@ -364,7 +365,7 @@
 
 	<!-- Virtual machines -->
 	<azurevirtualmachinejsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>VirtualMachine</azure_class>
 		<azure_api_version>2021-11-01</azure_api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -389,7 +390,7 @@
 
 	<!-- VNETs -->
 	<azurevnetjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>VNet</azure_class>
 		<azure_api_version>2021-03-01</azure_api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -414,7 +415,7 @@
 
 	<!-- VNET Gateways -->
 	<azurevnetgatewayjsoncollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<azure_class>VNetGateway</azure_class>
 		<azure_api_version>2021-03-01</azure_api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>

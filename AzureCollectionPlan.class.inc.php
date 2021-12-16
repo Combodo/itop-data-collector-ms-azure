@@ -2,8 +2,6 @@
 
 class AzureCollectionPlan {
 	static protected $oAzureCollectionPlan;
-	private $aSubscriptionsToDiscover = [];
-	private $aResourceGroupsToConsider = [];
 	private $aAzureObjectsToConsider = [];
 
 	public function __construct() {
@@ -24,8 +22,6 @@ class AzureCollectionPlan {
 					foreach ($aResult['objects'] as $sKey => $aData) {
 						$aAzureSubscriptionAttributes = $aData['fields'];
 						$iSubscriptionId = $aAzureSubscriptionAttributes['subscriptionid'];
-						$this->aSubscriptionsToDiscover[] = $iSubscriptionId;
-						$this->aResourceGroupsToConsider[$iSubscriptionId] = [];
 						$this->aAzureObjectsToConsider[$iSubscriptionId] = [];
 
 						Utils::Log(LOG_INFO, 'Name: '.$aAzureSubscriptionAttributes['name'].' - ID: '.$iSubscriptionId);
@@ -41,9 +37,14 @@ class AzureCollectionPlan {
 		}
 
 		// Fetch from iTop the list of Resource Groups that belong to subscriptions to discover
-		if (!empty($this->aSubscriptionsToDiscover)) {
+		if (!empty($this->aAzureObjectsToConsider)) {
 			Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Resource groups ----------');
-			$sSubscriptionList = "'".implode("','", $this->aSubscriptionsToDiscover)."'";
+			$bFirstEntry = true;
+			$sSubscriptionList = '';
+			foreach ($this->aAzureObjectsToConsider as $sObjectL1 => $aObjectL1) {
+				$sSubscriptionList .= ($bFirstEntry) ? "'".$sObjectL1."'" : ",'".$sObjectL1."'";
+				$bFirstEntry = false;
+			}
 			$oRestClient = new RestClient();
 			try {
 				$aResult = $oRestClient->Get('AzureResourceGroup',
@@ -59,8 +60,8 @@ class AzureCollectionPlan {
 						foreach ($aResult['objects'] as $sKey => $aData) {
 							$aAzureResourceGroupAttributes = $aData['fields'];
 							$sResourceGroupName = $aAzureResourceGroupAttributes['name'];
-							$this->AddResourceGroupsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
-								$sResourceGroupName);
+							$this->AddAzureObjectsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
+								$sResourceGroupName, null);
 
 							Utils::Log(LOG_INFO,
 								'Subscription ID: '.$aAzureResourceGroupAttributes['azuresubscription_name'].' - Name: '.$sResourceGroupName);
@@ -98,13 +99,13 @@ class AzureCollectionPlan {
 		if ($aParamsSourceJson === null) {
 			return false;
 		} elseif (isset($aParamsSourceJson['enable']) && ($aParamsSourceJson['enable'] == 'yes')) {
-			if (empty($this->aSubscriptionsToDiscover) && ($sCollectorClass != 'AzureSubscriptionJsonCollector')) {
+			if (!$this->IsSubscriptionToConsider() && ($sCollectorClass != 'AzureSubscriptionJsonCollector')) {
 				Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no subscription should be discovered');
 
 				return false;
 			}
 			if ($sCollectorClass::NeedsResourceGroupsForCollector()) {
-				if (empty($this->aResourceGroupsToConsider)) {
+				if (!$this->IsResourceGroupToConsider()) {
 					$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupJsonCollector'), array());
 					if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
 						Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no resource group should be discovered');
@@ -123,48 +124,14 @@ class AzureCollectionPlan {
 	}
 
 	/**
-	 * Provde the list of subscriptions to discover
+	 * Enrich the list of objects that can be oncsidered during collections
 	 *
-	 * @return array
-	 */
-	public function GetSubscriptionsToConsider(): array {
-		return $this->aSubscriptionsToDiscover;
-	}
-
-	/**
-	 * Register the list of resource groups that have been discovered, by subscription
+	 * @param $sObjectL1
+	 * @param $sObjectL2
+	 * @param $sObjectL3
 	 *
-	 * @param $iSubscription
-	 * @param $sResourceGroupName
+	 * @return void
 	 */
-	public function AddResourceGroupsToConsider($iSubscription, $sResourceGroupName) {
-		if (!array_key_exists($iSubscription, $this->aResourceGroupsToConsider)) {
-			$this->aResourceGroupsToConsider[$iSubscription] = [];
-		}
-		if (!array_key_exists('ResourceGroup', $this->aResourceGroupsToConsider[$iSubscription])) {
-			$this->aResourceGroupsToConsider[$iSubscription]['ResourceGroup'] = [];
-		}
-		$this->aResourceGroupsToConsider[$iSubscription]['ResourceGroup'][] = $sResourceGroupName;
-
-		if (!array_key_exists($iSubscription, $this->aAzureObjectsToConsider)) {
-			$this->aAzureObjectsToConsider[$iSubscription] = [];
-		}
-		if (!array_key_exists($sResourceGroupName, $this->aAzureObjectsToConsider[$iSubscription])) {
-			$this->aAzureObjectsToConsider[$iSubscription][$sResourceGroupName] = [];
-		}
-
-	}
-
-	/**
-	 * Provide the list of resource group  to consider during the collection
-	 *
-	 * @return array|\string[][][]
-	 */
-	public function GetResourceGroupsToConsider(): array {
-
-		return $this->aResourceGroupsToConsider;
-	}
-
 	public function AddAzureObjectsToConsider($sObjectL1, $sObjectL2, $sObjectL3) {
 		if ($sObjectL1 != null) {
 			if (!array_key_exists($sObjectL1, $this->aAzureObjectsToConsider)) {
@@ -184,7 +151,7 @@ class AzureCollectionPlan {
 	}
 
 	/**
-	 * Provide the list of resource group  to consider during the collection
+	 * Provide the list of resource group to consider during the collection
 	 *
 	 * @return array|\string[][][]
 	 */
@@ -193,4 +160,27 @@ class AzureCollectionPlan {
 		return $this->aAzureObjectsToConsider;
 	}
 
+	/**
+	 * Is there any subscription to consider in the  collection plan ?
+	 *
+	 * @return bool
+	 */
+	private function IsSubscriptionToConsider(): bool {
+		return (empty($this->aAzureObjectsToConsider) ? false : true);
+	}
+
+	/**
+	 * Is there any resource group to consider during the collection ?
+	 *
+	 * @return bool
+	 */
+	private function IsResourceGroupToConsider(): bool {
+		foreach ($this->aAzureObjectsToConsider as $sSubscription => $aResourceGroup) {
+			if (!empty($aResourceGroup)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

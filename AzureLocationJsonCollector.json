@@ -72,7 +72,7 @@
       "attcode": "org_id",
       "update": "1",
       "reconcile": "1",
-      "update_policy": "write_if_empty",
+      "update_policy": "master_locked",
       "reconciliation_attcode": "name",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "org_id"

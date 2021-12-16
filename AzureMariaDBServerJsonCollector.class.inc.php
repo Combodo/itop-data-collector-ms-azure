@@ -1,11 +1,10 @@
 <?php
 
 class AzureMariaDBServerJsonCollector extends AzureJsonCollector {
-	public function __construct() {
-		parent::__construct();
-
-		$this->aURIPArameters[2] = self::URI_PARAM_RESOURCEGROUP;
-	}
+	protected static $aURIPArameters = [
+		1 => self::URI_PARAM_SUBSCRIPTION,
+		2 => self::URI_PARAM_RESOURCEGROUP,
+	];
 
 	/**
 	 * @inheritdoc
