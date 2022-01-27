@@ -1,11 +1,11 @@
 <?php
+require_once(APPROOT.'collectors/MSCollectionPlan.class.inc.php');
 
-class AzureCollectionPlan {
-	static protected $oAzureCollectionPlan;
-	private $aAzureObjectsToConsider = [];
-
-	public function __construct() {
-		self::$oAzureCollectionPlan = $this;
+class AzureCollectionPlan extends MSCollectionPlan
+{
+	public function __construct()
+	{
+		parent::__construct();
 
 		// Fetch from iTop the list of subscriptions to discover
 		Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Subscriptions to discover ----------');
@@ -22,7 +22,7 @@ class AzureCollectionPlan {
 					foreach ($aResult['objects'] as $sKey => $aData) {
 						$aAzureSubscriptionAttributes = $aData['fields'];
 						$iSubscriptionId = $aAzureSubscriptionAttributes['subscriptionid'];
-						$this->aAzureObjectsToConsider[$iSubscriptionId] = [];
+						$this->aMSObjectsToConsider[$iSubscriptionId] = [];
 
 						Utils::Log(LOG_INFO, 'Name: '.$aAzureSubscriptionAttributes['name'].' - ID: '.$iSubscriptionId);
 					}
@@ -37,11 +37,11 @@ class AzureCollectionPlan {
 		}
 
 		// Fetch from iTop the list of Resource Groups that belong to subscriptions to discover
-		if (!empty($this->aAzureObjectsToConsider)) {
+		if (!empty($this->aMSObjectsToConsider)) {
 			Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Resource groups ----------');
 			$bFirstEntry = true;
 			$sSubscriptionList = '';
-			foreach ($this->aAzureObjectsToConsider as $sObjectL1 => $aObjectL1) {
+			foreach ($this->aMSObjectsToConsider as $sObjectL1 => $aObjectL1) {
 				$sSubscriptionList .= ($bFirstEntry) ? "'".$sObjectL1."'" : ",'".$sObjectL1."'";
 				$bFirstEntry = false;
 			}
@@ -60,7 +60,7 @@ class AzureCollectionPlan {
 						foreach ($aResult['objects'] as $sKey => $aData) {
 							$aAzureResourceGroupAttributes = $aData['fields'];
 							$sResourceGroupName = $aAzureResourceGroupAttributes['name'];
-							$this->AddAzureObjectsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
+							$this->AddMSObjectsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
 								$sResourceGroupName, null);
 
 							Utils::Log(LOG_INFO,
@@ -80,13 +80,6 @@ class AzureCollectionPlan {
 	}
 
 	/**
-	 * @return \AzureCollectionPlan
-	 */
-	public static function GetPlan() {
-		return self::$oAzureCollectionPlan;
-	}
-
-	/**
 	 * Tell if a collector need to be orchestrated or not
 	 *
 	 * @param $sCollectorClass
@@ -94,7 +87,8 @@ class AzureCollectionPlan {
 	 * @return bool
 	 * @throws \Exception
 	 */
-	public function CollectorToBeLaunched($sCollectorClass): bool {
+	public function CollectorToBeLaunched($sCollectorClass): bool
+	{
 		$aParamsSourceJson = Utils::GetConfigurationValue(strtolower($sCollectorClass), array());
 		if ($aParamsSourceJson === null) {
 			return false;
@@ -118,67 +112,6 @@ class AzureCollectionPlan {
 			Utils::Log(LOG_INFO, $sCollectorClass.' will be launched !');
 
 			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Enrich the list of objects that can be oncsidered during collections
-	 *
-	 * @param $sObjectL1
-	 * @param $sObjectL2
-	 * @param $sObjectL3
-	 *
-	 * @return void
-	 */
-	public function AddAzureObjectsToConsider($sObjectL1, $sObjectL2, $sObjectL3) {
-		if ($sObjectL1 != null) {
-			if (!array_key_exists($sObjectL1, $this->aAzureObjectsToConsider)) {
-				$this->aAzureObjectsToConsider[$sObjectL1] = [];
-			}
-			if ($sObjectL2 != null) {
-				if (!array_key_exists($sObjectL2, $this->aAzureObjectsToConsider[$sObjectL1])) {
-					$this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2] = [];
-				}
-				if ($sObjectL3 != null) {
-					if (!array_key_exists($sObjectL3, $this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2])) {
-						$this->aAzureObjectsToConsider[$sObjectL1][$sObjectL2][$sObjectL3] = [];
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Provide the list of resource group to consider during the collection
-	 *
-	 * @return array|\string[][][]
-	 */
-	public function GetAzureObjectsToConsider(): array {
-
-		return $this->aAzureObjectsToConsider;
-	}
-
-	/**
-	 * Is there any subscription to consider in the  collection plan ?
-	 *
-	 * @return bool
-	 */
-	private function IsSubscriptionToConsider(): bool {
-		return (empty($this->aAzureObjectsToConsider) ? false : true);
-	}
-
-	/**
-	 * Is there any resource group to consider during the collection ?
-	 *
-	 * @return bool
-	 */
-	private function IsResourceGroupToConsider(): bool {
-		foreach ($this->aAzureObjectsToConsider as $sSubscription => $aResourceGroup) {
-			if (!empty($aResourceGroup)) {
-				return true;
-			}
 		}
 
 		return false;

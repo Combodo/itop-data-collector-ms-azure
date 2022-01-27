@@ -11,15 +11,15 @@
 	<microsoft_resource>https://management.azure.com/</microsoft_resource>
 
 	<!-- Client's credentials -->
-	<azure_clientid></azure_clientid>
-	<azure_clientsecret></azure_clientsecret>
-	<azure_tenantid></azure_tenantid>
+	<ms_clientid></ms_clientid>
+	<ms_clientsecret></ms_clientsecret>
+	<ms_tenantid></ms_tenantid>
 
 	<!-- App Services -->
 	<azureappservicejsoncollector>
 		<enable>yes</enable>
-		<azure_class>Site</azure_class>
-		<azure_api_version>2021-02-01</azure_api_version>
+		<ms_class>Site</ms_class>
+		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -43,8 +43,8 @@
 	<!-- Cloud Services -->
 	<azurecloudservicejsoncollector>
 		<enable>yes</enable>
-		<azure_class>AzureCloudService</azure_class>
-		<azure_api_version>2021-03-01</azure_api_version>
+		<ms_class>AzureCloudService</ms_class>
+		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureCloudService.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -68,8 +68,8 @@
 	<!-- Container Registries -->
 	<azurecontainerregistryjsoncollector>
 		<enable>yes</enable>
-		<azure_class>AzureContainerRegistry</azure_class>
-		<azure_api_version>2019-05-01</azure_api_version>
+		<ms_class>AzureContainerRegistry</ms_class>
+		<api_version>2019-05-01</api_version>
 		<jsonfile>data/AzureContainerRegistry.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -93,8 +93,8 @@
 	<!-- Cosmos DB Accounts -->
 	<azurecosmosdbaccountjsoncollector>
 		<enable>yes</enable>
-		<azure_class>AzureCosmosDBAccount</azure_class>
-		<azure_api_version>2021-04-01-preview</azure_api_version>
+		<ms_class>AzureCosmosDBAccount</ms_class>
+		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureCosmosDBAccount.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -118,8 +118,8 @@
 	<!-- Disks -->
 	<azurediskjsoncollector>
 		<enable>yes</enable>
-		<azure_class>Disk</azure_class>
-		<azure_api_version>2020-12-01</azure_api_version>
+		<ms_class>Disk</ms_class>
+		<api_version>2020-12-01</api_version>
 		<jsonfile>data/AzureDisk.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -143,8 +143,8 @@
 	<!-- Fabric Clusters -->
 	<azurefabricclusterjsoncollector>
 		<enable>yes</enable>
-		<azure_class>AzureFabricCluster</azure_class>
-		<azure_api_version>2019-11-01-preview</azure_api_version>
+		<ms_class>AzureFabricCluster</ms_class>
+		<api_version>2019-11-01-preview</api_version>
 		<jsonfile>data/AzureFabricClusterService.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -168,8 +168,8 @@
 	<!-- IoT Hubs -->
 	<azureiothubjsoncollector>
 		<enable>yes</enable>
-		<azure_class>IotHub</azure_class>
-		<azure_api_version>2018-04-01</azure_api_version>
+		<ms_class>IotHub</ms_class>
+		<api_version>2018-04-01</api_version>
 		<jsonfile>data/AzureIoTHub.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -193,8 +193,8 @@
 	<!-- Load balancers -->
 	<azureloadbalancerjsoncollector>
 		<enable>yes</enable>
-		<azure_class>LoadBalancer</azure_class>
-		<azure_api_version>2021-03-01</azure_api_version>
+		<ms_class>LoadBalancer</ms_class>
+		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -217,9 +217,9 @@
 
 	<!-- Locations -->
 	<azurelocationjsoncollector>
-		<enable>no</enable>
-		<azure_class>locations</azure_class>
-		<azure_api_version>2021-04-01-preview</azure_api_version>
+		<enable>yes</enable>
+		<ms_class>locations</ms_class>
+		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -239,8 +239,8 @@
 	<!-- MariaDBs -->
 	<azuremariadbjsoncollector>
 		<enable>yes</enable>
-		<azure_class>MariaDB</azure_class>
-		<azure_api_version>2018-06-01-preview</azure_api_version>
+		<ms_class>MariaDB</ms_class>
+		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDB.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -265,8 +265,8 @@
 	<!-- MariaDB servers -->
 	<azuremariadbserverjsoncollector>
 		<enable>yes</enable>
-		<azure_class>MariaDBServer</azure_class>
-		<azure_api_version>2018-06-01-preview</azure_api_version>
+		<ms_class>MariaDBServer</ms_class>
+		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDBServer.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -292,8 +292,8 @@
 	<!-- Resources group -->
 	<azureresourcegroupjsoncollector>
 		<enable>yes</enable>
-		<azure_class>resourceGroups</azure_class>
-		<azure_api_version>2020-09-01</azure_api_version>
+		<ms_class>resourceGroups</ms_class>
+		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -315,8 +315,8 @@
 	<!-- Storage accounts -->
 	<azurestorageaccountjsoncollector>
 		<enable>yes</enable>
-		<azure_class>storageAccount</azure_class>
-		<azure_api_version>2021-04-01</azure_api_version>
+		<ms_class>storageAccount</ms_class>
+		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -339,9 +339,9 @@
 
 	<!-- Subscriptions -->
 	<azuresubscriptionjsoncollector>
-		<enable>no</enable>
-		<azure_class>subscriptions</azure_class>
-		<azure_api_version>2020-01-01</azure_api_version>
+		<enable>yes</enable>
+		<ms_class>subscriptions</ms_class>
+		<api_version>2020-01-01</api_version>
 		<jsonfile>data/AzureSubscription.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -366,8 +366,8 @@
 	<!-- Virtual machines -->
 	<azurevirtualmachinejsoncollector>
 		<enable>yes</enable>
-		<azure_class>VirtualMachine</azure_class>
-		<azure_api_version>2021-11-01</azure_api_version>
+		<ms_class>VirtualMachine</ms_class>
+		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -391,8 +391,8 @@
 	<!-- VNETs -->
 	<azurevnetjsoncollector>
 		<enable>yes</enable>
-		<azure_class>VNet</azure_class>
-		<azure_api_version>2021-03-01</azure_api_version>
+		<ms_class>VNet</ms_class>
+		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -416,8 +416,8 @@
 	<!-- VNET Gateways -->
 	<azurevnetgatewayjsoncollector>
 		<enable>yes</enable>
-		<azure_class>VNetGateway</azure_class>
-		<azure_api_version>2021-03-01</azure_api_version>
+		<ms_class>VNetGateway</ms_class>
+		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -444,7 +444,7 @@
 		<persons_data_table>synchro_data_PersonAD</persons_data_table>
 		<users_data_table></users_data_table>
 		 -->
-		<azure_tenantid_short></azure_tenantid_short>
+		<ms_tenantid_short></ms_tenantid_short>
 		<azureappservice_synchro_name>Azure App Services Discovery</azureappservice_synchro_name>
 		<azurecloudservice_synchro_name>Azure Cloud Services Discovery</azurecloudservice_synchro_name>
 		<azurecontainerregistry_synchro_name>Azure Container Registries Discovery</azurecontainerregistry_synchro_name>
@@ -462,6 +462,8 @@
 		<azurevirtualmachine_synchro_name>Azure Virtual Machines Discovery</azurevirtualmachine_synchro_name>
 		<azurevnet_synchro_name>Azure VNets Discovery</azurevnet_synchro_name>
 		<azurevnetgateway_synchro_name>Azure VNet Gateways Discovery</azurevnetgateway_synchro_name>
+		<synchro_status>production</synchro_status>
+		<full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
 	</json_placeholders>
 
 	<!-- mapping tables -->

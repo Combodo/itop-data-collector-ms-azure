@@ -1,19 +1,23 @@
 <?php
+require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
 
-class AzureSubscriptionJsonCollector extends AzureJsonCollector {
+class AzureSubscriptionJsonCollector extends MSJsonCollector
+{
 	private $oStatusMapping;
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function BuildUrl($aParameters): string {
+	protected function BuildUrl($aParameters): string
+	{
 		return $this->sResource.'/subscriptions?api-version='.$this->sApiVersion;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function RetrieveDataFromAzure(): array {
+	protected function RetrieveDataFromAzure(): array
+	{
 		$sUrl = $this->BuildUrl([]);
 		$aEmpty = [];
 		$aOptionnalHeaders = [
@@ -27,12 +31,12 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 			$aResults = json_decode($sResponse, true);
 			if (isset($aResults['error'])) {
 				Utils::Log(LOG_ERR,
-					'Data collection for '.$this->sAzureClass.' failed: Error code: '.$aResults['error']['code'].' Message: '.$aResults['error']['message']);
+					'Data collection for '.$this->sMSClass.' failed: Error code: '.$aResults['error']['code'].' Message: '.$aResults['error']['message']);
 
 				return [false, $aEmpty];
 			} else {
 				Utils::Log(LOG_DEBUG,
-					'Data for class '.$this->sAzureClass.' have been retrieved from Azure. Count '.$aResults['count']['type'].' = '.$aResults['count']['value']);
+					'Data for class '.$this->sMSClass.' have been retrieved from Azure. Count '.$aResults['count']['type'].' = '.$aResults['count']['value']);
 			}
 		} catch (Exception $e) {
 			Utils::Log(LOG_WARNING, "Query failed: ".$e->getMessage());
@@ -46,7 +50,8 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	public function Prepare(): bool {
+	public function Prepare(): bool
+	{
 		// Create MappingTable
 		$this->oStatusMapping = new MappingTable('subscription_status_mapping');
 
@@ -56,7 +61,8 @@ class AzureSubscriptionJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	public function Fetch() {
+	public function Fetch()
+	{
 		$aData = parent::Fetch();
 		if ($aData !== false) {
 			// Then process each collected status

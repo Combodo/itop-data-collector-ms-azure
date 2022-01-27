@@ -1,6 +1,9 @@
 <?php
+require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
 
-class AzureFabricClusterJsonCollector extends AzureJsonCollector {
+class AzureFabricClusterJsonCollector extends MSJsonCollector
+{
+	// Required parameters to build URL
 	protected static $aURIPArameters = [
 		1 => self::URI_PARAM_SUBSCRIPTION,
 	];
@@ -8,7 +11,8 @@ class AzureFabricClusterJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function BuildUrl($aParameters): string {
+	protected function BuildUrl($aParameters): string
+	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
 			return '';
 		} else {
@@ -22,14 +26,16 @@ class AzureFabricClusterJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function MustProcessBeforeSynchro(): bool {
+	protected function MustProcessBeforeSynchro(): bool
+	{
 		return true;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function DoLookup($aLookupKey, $sDestField): array {
+	protected function DoLookup($aLookupKey, $sDestField): array
+	{
 		$sResult = false;
 		$sData = '';
 		switch ($sDestField) {
@@ -65,7 +71,8 @@ class AzureFabricClusterJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex) {
+	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex)
+	{
 		// Process each line of the CSV
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azureresourcegroup_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');

@@ -1,6 +1,5 @@
 <?php
 require_once(APPROOT.'collectors/AzureCollectionPlan.class.inc.php');
-require_once(APPROOT.'collectors/AzureJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureAppServiceJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureCloudServiceJsonCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureContainerRegistryJsonCollector.class.inc.php');

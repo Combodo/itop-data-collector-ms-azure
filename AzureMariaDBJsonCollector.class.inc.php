@@ -1,6 +1,9 @@
 <?php
+require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
 
-class AzureMariaDBJsonCollector extends AzureJsonCollector {
+class AzureMariaDBJsonCollector extends MSJsonCollector
+{
+	// Required parameters to build URL
 	protected static $aURIPArameters = [
 		1 => self::URI_PARAM_SUBSCRIPTION,
 		2 => self::URI_PARAM_RESOURCEGROUP,
@@ -10,7 +13,8 @@ class AzureMariaDBJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function BuildUrl($aParameters): string {
+	protected function BuildUrl($aParameters): string
+	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
 				$aParameters) || !array_key_exists(self::URI_PARAM_SERVER, $aParameters)) {
 			return '';
@@ -27,14 +31,16 @@ class AzureMariaDBJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function MustProcessBeforeSynchro(): bool {
+	protected function MustProcessBeforeSynchro(): bool
+	{
 		return true;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function DoLookup($aLookupKey, $sDestField): array {
+	protected function DoLookup($aLookupKey, $sDestField): array
+	{
 		$sResult = false;
 		$sData = '';
 		switch ($sDestField) {
@@ -81,7 +87,8 @@ class AzureMariaDBJsonCollector extends AzureJsonCollector {
 	/**
 	 * @inheritdoc
 	 */
-	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex) {
+	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex)
+	{
 		// Process each line of the CSV
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azuredbserver_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
