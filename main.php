@@ -5,8 +5,6 @@ require_once(APPROOT.'collectors/AzureCloudServiceAzureCollector.class.inc.php')
 require_once(APPROOT.'collectors/AzureContainerRegistryAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureCosmosDBAccountAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureDiskAzureCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureFabricClusterAzureCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureIoTHubAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureLoadBalancerAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureLocationAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureMariaDBServerAzureCollector.class.inc.php');
@@ -29,8 +27,6 @@ $aCollectorClasses = [
 	'AzureCosmosDBAccountAzureCollector',   // Cosmos DB Accounts
 	'AzureContainerRegistryAzureCollector', // Container Registries
 	'AzureDiskAzureCollector',              // Disks
-	'AzureFabricClusterAzureCollector',     // Fabric Clusters
-	'AzureIoTHubAzureCollector',            // IoT Hub
 	'AzureLoadBalancerAzureCollector',      // Load Balancers
 	'AzureMariaDBServerAzureCollector',     // Maria DB Servers
 	'AzureMariaDBAzureCollector',           // Maria DBs

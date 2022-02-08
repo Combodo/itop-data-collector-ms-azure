@@ -1,0 +1,245 @@
+{
+  "name": "$azurefabriccluster_synchro_name$ - $ms_tenantid_short$",
+  "description": "Discovery of Azure Fabric Clusters by Azure collector",
+  "status": "$synchro_status$",
+  "user_id": "$synchro_user$",
+  "notify_contact_id": "$contact_to_notify$",
+  "scope_class": "AzureFabricCluster",
+  "database_table_name": "synchro_data_azurefabriccluster_$ms_tenantid_short$",
+  "scope_restriction": "",
+  "full_load_periodicity": "$full_load_interval$",
+  "reconciliation_policy": "use_attributes",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "attribute_list": [
+    {
+      "attcode": "applicationsolution_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "applicationsolution_list"
+    },
+    {
+      "attcode": "azureavailabilitytype",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "azureavailabilitytype"
+    },
+    {
+      "attcode": "azureid",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "azureid"
+    },
+    {
+      "attcode": "azureresourcegroup_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "azureresourcegroup_id"
+    },
+    {
+      "attcode": "azuresubscription_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "subscriptionid",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "azuresubscription_id"
+    },
+    {
+      "attcode": "business_criticity",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "business_criticity"
+    },
+    {
+      "attcode": "contacts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "contacts_list"
+    },
+    {
+      "attcode": "description",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "description"
+    },
+    {
+      "attcode": "documents_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "documents_list"
+    },
+    {
+      "attcode": "environment",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "environment"
+    },
+    {
+      "attcode": "location_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "code",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "location_id"
+    },
+    {
+      "attcode": "management_url",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "management_url"
+    },
+    {
+      "attcode": "move2production",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "move2production"
+    },
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "org_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "org_id"
+    },
+    {
+      "attcode": "providercontracts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "providercontracts_list"
+    },
+    {
+      "attcode": "schneiderid",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "schneiderid"
+    },
+    {
+      "attcode": "secomponentinstances_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "secomponentinstances_list"
+    },
+    {
+      "attcode": "secomponents_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "secomponents_list"
+    },
+    {
+      "attcode": "sefoundation_id",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "sefoundation_id"
+    },
+    {
+      "attcode": "services_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "services_list"
+    },
+    {
+      "attcode": "status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    },
+    {
+      "attcode": "tickets_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "tickets_list"
+    }
+  ],
+  "user_delete_policy": "administrators",
+  "url_icon": "",
+  "url_application": "",
+  "notify_contact_id_obsolescence_flag": ""
+}
