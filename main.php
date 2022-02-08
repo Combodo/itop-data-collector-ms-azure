@@ -1,43 +1,43 @@
 <?php
 require_once(APPROOT.'collectors/AzureCollectionPlan.class.inc.php');
-require_once(APPROOT.'collectors/AzureAppServiceJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureCloudServiceJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureContainerRegistryJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureCosmosDBAccountJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureDiskJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureFabricClusterJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureIoTHubJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureLoadBalancerJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureLocationJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureMariaDBServerJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureMariaDBJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureResourceGroupJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureStorageAccountJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureSubscriptionJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureVirtualMachineJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureVNetJsonCollector.class.inc.php');
-require_once(APPROOT.'collectors/AzureVNetGatewayJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureAppServiceAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureCloudServiceAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureContainerRegistryAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureCosmosDBAccountAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureDiskAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureFabricClusterAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureIoTHubAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureLoadBalancerAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureLocationAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureMariaDBServerAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureMariaDBAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureResourceGroupAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureStorageAccountAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureSubscriptionAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureVirtualMachineAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureVNetAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureVNetGatewayAzureCollector.class.inc.php');
 
 // List of collector to potentially launch.
 // --->>> Warning: order is important for the first 3 classes; alphabetical order is ok afterwards <<<---
 $aCollectorClasses = [
-	'AzureSubscriptionJsonCollector',       // 1- Subscriptions
-	'AzureLocationJsonCollector',           // 2- Locations
-	'AzureResourceGroupJsonCollector',      // 3- Resources group
-	'AzureAppServiceJsonCollector',         // App Services
-	'AzureCloudServiceJsonCollector',       // Cloud Services
-	'AzureCosmosDBAccountJsonCollector',    // Cosmos DB Accounts
-	'AzureContainerRegistryJsonCollector',  // Container Registries
-	'AzureDiskJsonCollector',               // Disks
-	'AzureFabricClusterJsonCollector',      // Fabric Clusters
-	'AzureIoTHubJsonCollector',             // IoT Hub
-	'AzureLoadBalancerJsonCollector',       // Load Balancers
-	'AzureMariaDBServerJsonCollector',      // Maria DB Servers
-	'AzureMariaDBJsonCollector',            // Maria DBs
-	'AzureStorageAccountJsonCollector',     // Storage Accounts
-	'AzureVirtualMachineJsonCollector',     // Virtual Machines
-	'AzureVNetJsonCollector',               // Virtual Networks
-	'AzureVNetGatewayJsonCollector',        // Virtual Network gateways
+	'AzureSubscriptionAzureCollector',      // 1- Subscriptions
+	'AzureLocationAzureCollector',          // 2- Locations
+	'AzureResourceGroupAzureCollector',     // 3- Resources group
+	'AzureAppServiceAzureCollector',        // App Services
+	'AzureCloudServiceAzureCollector',      // Cloud Services
+	'AzureCosmosDBAccountAzureCollector',   // Cosmos DB Accounts
+	'AzureContainerRegistryAzureCollector', // Container Registries
+	'AzureDiskAzureCollector',              // Disks
+	'AzureFabricClusterAzureCollector',     // Fabric Clusters
+	'AzureIoTHubAzureCollector',            // IoT Hub
+	'AzureLoadBalancerAzureCollector',      // Load Balancers
+	'AzureMariaDBServerAzureCollector',     // Maria DB Servers
+	'AzureMariaDBAzureCollector',           // Maria DBs
+	'AzureStorageAccountAzureCollector',    // Storage Accounts
+	'AzureVirtualMachineAzureCollector',    // Virtual Machines
+	'AzureVNetAzureCollector',              // Virtual Networks
+	'AzureVNetGatewayAzureCollector',       // Virtual Network gateways
 ];
 
 // Initialize collection plan

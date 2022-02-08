@@ -93,7 +93,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 		if ($aParamsSourceJson === null) {
 			return false;
 		} elseif (isset($aParamsSourceJson['enable']) && ($aParamsSourceJson['enable'] == 'yes')) {
-			if (!$this->IsSubscriptionToConsider() && ($sCollectorClass != 'AzureSubscriptionJsonCollector')) {
+			if (!$this->IsSubscriptionToConsider() && ($sCollectorClass != 'AzureSubscriptionAzureCollector')) {
 				Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no subscription should be discovered');
 
 				return false;
