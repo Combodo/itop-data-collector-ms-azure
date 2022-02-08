@@ -16,8 +16,8 @@
 	<ms_tenantid></ms_tenantid>
 
 	<!-- App Services -->
-	<azureappservicejsoncollector>
-		<enable>yes</enable>
+	<azureappserviceazurecollector>
+		<enable>no</enable>
 		<ms_class>Site</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -38,11 +38,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azureappservicejsoncollector>
+	</azureappserviceazurecollector>
 
 	<!-- Cloud Services -->
-	<azurecloudservicejsoncollector>
-		<enable>yes</enable>
+	<azurecloudserviceazurecollector>
+		<enable>no</enable>
 		<ms_class>AzureCloudService</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureCloudService.json</jsonfile>
@@ -63,11 +63,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azurecloudservicejsoncollector>
+	</azurecloudserviceazurecollector>
 
 	<!-- Container Registries -->
-	<azurecontainerregistryjsoncollector>
-		<enable>yes</enable>
+	<azurecontainerregistryazurecollector>
+		<enable>no</enable>
 		<ms_class>AzureContainerRegistry</ms_class>
 		<api_version>2019-05-01</api_version>
 		<jsonfile>data/AzureContainerRegistry.json</jsonfile>
@@ -88,11 +88,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azurecontainerregistryjsoncollector>
+	</azurecontainerregistryazurecollector>
 
 	<!-- Cosmos DB Accounts -->
-	<azurecosmosdbaccountjsoncollector>
-		<enable>yes</enable>
+	<azurecosmosdbaccountazurecollector>
+		<enable>no</enable>
 		<ms_class>AzureCosmosDBAccount</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureCosmosDBAccount.json</jsonfile>
@@ -113,10 +113,10 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azurecosmosdbaccountjsoncollector>
+	</azurecosmosdbaccountazurecollector>
 
 	<!-- Disks -->
-	<azurediskjsoncollector>
+	<azurediskazurecollector>
 		<enable>yes</enable>
 		<ms_class>Disk</ms_class>
 		<api_version>2020-12-01</api_version>
@@ -126,73 +126,36 @@
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azurestatus>azurestatus</azurestatus>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<azurevirtualmachine_id>managedBy</azurevirtualmachine_id>
+			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
+			<osfamily_id>osfamily_id</osfamily_id>
+			<provisioning_status>provisioningState</provisioning_status>
+			<size>size</size>
+			<sku>sku</sku>
 			<status>state</status>
 		</fields>
 		<defaults>
 			<org_id>Demo</org_id>
 			<azureresourcegroup_id></azureresourcegroup_id>
+			<azurestatus></azurestatus>
 			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
+			<osfamily_id></osfamily_id>
+			<provisioning_status></provisioning_status>
+			<size></size>
+			<sku></sku>
 			<status>implementation</status>
 		</defaults>
-	</azurediskjsoncollector>
-
-	<!-- Fabric Clusters -->
-	<azurefabricclusterjsoncollector>
-		<enable>yes</enable>
-		<ms_class>AzureFabricCluster</ms_class>
-		<api_version>2019-11-01-preview</api_version>
-		<jsonfile>data/AzureFabricClusterService.json</jsonfile>
-		<path>value</path>
-		<fields>
-			<primary_key>id</primary_key>
-			<azureid>id</azureid>
-			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
-			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
-			<location_id>location</location_id>
-			<name>name</name>
-			<org_id>org_id</org_id>
-			<status>state</status>
-		</fields>
-		<defaults>
-			<org_id>Demo</org_id>
-			<azureresourcegroup_id></azureresourcegroup_id>
-			<azuresubscription_id></azuresubscription_id>
-			<status>implementation</status>
-		</defaults>
-	</azurefabricclusterjsoncollector>
-
-	<!-- IoT Hubs -->
-	<azureiothubjsoncollector>
-		<enable>yes</enable>
-		<ms_class>IotHub</ms_class>
-		<api_version>2018-04-01</api_version>
-		<jsonfile>data/AzureIoTHub.json</jsonfile>
-		<path>value</path>
-		<fields>
-			<primary_key>id</primary_key>
-			<azureid>id</azureid>
-			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
-			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
-			<location_id>location</location_id>
-			<name>name</name>
-			<org_id>org_id</org_id>
-			<status>state</status>
-		</fields>
-		<defaults>
-			<org_id>Demo</org_id>
-			<azureresourcegroup_id></azureresourcegroup_id>
-			<azuresubscription_id></azuresubscription_id>
-			<status>implementation</status>
-		</defaults>
-	</azureiothubjsoncollector>
+	</azurediskazurecollector>
 
 	<!-- Load balancers -->
-	<azureloadbalancerjsoncollector>
-		<enable>yes</enable>
+	<azureloadbalancerazurecollector>
+		<enable>no</enable>
 		<ms_class>LoadBalancer</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -213,11 +176,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azureloadbalancerjsoncollector>
+	</azureloadbalancerazurecollector>
 
 	<!-- Locations -->
-	<azurelocationjsoncollector>
-		<enable>yes</enable>
+	<azurelocationazurecollector>
+		<enable>no</enable>
 		<ms_class>locations</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
@@ -234,11 +197,11 @@
 			<org_id>Demo</org_id>
 			<status>active</status>
 		</defaults>
-	</azurelocationjsoncollector>
+	</azurelocationazurecollector>
 
 	<!-- MariaDBs -->
-	<azuremariadbjsoncollector>
-		<enable>yes</enable>
+	<azuremariadbazurecollector>
+		<enable>no</enable>
 		<ms_class>MariaDB</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDB.json</jsonfile>
@@ -260,11 +223,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azuremariadbjsoncollector>
+	</azuremariadbazurecollector>
 
 	<!-- MariaDB servers -->
-	<azuremariadbserverjsoncollector>
-		<enable>yes</enable>
+	<azuremariadbserverazurecollector>
+		<enable>no</enable>
 		<ms_class>MariaDBServer</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDBServer.json</jsonfile>
@@ -287,11 +250,11 @@
 			<azuredbservertype_id></azuredbservertype_id>
 			<status>implementation</status>
 		</defaults>
-	</azuremariadbserverjsoncollector>
+	</azuremariadbserverazurecollector>
 
 	<!-- Resources group -->
-	<azureresourcegroupjsoncollector>
-		<enable>yes</enable>
+	<azureresourcegroupazurecollector>
+		<enable>no</enable>
 		<ms_class>resourceGroups</ms_class>
 		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -300,21 +263,23 @@
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
-			<status>state</status>
+			<provisioning_status>state</provisioning_status>
 		</fields>
 		<defaults>
 			<azuresubscription_id></azuresubscription_id>
 			<org_id>Demo</org_id>
-			<status>implementation</status>
+			<provisioning_status>succeeded</provisioning_status>
+			<business_criticity>medium</business_criticity>
 		</defaults>
-	</azureresourcegroupjsoncollector>
+	</azureresourcegroupazurecollector>
 
 	<!-- Storage accounts -->
-	<azurestorageaccountjsoncollector>
-		<enable>yes</enable>
+	<azurestorageaccountazurecollector>
+		<enable>no</enable>
 		<ms_class>storageAccount</ms_class>
 		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
@@ -335,11 +300,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azurestorageaccountjsoncollector>
+	</azurestorageaccountazurecollector>
 
 	<!-- Subscriptions -->
-	<azuresubscriptionjsoncollector>
-		<enable>yes</enable>
+	<azuresubscriptionazurecollector>
+		<enable>no</enable>
 		<ms_class>subscriptions</ms_class>
 		<api_version>2020-01-01</api_version>
 		<jsonfile>data/AzureSubscription.json</jsonfile>
@@ -347,9 +312,9 @@
 		<fields>
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
+			<azuretenant_id>tenantId</azuretenant_id>
 			<discover_objects>discover_objects</discover_objects>
 			<name>displayName</name>
-			<offer>subscriptionPolicies/quotaId</offer>
 			<org_id>org_id</org_id>
 			<provider_id>provider_id</provider_id>
 			<subscriptionid>subscriptionId</subscriptionid>
@@ -361,11 +326,11 @@
 			<status>implementation</status>
 			<discover_objects>no</discover_objects>
 		</defaults>
-	</azuresubscriptionjsoncollector>
+	</azuresubscriptionazurecollector>
 
 	<!-- Virtual machines -->
-	<azurevirtualmachinejsoncollector>
-		<enable>yes</enable>
+	<azurevirtualmachineazurecollector>
+		<enable>no</enable>
 		<ms_class>VirtualMachine</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -375,22 +340,32 @@
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<azurevmsize_id>azurevmsize_id</azurevmsize_id>
+			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
+			<osfamily_id>osfamily_id</osfamily_id>
+			<osversion>osversion</osversion>
+			<provisioning_status>state</provisioning_status>
 			<status>state</status>
 		</fields>
 		<defaults>
 			<org_id>Demo</org_id>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
+			<azurevmsize_id></azurevmsize_id>
+			<business_criticity>medium</business_criticity>
+			<osfamily_id></osfamily_id>
+			<osversion></osversion>
+			<provisioning_status>succeeded</provisioning_status>
 			<status>implementation</status>
 		</defaults>
-	</azurevirtualmachinejsoncollector>
+	</azurevirtualmachineazurecollector>
 
 	<!-- VNETs -->
-	<azurevnetjsoncollector>
-		<enable>yes</enable>
+	<azurevnetazurecollector>
+		<enable>no</enable>
 		<ms_class>VNet</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -411,11 +386,11 @@
 			<azuresubscription_id></azuresubscription_id>
 			<status>implementation</status>
 		</defaults>
-	</azurevnetjsoncollector>
+	</azurevnetazurecollector>
 
 	<!-- VNET Gateways -->
-	<azurevnetgatewayjsoncollector>
-		<enable>yes</enable>
+	<azurevnetgatewayazurecollector>
+		<enable>no</enable>
 		<ms_class>VNetGateway</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
@@ -428,15 +403,15 @@
 			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
-			<status>state</status>
+			<status>provisioningState</status>
 		</fields>
 		<defaults>
 			<org_id>Demo</org_id>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
-			<status>implementation</status>
+			<status>succeeded</status>
 		</defaults>
-	</azurevnetgatewayjsoncollector>
+	</azurevnetgatewayazurecollector>
 
 	<json_placeholders>
 		<!-- For compatibility with the version 1.1.x of the collector, define the data table names as following:
@@ -475,4 +450,11 @@
 		<pattern>/Warned/implementation</pattern>
 	</subscription_status_mapping>
 
+	<azureci_provisioning_state_mapping type="array">
+		<pattern>/Canceled/cancelled</pattern>
+		<pattern>/Deleting/deleting</pattern>
+		<pattern>/Failed/failed</pattern>
+		<pattern>/InProgress/in_progress</pattern>
+		<pattern>/Succeeded/succeeded</pattern>
+	</azureci_provisioning_state_mapping>
 </parameters>
