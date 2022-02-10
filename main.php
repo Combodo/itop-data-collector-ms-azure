@@ -9,6 +9,7 @@ require_once(APPROOT.'collectors/AzureLoadBalancerAzureCollector.class.inc.php')
 require_once(APPROOT.'collectors/AzureLocationAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureMariaDBServerAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureMariaDBAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzureNetworkInterfaceAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureResourceGroupAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureStorageAccountAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureSubscriptionAzureCollector.class.inc.php');
@@ -17,7 +18,7 @@ require_once(APPROOT.'collectors/AzureVNetAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureVNetGatewayAzureCollector.class.inc.php');
 
 // List of collector to potentially launch.
-// --->>> Warning: order is important for the first 3 classes; alphabetical order is ok afterwards <<<---
+// --->>> Warning: order is important for some 3 classes, the ones listed with numbers; alphabetical order is ok for others <<<---
 $aCollectorClasses = [
 	'AzureSubscriptionAzureCollector',      // 1- Subscriptions
 	'AzureLocationAzureCollector',          // 2- Locations
@@ -26,13 +27,14 @@ $aCollectorClasses = [
 	'AzureCloudServiceAzureCollector',      // Cloud Services
 	'AzureCosmosDBAccountAzureCollector',   // Cosmos DB Accounts
 	'AzureContainerRegistryAzureCollector', // Container Registries
-	'AzureDiskAzureCollector',              // Disks
 	'AzureLoadBalancerAzureCollector',      // Load Balancers
 	'AzureMariaDBServerAzureCollector',     // Maria DB Servers
 	'AzureMariaDBAzureCollector',           // Maria DBs
 	'AzureStorageAccountAzureCollector',    // Storage Accounts
-	'AzureVirtualMachineAzureCollector',    // Virtual Machines
-	'AzureVNetAzureCollector',              // Virtual Networks
+	'AzureVirtualMachineAzureCollector',    // a- Virtual Machines
+	'AzureDiskAzureCollector',              // b- Disks
+	'AzureVNetAzureCollector',              // c- Virtual Networks
+	'AzureNetworkInterfaceAzureCollector',  // d- Network Interfaces
 	'AzureVNetGatewayAzureCollector',       // Virtual Network gateways
 ];
 
