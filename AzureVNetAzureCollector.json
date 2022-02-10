@@ -17,6 +17,14 @@
   "delete_policy_retention": "0",
   "attribute_list": [
     {
+      "attcode": "address_space",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "address_space"
+    },
+    {
       "attcode": "applicationsolution_list",
       "update": "0",
       "reconcile": "0",
@@ -27,14 +35,6 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "applicationsolution_list"
-    },
-    {
-      "attcode": "azureavailabilitytype",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureavailabilitytype"
     },
     {
       "attcode": "azureid",
@@ -63,10 +63,22 @@
       "friendlyname": "azuresubscription_id"
     },
     {
-      "attcode": "business_criticity",
+      "attcode": "azurenetworkinterfaces_list",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "azurenetworkinterfaces_list"
+    },
+    {
+      "attcode": "business_criticity",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "write_if_empty",
       "finalclass": "SynchroAttribute",
       "friendlyname": "business_criticity"
     },
@@ -103,14 +115,6 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "environment",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "environment"
-    },
-    {
       "attcode": "location_id",
       "update": "1",
       "reconcile": "0",
@@ -118,14 +122,6 @@
       "reconciliation_attcode": "code",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
-    },
-    {
-      "attcode": "management_url",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "management_url"
     },
     {
       "attcode": "move2production",
