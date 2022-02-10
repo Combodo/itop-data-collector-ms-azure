@@ -104,8 +104,9 @@ class AzureDiskAzureCollector extends MSJsonCollector
 		$aData = parent::Fetch();
 		if ($aData !== false) {
 			// Then process specific data
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($aData['provisioning_status'], 'succeeded');
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
+			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'],
+				'succeeded');
 			$aData['azurestatus'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskState'];
 			$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['osType'];
 			$aData['size'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskSizeGB'];

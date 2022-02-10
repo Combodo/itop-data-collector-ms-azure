@@ -98,7 +98,9 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 		$aData = parent::Fetch();
 		if ($aData !== false) {
 			// Then process each collected status
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($aData['provisioning_status'], 'succeeded');
+			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
+			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'],
+				'succeeded');
 		}
 
 		return $aData;
