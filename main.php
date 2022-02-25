@@ -10,6 +10,8 @@ require_once(APPROOT.'collectors/AzureLocationAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureMariaDBServerAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureMariaDBAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureNetworkInterfaceAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzurePostgreServerAzureCollector.class.inc.php');
+require_once(APPROOT.'collectors/AzurePostgreAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureResourceGroupAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureStorageAccountAzureCollector.class.inc.php');
 require_once(APPROOT.'collectors/AzureSubscriptionAzureCollector.class.inc.php');
@@ -30,6 +32,8 @@ $aCollectorClasses = [
 	'AzureLoadBalancerAzureCollector',      // Load Balancers
 	'AzureMariaDBServerAzureCollector',     // Maria DB Servers
 	'AzureMariaDBAzureCollector',           // Maria DBs
+	'AzurePostgreServerAzureCollector',     // PostgreSQL Servers
+	'AzurePostgreAzureCollector',          // PostgreSQL DBs
 	'AzureStorageAccountAzureCollector',    // Storage Accounts
 	'AzureVirtualMachineAzureCollector',    // a- Virtual Machines
 	'AzureDiskAzureCollector',              // b- Disks

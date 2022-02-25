@@ -1,7 +1,7 @@
 <?php
 require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
 
-class AzureMariaDBServerAzureCollector extends MSJsonCollector
+class AzurePostgreServerAzureCollector extends MSJsonCollector
 {
 	// Required parameters to build URL
 	protected static $aURIParameters = [
@@ -20,7 +20,7 @@ class AzureMariaDBServerAzureCollector extends MSJsonCollector
 		} else {
 			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
 			$sUrl .= '/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP];
-			$sUrl .= '/providers/Microsoft.DBforMariaDB/servers?api-version='.$this->sApiVersion;
+			$sUrl .= '/providers/Microsoft.DBforPostgreSQL/flexibleServers?api-version='.$this->sApiVersion;
 
 			return $sUrl;
 		}
@@ -88,8 +88,8 @@ class AzureMariaDBServerAzureCollector extends MSJsonCollector
 			case 'type':
 				if (array_key_exists('type', $aLookupKey) && ($aLookupKey['type'] != '')) {
 					$sData = $aLookupKey['type'];
-					if ($sData == 'Microsoft.DBforMariaDB/servers') {
-						$sData = 'mariadb';
+					if ($sData == 'Microsoft.DBforPostgreSQL/flexibleServers') {
+						$sData = 'postgre';
 						$sResult = true;
 					}
 				}
@@ -129,9 +129,8 @@ class AzureMariaDBServerAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($aData['provisioning_status'], 'succeeded');
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['capacity'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['capacity'];
 			$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fullyQualifiedDomainName'];
-			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['userVisibleState'];
+			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['state'];
 			$aData['storage'] = str_replace(',', '.',
 				$this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['storageMB'] / 1000);
 			$aData['tier'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['tier'];

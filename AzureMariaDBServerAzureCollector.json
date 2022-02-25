@@ -29,23 +29,6 @@
       "friendlyname": "applicationsolution_list"
     },
     {
-      "attcode": "azureavailabilitytype",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureavailabilitytype"
-    },
-    {
-      "attcode": "azuredbservertype_id",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azuredbservertype_id"
-    },
-    {
       "attcode": "azureid",
       "update": "1",
       "reconcile": "1",
@@ -73,11 +56,19 @@
     },
     {
       "attcode": "business_criticity",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
       "friendlyname": "business_criticity"
+    },
+    {
+      "attcode": "capacity",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "capacity"
     },
     {
       "attcode": "contacts_list",
@@ -112,12 +103,12 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "environment",
-      "update": "0",
+      "attcode": "fqdn",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
-      "friendlyname": "environment"
+      "friendlyname": "fqdn"
     },
     {
       "attcode": "location_id",
@@ -127,14 +118,6 @@
       "reconciliation_attcode": "code",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
-    },
-    {
-      "attcode": "management_url",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "management_url"
     },
     {
       "attcode": "move2production",
@@ -174,6 +157,14 @@
       "friendlyname": "providercontracts_list"
     },
     {
+      "attcode": "provisioning_status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "provisioning_status"
+    },
+    {
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",
@@ -194,6 +185,30 @@
       "friendlyname": "status"
     },
     {
+      "attcode": "storage",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "storage"
+    },
+    {
+      "attcode": "tier",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "tier"
+    },
+    {
+      "attcode": "type",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "type"
+    },
+    {
       "attcode": "tickets_list",
       "update": "0",
       "reconcile": "0",
@@ -204,6 +219,14 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "tickets_list"
+    },
+    {
+      "attcode": "version",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "version"
     }
   ],
   "user_delete_policy": "administrators",

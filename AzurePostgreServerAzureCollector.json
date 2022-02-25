@@ -1,11 +1,11 @@
 {
-  "name": "$azuremariadb_synchro_name$ - $ms_tenantid_short$",
-  "description": "Discovery of Azure MariaDBs by Azure collector",
+  "name": "$azurepostgreserver_synchro_name$ - $ms_tenantid_short$",
+  "description": "Discovery of Azure PostgreSQL servers by Azure collector",
   "status": "$synchro_status$",
   "user_id": "$synchro_user$",
   "notify_contact_id": "$contact_to_notify$",
-  "scope_class": "AzureMariaDB",
-  "database_table_name": "synchro_data_azuremariadb_$ms_tenantid_short$",
+  "scope_class": "AzureDBServer",
+  "database_table_name": "synchro_data_azurepostgreserver_$ms_tenantid_short$",
   "scope_restriction": "",
   "full_load_periodicity": "$full_load_interval$",
   "reconciliation_policy": "use_attributes",
@@ -27,15 +27,6 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "applicationsolution_list"
-    },
-    {
-      "attcode": "azuredbserver_id",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azuredbserver_id"
     },
     {
       "attcode": "azureid",
@@ -72,6 +63,14 @@
       "friendlyname": "business_criticity"
     },
     {
+      "attcode": "capacity",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "capacity"
+    },
+    {
       "attcode": "contacts_list",
       "update": "0",
       "reconcile": "0",
@@ -104,11 +103,19 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "location_id",
-      "update": "0",
+      "attcode": "fqdn",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "reconciliation_attcode": "code",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "fqdn"
+    },
+    {
+      "attcode": "location_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
     },
@@ -151,7 +158,7 @@
     },
     {
       "attcode": "provisioning_status",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
@@ -178,6 +185,30 @@
       "friendlyname": "status"
     },
     {
+      "attcode": "storage",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "storage"
+    },
+    {
+      "attcode": "tier",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "tier"
+    },
+    {
+      "attcode": "type",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "type"
+    },
+    {
       "attcode": "tickets_list",
       "update": "0",
       "reconcile": "0",
@@ -188,6 +219,14 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "tickets_list"
+    },
+    {
+      "attcode": "version",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "version"
     }
   ],
   "user_delete_policy": "administrators",
