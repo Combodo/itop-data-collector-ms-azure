@@ -29,14 +29,6 @@
       "friendlyname": "applicationsolution_list"
     },
     {
-      "attcode": "azureavailabilitytype",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureavailabilitytype"
-    },
-    {
       "attcode": "azureid",
       "update": "1",
       "reconcile": "1",
@@ -103,22 +95,6 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "environment",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "environment"
-    },
-    {
-      "attcode": "ipaddress",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "ipaddress"
-    },
-    {
       "attcode": "location_id",
       "update": "1",
       "reconcile": "0",
@@ -126,14 +102,6 @@
       "reconciliation_attcode": "code",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
-    },
-    {
-      "attcode": "management_url",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "management_url"
     },
     {
       "attcode": "move2production",
@@ -173,6 +141,14 @@
       "friendlyname": "providercontracts_list"
     },
     {
+      "attcode": "provisioning_status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "provisioning_status"
+    },
+    {
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",
@@ -186,7 +162,7 @@
     },
     {
       "attcode": "sku",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
@@ -211,23 +187,6 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "tickets_list"
-    },
-    {
-      "attcode": "type",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "type"
-    },
-    {
-      "attcode": "zone_id",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "zone_id"
     }
   ],
   "user_delete_policy": "administrators",
