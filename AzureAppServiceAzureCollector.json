@@ -17,6 +17,14 @@
   "delete_policy_retention": "0",
   "attribute_list": [
     {
+      "attcode": "app_service_plan",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "app_service_plan"
+    },
+    {
       "attcode": "applicationsolution_list",
       "update": "0",
       "reconcile": "0",
@@ -27,14 +35,6 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "applicationsolution_list"
-    },
-    {
-      "attcode": "azureavailabilitytype",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureavailabilitytype"
     },
     {
       "attcode": "azureid",
@@ -103,24 +103,8 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "environment",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "environment"
-    },
-    {
-      "attcode": "ftp_hostname",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "ftp_hostname"
-    },
-    {
       "attcode": "ftps_hostname",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
@@ -134,14 +118,6 @@
       "reconciliation_attcode": "name",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
-    },
-    {
-      "attcode": "management_url",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "management_url"
     },
     {
       "attcode": "move2production",
@@ -181,6 +157,14 @@
       "friendlyname": "providercontracts_list"
     },
     {
+      "attcode": "provisioning_status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "provisioning_status"
+    },
+    {
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",
@@ -211,6 +195,14 @@
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet",
       "friendlyname": "tickets_list"
+    },
+    {
+      "attcode": "url",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "url"
     }
   ],
   "user_delete_policy": "administrators",
