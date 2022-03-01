@@ -45,17 +45,6 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	public function Prepare(): bool
-	{
-		// Create MappingTable
-		$this->oStatusMapping = new MappingTable('azureci_provisioning_state_mapping');
-
-		return parent::Prepare();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function DoLookup($aLookupKey, $sDestField): array
 	{
 		$sResult = false;
@@ -99,8 +88,7 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process each collected status
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'],
-				'succeeded');
+			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 
 		return $aData;

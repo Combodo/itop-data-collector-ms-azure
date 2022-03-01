@@ -47,17 +47,6 @@ class AzurePostgreServerAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	public function Prepare(): bool
-	{
-		// Create MappingTable
-		$this->oStatusMapping = new MappingTable('azureci_provisioning_state_mapping');
-
-		return parent::Prepare();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function DoLookup($aLookupKey, $sDestField): array
 	{
 		$sResult = false;
@@ -127,10 +116,9 @@ class AzurePostgreServerAzureCollector extends MSJsonCollector
 		$aData = parent::Fetch();
 		if ($aData !== false) {
 			// Then process specific data
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($aData['provisioning_status'], 'succeeded');
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fullyQualifiedDomainName'];
-			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['state'];
+			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['state']);
 			$aData['storage'] = str_replace(',', '.',
 				$this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['storageMB'] / 1000);
 			$aData['tier'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['tier'];

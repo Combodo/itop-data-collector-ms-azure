@@ -34,18 +34,6 @@ class AzureVirtualMachineAzureCollector extends MSJsonCollector
 		return true;
 	}
 
-
-	/**
-	 * @inheritdoc
-	 */
-	public function Prepare(): bool
-	{
-		// Create MappingTable
-		$this->oStatusMapping = new MappingTable('azureci_provisioning_state_mapping');
-
-		return parent::Prepare();
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -105,10 +93,10 @@ class AzureVirtualMachineAzureCollector extends MSJsonCollector
 		$aData = parent::Fetch();
 		if ($aData !== false) {
 			// Then process specific data
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($aData['provisioning_status'], 'succeeded');
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['osDisk']['osType'];
 			$aData['osversion'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference']['sku'];
+			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 
 		return $aData;

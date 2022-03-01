@@ -34,17 +34,6 @@ class AzureVNetAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	public function Prepare(): bool
-	{
-		// Create MappingTable
-		$this->oStatusMapping = new MappingTable('azureci_provisioning_state_mapping');
-
-		return parent::Prepare();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function DoLookup($aLookupKey, $sDestField): array
 	{
 		$sResult = false;
@@ -102,9 +91,8 @@ class AzureVNetAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['provisioning_status'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'],
-				'succeeded');
 			$aData['address_space'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressSpace']['addressPrefixes']['0'];
+			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 
 		return $aData;
