@@ -85,5 +85,21 @@ class AzureStorageAccountAzureCollector extends MSJsonCollector
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function Fetch()
+	{
+		$aData = parent::Fetch();
+		if ($aData !== false) {
+			// Then process specific data
+			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
+			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'];
+			$aData['tier'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['tier'];
+		}
+
+		return $aData;
+	}
+
 }
 

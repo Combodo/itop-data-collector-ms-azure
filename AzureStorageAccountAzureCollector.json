@@ -29,14 +29,6 @@
       "friendlyname": "applicationsolution_list"
     },
     {
-      "attcode": "azureavailabilitytype",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureavailabilitytype"
-    },
-    {
       "attcode": "azureid",
       "update": "1",
       "reconcile": "1",
@@ -103,14 +95,6 @@
       "friendlyname": "documents_list"
     },
     {
-      "attcode": "environment",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "environment"
-    },
-    {
       "attcode": "location_id",
       "update": "1",
       "reconcile": "0",
@@ -118,14 +102,6 @@
       "reconciliation_attcode": "code",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "location_id"
-    },
-    {
-      "attcode": "management_url",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "management_url"
     },
     {
       "attcode": "move2production",
@@ -165,45 +141,12 @@
       "friendlyname": "providercontracts_list"
     },
     {
-      "attcode": "schneiderid",
-      "update": "0",
+      "attcode": "provisioning_status",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
-      "friendlyname": "schneiderid"
-    },
-    {
-      "attcode": "secomponentinstances_list",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "row_separator": "|",
-      "attribute_separator": ";",
-      "value_separator": ":",
-      "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "secomponentinstances_list"
-    },
-    {
-      "attcode": "secomponents_list",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "row_separator": "|",
-      "attribute_separator": ";",
-      "value_separator": ":",
-      "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "secomponents_list"
-    },
-    {
-      "attcode": "sefoundation_id",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "sefoundation_id"
+      "friendlyname": "provisioning_status"
     },
     {
       "attcode": "services_list",
@@ -224,6 +167,14 @@
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
       "friendlyname": "status"
+    },
+    {
+      "attcode": "tier",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "tier"
     },
     {
       "attcode": "tickets_list",
