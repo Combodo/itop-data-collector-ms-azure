@@ -94,6 +94,8 @@ class AzureVirtualMachineAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
+			$aData['azurevmsize'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['hardwareProfile']['vmSize'];
+			$aData['azurevmsize_id'] = $aData['azurevmsize'];
 			$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['osDisk']['osType'];
 			$aData['osversion'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference']['sku'];
 			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);

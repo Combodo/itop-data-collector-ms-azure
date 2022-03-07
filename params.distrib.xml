@@ -427,7 +427,7 @@
 
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>VirtualMachine</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -437,6 +437,7 @@
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<azurevmsize>azurevmsize</azurevmsize>
 			<azurevmsize_id>azurevmsize_id</azurevmsize_id>
 			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
@@ -450,6 +451,7 @@
 		<defaults>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
+			<azurevmsize></azurevmsize>
 			<azurevmsize_id></azurevmsize_id>
 			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
