@@ -44,7 +44,7 @@ class AzureKubernetesServiceAzureCollector extends MSJsonCollector
 		switch ($sDestField) {
 			case 'azureresourcegroup_id':
 				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
-					$sData = strstr($aLookupKey['primary_key'], 'resourceGroups');
+					$sData = strstr($aLookupKey['primary_key'], 'resourcegroups');
 					if ($sData !== false) {
 						$aData = explode('/', $sData);
 						$sData = $aData[1];
@@ -95,7 +95,7 @@ class AzureKubernetesServiceAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fqdn'];
-			$aData['max_agent_pool'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['maxAgentPools'];
+			$aData['max_agent_pools'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['maxAgentPools'];
 			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'];
 			$aData['version'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['kubernetesVersion'];
 		}

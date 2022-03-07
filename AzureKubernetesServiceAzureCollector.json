@@ -112,12 +112,12 @@
       "friendlyname": "location_id"
     },
     {
-      "attcode": "max_agent_pool",
+      "attcode": "max_agent_pools",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
-      "friendlyname": "max_agent_pool"
+      "friendlyname": "max_agent_pools"
     },
     {
       "attcode": "move2production",
