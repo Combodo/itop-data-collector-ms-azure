@@ -59,6 +59,7 @@
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azurestatus>azurestatus</azurestatus>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<azurevirtualmachine_id>managedBy</azurevirtualmachine_id>
 			<business_criticity>business_criticity</business_criticity>
@@ -73,6 +74,7 @@
 		</fields>
 		<defaults>
 			<azureresourcegroup_id></azureresourcegroup_id>
+			<azurestatus></azurestatus>
 			<azuresubscription_id></azuresubscription_id>
 			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
