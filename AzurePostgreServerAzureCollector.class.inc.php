@@ -1,5 +1,5 @@
 <?php
-require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
 
 class AzurePostgreServerAzureCollector extends MSJsonCollector
 {

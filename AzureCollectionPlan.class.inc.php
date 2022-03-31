@@ -1,5 +1,5 @@
 <?php
-require_once(APPROOT.'collectors/MSCollectionPlan.class.inc.php');
+require_once(APPROOT.'collectors/msbase/MSCollectionPlan.class.inc.php');
 
 class AzureCollectionPlan extends MSCollectionPlan
 {

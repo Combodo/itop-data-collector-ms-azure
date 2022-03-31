@@ -1,6 +1,5 @@
 <?php
-require_once(APPROOT.'collectors/AzureCollectionPlan.class.inc.php');
-require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
 
 class AzureResourceGroupAzureCollector extends MSJsonCollector
 {
