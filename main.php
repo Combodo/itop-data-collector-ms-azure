@@ -11,14 +11,17 @@ $aCollectorClasses = [
 	'AzureLoadBalancerAzureCollector',      // Load Balancers
 	'AzureMariaDBServerAzureCollector',     // Maria DB Servers
 	'AzureMariaDBAzureCollector',           // Maria DBs
+	'AzureMySQLServerAzureCollector',       // MySQL DB Servers
+	'AzureMySQLAzureCollector',             // MySQL DBs
+	'AzureMSSQLServerAzureCollector',       // MS SQL DB Servers
+	'AzureMSSQLAzureCollector',             // MS SQL DBs
 	'AzurePostgreServerAzureCollector',     // PostgreSQL Servers
 	'AzurePostgreAzureCollector',           // PostgreSQL DBs
 	'AzureStorageAccountAzureCollector',    // Storage Accounts
-	'AzureVirtualMachineSizeAzureCollector',// a- Virtual Machine Sizes
-	'AzureVirtualMachineAzureCollector',    // b- Virtual Machines
-	'AzureDiskAzureCollector',              // c- Disks
-	'AzureVNetAzureCollector',              // d- Virtual Networks
-	'AzureNetworkInterfaceAzureCollector',  // e- Network Interfaces
+	'AzureVirtualMachineAzureCollector',    // a- Virtual Machines
+	'AzureDiskAzureCollector',              // b- Disks
+	'AzureVNetAzureCollector',              // c- Virtual Networks
+	'AzureNetworkInterfaceAzureCollector',  // d- Network Interfaces
 	'AzureVNetGatewayAzureCollector',       // Virtual Network gateways
 ];
 

@@ -17,7 +17,7 @@
 
 	<!-- App Services -->
 	<azureappserviceazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>Site</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -50,7 +50,7 @@
 
 	<!-- Disks -->
 	<azurediskazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>Disk</ms_class>
 		<api_version>2020-12-01</api_version>
 		<jsonfile>data/AzureDisk.json</jsonfile>
@@ -61,7 +61,7 @@
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azurestatus>azurestatus</azurestatus>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
-			<azurevirtualmachine_id>managedBy</azurevirtualmachine_id>
+			<azurevirtualmachine_id>azurevirtualmachine_id</azurevirtualmachine_id>
 			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
 			<name>name</name>
@@ -76,6 +76,7 @@
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azurestatus></azurestatus>
 			<azuresubscription_id></azuresubscription_id>
+			<azurevirtualmachine_id></azurevirtualmachine_id>
 			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
 			<osfamily_id></osfamily_id>
@@ -88,7 +89,7 @@
 
 	<!-- Kubernetes services -->
 	<azurekubernetesserviceazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>managedClusters</ms_class>
 		<api_version>2021-10-01</api_version>
 		<jsonfile>data/AzureKubernetesService.json</jsonfile>
@@ -122,7 +123,7 @@
 
 	<!-- Load balancers -->
 	<azureloadbalancerazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>LoadBalancer</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -153,7 +154,7 @@
 
 	<!-- Locations -->
 	<azurelocationazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>locations</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
@@ -236,10 +237,107 @@
 			<status>implementation</status>
 			<storage></storage>
 			<tier></tier>
-			<type></type>
+			<type>mariadb</type>
 			<version></version>
 		</defaults>
 	</azuremariadbserverazurecollector>
+
+	<!-- MSSQls -->
+	<azuremssqlazurecollector>
+		<enable>yes</enable>
+		<ms_class>SQL</ms_class>
+		<api_version>2021-02-01-preview</api_version>
+		<jsonfile>data/AzureMSSQL.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azuredbserver_id>azuredbserver_id</azuredbserver_id>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<azuredbserver_id></azuredbserver_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
+			<org_id>Demo</org_id>
+			<status>implementation</status>
+		</defaults>
+	</azuremssqlazurecollector>
+
+	<!-- MSSQl servers -->
+	<azuremssqlserverazurecollector>
+		<enable>yes</enable>
+		<ms_class>SQLServer</ms_class>
+		<api_version>2021-08-01-preview</api_version>
+		<jsonfile>data/AzureMSSQLServer.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
+			<capacity>capacity</capacity>
+			<fqdn>fqdn</fqdn>
+			<location_id>location</location_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<provisioning_status>provisioning_status</provisioning_status>
+			<status>state</status>
+			<storage>storage</storage>
+			<tier>tier</tier>
+			<type>type</type>
+			<version>version</version>
+		</fields>
+		<defaults>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
+			<capacity></capacity>
+			<fqdn></fqdn>
+			<org_id>Demo</org_id>
+			<provisioning_status></provisioning_status>
+			<status>implementation</status>
+			<storage></storage>
+			<tier></tier>
+			<type>mssql</type>
+			<version></version>
+		</defaults>
+	</azuremssqlserverazurecollector>
+
+	<!-- MySQLs -->
+	<azuremysqlazurecollector>
+		<enable>yes</enable>
+		<ms_class>MySQL</ms_class>
+		<api_version>2021-05-01</api_version>
+		<jsonfile>data/AzureMySQL.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azuredbserver_id>azuredbserver_id</azuredbserver_id>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<azuredbserver_id></azuredbserver_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
+			<org_id>Demo</org_id>
+			<status>implementation</status>
+		</defaults>
+	</azuremysqlazurecollector>
 
 	<!-- MySQl servers -->
 	<azuremysqlserverazurecollector>
@@ -277,14 +375,14 @@
 			<status>implementation</status>
 			<storage></storage>
 			<tier></tier>
-			<type></type>
+			<type>mysql</type>
 			<version></version>
 		</defaults>
 	</azuremysqlserverazurecollector>
 
 	<!-- Network interfaces -->
 	<azurenetworkinterfaceazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>networkInterface</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureNetworkInterface.json</jsonfile>
@@ -319,7 +417,7 @@
 
 	<!-- PostgreSQL -->
 	<azurepostgreazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>PostgreSQL</ms_class>
 		<api_version>2020-11-05-preview</api_version>
 		<jsonfile>data/AzurePostgre.json</jsonfile>
@@ -347,7 +445,7 @@
 
 	<!-- PostgreSQL servers -->
 	<azurepostgreserverazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>PostgreServer</ms_class>
 		<api_version>2020-02-14-preview</api_version>
 		<jsonfile>data/AzurePostgreServer.json</jsonfile>
@@ -381,14 +479,14 @@
 			<status>implementation</status>
 			<storage></storage>
 			<tier></tier>
-			<type></type>
+			<type>postgre</type>
 			<version></version>
 		</defaults>
 	</azurepostgreserverazurecollector>
 
 	<!-- Resources group -->
 	<azureresourcegroupazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>resourceGroups</ms_class>
 		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -413,7 +511,7 @@
 
 	<!-- Storage accounts -->
 	<azurestorageaccountazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>storageAccount</ms_class>
 		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
@@ -444,7 +542,7 @@
 
 	<!-- Subscriptions -->
 	<azuresubscriptionazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>subscriptions</ms_class>
 		<api_version>2020-01-01</api_version>
 		<jsonfile>data/AzureSubscription.json</jsonfile>
@@ -470,7 +568,7 @@
 
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>VirtualMachine</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -507,7 +605,7 @@
 
 	<!-- Virtual machine sizes -->
 	<azurevirtualmachinesizeazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>vmSizes</ms_class>
 		<api_version>2021-07-01</api_version>
 		<jsonfile>data/AzureVirtualMachineSize.json</jsonfile>
@@ -526,7 +624,7 @@
 
 	<!-- VNETs -->
 	<azurevnetazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>VNet</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -557,7 +655,7 @@
 
 	<!-- VNET Gateways -->
 	<azurevnetgatewayazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>VNetGateway</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
@@ -597,6 +695,9 @@
 		<azurelocation_synchro_name>Azure Locations Discovery</azurelocation_synchro_name>
 		<azuremariadb_synchro_name>Azure MariaDBs Discovery</azuremariadb_synchro_name>
 		<azuremariadbserver_synchro_name>Azure MariaDB Servers Discovery</azuremariadbserver_synchro_name>
+		<azuremssql_synchro_name>Azure MS SQLs Discovery</azuremssql_synchro_name>
+		<azuremssqlserver_synchro_name>Azure MS SQL Servers Discovery</azuremssqlserver_synchro_name>
+		<azuremysql_synchro_name>Azure MySQLs Discovery</azuremysql_synchro_name>
 		<azuremysqlserver_synchro_name>Azure MySQL Servers Discovery</azuremysqlserver_synchro_name>
 		<azurenetworkinterface_synchro_name>Azure Network Interfaces Discovery</azurenetworkinterface_synchro_name>
 		<azurepostgre_synchro_name>Azure PostgreSQLs Discovery</azurepostgre_synchro_name>
