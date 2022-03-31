@@ -94,12 +94,14 @@ class AzureCollectionPlan extends MSCollectionPlan
 			return false;
 		} elseif (isset($aParamsSourceJson['enable']) && ($aParamsSourceJson['enable'] == 'yes')) {
 			if (!$this->IsSubscriptionToConsider() && ($sCollectorClass != 'AzureSubscriptionAzureCollector')) {
+				// All Azure objects being attached to a subscription, their discovery is only possible in the case where there is at least one subscription to discover.
 				Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no subscription should be discovered');
 
 				return false;
 			}
 			if ($sCollectorClass::NeedsResourceGroupsForCollector()) {
 				if (!$this->IsResourceGroupToConsider()) {
+					// If no resource group is already identified, let's check that discovery of resource group is enable.
 					$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupJsonCollector'), array());
 					if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
 						Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no resource group should be discovered');

@@ -29,7 +29,7 @@ class AzureMariaDBServerAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	protected function ReportObjects($aData, $sObjectL1, $sObjectL2): void
+	protected function ReportObjects($aData, $sObjectL1, $sObjectL2, $sObjectL3): void
 	{
 		foreach ($aData['value'] as $aObject) {
 			$this->oMSCollectionPlan->AddMSObjectsToConsider($sObjectL1, $sObjectL2, $aObject['name']);
