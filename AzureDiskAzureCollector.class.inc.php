@@ -1,5 +1,5 @@
 <?php
-require_once(APPROOT.'collectors/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
 
 class AzureDiskAzureCollector extends MSJsonCollector
 {
@@ -64,6 +64,18 @@ class AzureDiskAzureCollector extends MSJsonCollector
 				}
 				break;
 
+			case 'azurevirtualmachine_id':
+				if (array_key_exists('primary_key', $aLookupKey) && ($aLookupKey['primary_key'] != '')) {
+					$sData = strstr($aLookupKey['primary_key'], 'disks');
+					if ($sData !== false) {
+						$aData = explode('/', $sData);
+						$aData = explode('_', $aData[1]);
+						$sData = $aData[0];
+						$sResult = true;
+					}
+				}
+				break;
+
 			default:
 				break;
 		}
@@ -81,6 +93,9 @@ class AzureDiskAzureCollector extends MSJsonCollector
 			throw new IgnoredRowException('Unknown code');
 		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azuresubscription_id', $iLineIndex, true, false)) {
+			throw new IgnoredRowException('Unknown code');
+		}
+		if (!$this->Lookup($aLineData, array('primary_key'), 'azurevirtualmachine_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
 		}
 	}
