@@ -37,6 +37,17 @@ class AzureDiskAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	public function Prepare(): bool
+	{
+		// Create MappingTable
+		$this->oStatusMapping = new MappingTable('disk_encryption_mapping');
+
+		return parent::Prepare();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function DoLookup($aLookupKey, $sDestField): array
 	{
 		$sResult = false;
@@ -109,8 +120,17 @@ class AzureDiskAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['azurestatus'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskState'];
-			$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['osType'];
+			$aData['azurestatus'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskState']);
+			if (array_key_exists('encryptionSettingsCollection', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['encryption'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['encryptionSettingsCollection']['enabled'], 'disabled');
+			} else {
+				$aData['encryption'] = 'disabled';
+			}
+			if (array_key_exists('osType', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['osType'];
+			} else {
+				$aData['osfamily_id'] = '';
+			}
 			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 			$aData['size'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskSizeGB'];
 			$aData['sku'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['name'];

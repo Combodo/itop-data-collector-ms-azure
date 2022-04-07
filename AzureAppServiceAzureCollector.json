@@ -64,7 +64,7 @@
     },
     {
       "attcode": "business_criticity",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",

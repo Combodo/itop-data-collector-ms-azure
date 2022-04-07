@@ -17,7 +17,7 @@
 
 	<!-- App Services -->
 	<azureappserviceazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>Site</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -28,6 +28,7 @@
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
 			<ftps_hostname>ftps_hostname</ftps_hostname>
 			<location_id>location</location_id>
 			<name>name</name>
@@ -40,6 +41,7 @@
 			<app_service_plan></app_service_plan>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
 			<ftps_hostname></ftps_hostname>
 			<org_id>Demo</org_id>
 			<provisioning_status>ready</provisioning_status>
@@ -63,11 +65,12 @@
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<azurevirtualmachine_id>azurevirtualmachine_id</azurevirtualmachine_id>
 			<business_criticity>business_criticity</business_criticity>
+			<encryption>encryption</encryption>
 			<location_id>location</location_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
 			<osfamily_id>osfamily_id</osfamily_id>
-			<provisioning_status>provisioningState</provisioning_status>
+			<provisioning_status>provisioning_status</provisioning_status>
 			<size>size</size>
 			<sku>sku</sku>
 			<status>state</status>
@@ -78,6 +81,7 @@
 			<azuresubscription_id></azuresubscription_id>
 			<azurevirtualmachine_id></azurevirtualmachine_id>
 			<business_criticity>medium</business_criticity>
+			<encryption></encryption>
 			<org_id>Demo</org_id>
 			<osfamily_id></osfamily_id>
 			<provisioning_status></provisioning_status>
@@ -89,7 +93,7 @@
 
 	<!-- Kubernetes services -->
 	<azurekubernetesserviceazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>managedClusters</ms_class>
 		<api_version>2021-10-01</api_version>
 		<jsonfile>data/AzureKubernetesService.json</jsonfile>
@@ -101,10 +105,12 @@
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<business_criticity>business_criticity</business_criticity>
 			<fqdn>fqdn</fqdn>
+			<loadbalancer_sku>loadbalancer_sku</loadbalancer_sku>
 			<location_id>location</location_id>
 			<max_agent_pools>max_agent_pools</max_agent_pools>
 			<name>name</name>
 			<org_id>org_id</org_id>
+			<outbound_type>outbound_type</outbound_type>
 			<provisioning_status>provisioning_status</provisioning_status>
 			<status>state</status>
 			<version>version</version>
@@ -112,9 +118,12 @@
 		<defaults>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
 			<fqdn></fqdn>
+			<loadbalancer_sku></loadbalancer_sku>
 			<max_agent_pools></max_agent_pools>
 			<org_id>Demo</org_id>
+			<outbound_type></outbound_type>
 			<provisioning_status></provisioning_status>
 			<status>implementation</status>
 			<version></version>
@@ -123,7 +132,7 @@
 
 	<!-- Load balancers -->
 	<azureloadbalancerazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>LoadBalancer</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -154,7 +163,7 @@
 
 	<!-- Locations -->
 	<azurelocationazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>locations</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
@@ -175,7 +184,7 @@
 
 	<!-- MariaDBs -->
 	<azuremariadbazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MariaDB</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDB.json</jsonfile>
@@ -203,7 +212,7 @@
 
 	<!-- MariaDB servers -->
 	<azuremariadbserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MariaDBServer</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDBServer.json</jsonfile>
@@ -244,9 +253,9 @@
 
 	<!-- MSSQls -->
 	<azuremssqlazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>SQL</ms_class>
-		<api_version>2021-02-01-preview</api_version>
+		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQL.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -272,7 +281,7 @@
 
 	<!-- MSSQl servers -->
 	<azuremssqlserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>SQLServer</ms_class>
 		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQLServer.json</jsonfile>
@@ -313,7 +322,7 @@
 
 	<!-- MySQLs -->
 	<azuremysqlazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MySQL</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQL.json</jsonfile>
@@ -341,7 +350,7 @@
 
 	<!-- MySQl servers -->
 	<azuremysqlserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MySQLServer</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQLServer.json</jsonfile>
@@ -382,7 +391,7 @@
 
 	<!-- Network interfaces -->
 	<azurenetworkinterfaceazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>networkInterface</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureNetworkInterface.json</jsonfile>
@@ -417,7 +426,7 @@
 
 	<!-- PostgreSQL -->
 	<azurepostgreazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>PostgreSQL</ms_class>
 		<api_version>2020-11-05-preview</api_version>
 		<jsonfile>data/AzurePostgre.json</jsonfile>
@@ -445,7 +454,7 @@
 
 	<!-- PostgreSQL servers -->
 	<azurepostgreserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>PostgreServer</ms_class>
 		<api_version>2020-02-14-preview</api_version>
 		<jsonfile>data/AzurePostgreServer.json</jsonfile>
@@ -486,7 +495,7 @@
 
 	<!-- Resources group -->
 	<azureresourcegroupazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>resourceGroups</ms_class>
 		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -511,7 +520,7 @@
 
 	<!-- Storage accounts -->
 	<azurestorageaccountazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>storageAccount</ms_class>
 		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
@@ -542,7 +551,7 @@
 
 	<!-- Subscriptions -->
 	<azuresubscriptionazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>subscriptions</ms_class>
 		<api_version>2020-01-01</api_version>
 		<jsonfile>data/AzureSubscription.json</jsonfile>
@@ -568,7 +577,7 @@
 
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VirtualMachine</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -579,7 +588,6 @@
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<azurevmsize>azurevmsize</azurevmsize>
-			<azurevmsize_id>azurevmsize_id</azurevmsize_id>
 			<business_criticity>business_criticity</business_criticity>
 			<location_id>location</location_id>
 			<name>name</name>
@@ -593,7 +601,6 @@
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
 			<azurevmsize></azurevmsize>
-			<azurevmsize_id></azurevmsize_id>
 			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
 			<osfamily_id></osfamily_id>
@@ -603,28 +610,9 @@
 		</defaults>
 	</azurevirtualmachineazurecollector>
 
-	<!-- Virtual machine sizes -->
-	<azurevirtualmachinesizeazurecollector>
-		<enable>yes</enable>
-		<ms_class>vmSizes</ms_class>
-		<api_version>2021-07-01</api_version>
-		<jsonfile>data/AzureVirtualMachineSize.json</jsonfile>
-		<path>value</path>
-		<fields>
-			<primary_key>id</primary_key>
-			<core_number>numberOfCores</core_number>
-			<max_data_disk_count>maxDataDiskCount</max_data_disk_count>
-			<memory>memoryInMB</memory>
-			<name>name</name>
-			<os_disk_size>osDiskSizeInMB</os_disk_size>
-			<resource_disk_size>resourceDiskSizeInMB</resource_disk_size>
-		</fields>
-		<defaults/>
-	</azurevirtualmachinesizeazurecollector>
-
 	<!-- VNETs -->
 	<azurevnetazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VNet</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -655,7 +643,7 @@
 
 	<!-- VNET Gateways -->
 	<azurevnetgatewayazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VNetGateway</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
@@ -675,6 +663,7 @@
 		<defaults>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
 			<provisioning_status></provisioning_status>
 			<status>implementation</status>
@@ -721,5 +710,10 @@
 		<pattern>/PastDue/obsolete</pattern>
 		<pattern>/Warned/implementation</pattern>
 	</subscription_status_mapping>
+	<disk_encryption_mapping type="array">
+		<pattern>/true/enabled</pattern>
+		<pattern>/false/disabled</pattern>
+		<pattern>/.*/disabled</pattern>
+	</disk_encryption_mapping>
 
 </parameters>

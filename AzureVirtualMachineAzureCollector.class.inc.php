@@ -95,9 +95,16 @@ class AzureVirtualMachineAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['azurevmsize'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['hardwareProfile']['vmSize'];
-			$aData['azurevmsize_id'] = $aData['azurevmsize'];
-			$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['osDisk']['osType'];
-			$aData['osversion'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference']['sku'];
+			if (array_key_exists('osType', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['osDisk'])) {
+				$aData['osfamily_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['osDisk']['osType'];
+			} else {
+				$aData['osfamily_id'] = '';
+			}
+			if (array_key_exists('sku', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference'])) {
+				$aData['osversion'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference']['sku'];
+			} else {
+				$aData['osversion'] = '';
+			}
 			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 

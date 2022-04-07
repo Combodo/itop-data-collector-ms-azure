@@ -94,8 +94,22 @@ class AzureKubernetesServiceAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fqdn'];
+			if (array_key_exists('fqdn', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fqdn'];
+			} else {
+				$aData['fqdn'] = '';
+			}
+			if (array_key_exists('loadBalancerSku', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['networkProfile'])) {
+				$aData['loadbalancer_sku'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['networkProfile']['loadBalancerSku'];
+			} else {
+				$aData['loadbalancer_sku'] = '';
+			}
 			$aData['max_agent_pools'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['maxAgentPools'];
+			if (array_key_exists('outboundType', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['networkProfile'])) {
+				$aData['outbound_type'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['networkProfile']['outboundType'];
+			} else {
+				$aData['outbound_type'] = '';
+			}
 			$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'];
 			$aData['version'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['kubernetesVersion'];
 		}

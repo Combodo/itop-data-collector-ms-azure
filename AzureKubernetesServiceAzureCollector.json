@@ -56,7 +56,7 @@
     },
     {
       "attcode": "business_criticity",
-      "update": "0",
+      "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
@@ -103,6 +103,14 @@
       "friendlyname": "fqdn"
     },
     {
+      "attcode": "loadbalancer_sku",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "loadbalancer_sku"
+    },
+    {
       "attcode": "location_id",
       "update": "1",
       "reconcile": "0",
@@ -143,6 +151,14 @@
       "reconciliation_attcode": "name",
       "finalclass": "SynchroAttExtKey",
       "friendlyname": "org_id"
+    },
+    {
+      "attcode": "outbound_type",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "outbound_type"
     },
     {
       "attcode": "providercontracts_list",

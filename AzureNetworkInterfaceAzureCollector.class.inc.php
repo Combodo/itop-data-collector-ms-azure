@@ -102,7 +102,9 @@ class AzureNetworkInterfaceAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['azurevirtualmachine_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['virtualMachine']['id'];
+			if (array_key_exists('virtualMachine', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['azurevirtualmachine_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['virtualMachine']['id'];
+			}
 			$sVnetsList = '';
 			$bFirstVnet = true;
 			$aIpConfigurations = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipConfigurations'];

@@ -112,6 +112,14 @@
       "friendlyname": "documents_list"
     },
     {
+      "attcode": "encryption",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "encryption"
+    },
+    {
       "attcode": "location_id",
       "update": "1",
       "reconcile": "0",
