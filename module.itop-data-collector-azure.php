@@ -20,7 +20,7 @@ SetupWebPage::AddModule(
 	array(
 		// Identification
 		//
-		'label' => 'Azure Collector',
+		'label' => 'Data collector for Azure',
 		'category' => 'collector',
 
 		// Setup
