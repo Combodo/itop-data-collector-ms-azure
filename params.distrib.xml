@@ -34,7 +34,7 @@
 			<name>name</name>
 			<org_id>org_id</org_id>
 			<provisioning_status>provisioning_status</provisioning_status>
-			<status>ready</status>
+			<status>state</status>
 			<url>url</url>
 		</fields>
 		<defaults>
