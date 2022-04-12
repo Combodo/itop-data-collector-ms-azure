@@ -107,7 +107,7 @@ class AzureAppServiceAzureCollector extends MSJsonCollector
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['app_service_plan'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['serverFarmId'];
 			$aData['ftps_hostname'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ftpsHostName'];
-			$aData['status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['state']);
+			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['state']);
 			$aData['url'] = 'https://'.$this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['defaultHostName'];
 		}
 
