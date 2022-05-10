@@ -670,6 +670,9 @@
 		</defaults>
 	</azurevnetgatewayazurecollector>
 
+	<!-- Synchronization parameters -->
+	<contact_to_notify></contact_to_notify>
+	<synchro_user></synchro_user>
 	<json_placeholders>
 		<!-- For compatibility with the version 1.1.x of the collector, define the data table names as following:
 		<prefix></prefix>
