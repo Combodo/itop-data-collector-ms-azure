@@ -15,6 +15,32 @@
 	<ms_clientsecret></ms_clientsecret>
 	<ms_tenantid></ms_tenantid>
 
+	<!-- Subscriptions -->
+	<azuresubscriptionazurecollector>
+		<enable>yes</enable>
+		<ms_class>subscriptions</ms_class>
+		<api_version>2020-01-01</api_version>
+		<jsonfile>data/AzureSubscription.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azuretenant_id>tenantId</azuretenant_id>
+			<discover_objects>discover_objects</discover_objects>
+			<name>displayName</name>
+			<org_id>org_id</org_id>
+			<provider_id>provider_id</provider_id>
+			<subscriptionid>subscriptionId</subscriptionid>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<discover_objects>no</discover_objects>
+			<org_id>Demo</org_id>
+			<provider_id>Demo</provider_id>
+			<status>implementation</status>
+		</defaults>
+	</azuresubscriptionazurecollector>
+
 	<!-- App Services -->
 	<azureappserviceazurecollector>
 		<enable>yes</enable>
@@ -548,32 +574,6 @@
 			<tier></tier>
 		</defaults>
 	</azurestorageaccountazurecollector>
-
-	<!-- Subscriptions -->
-	<azuresubscriptionazurecollector>
-		<enable>yes</enable>
-		<ms_class>subscriptions</ms_class>
-		<api_version>2020-01-01</api_version>
-		<jsonfile>data/AzureSubscription.json</jsonfile>
-		<path>value</path>
-		<fields>
-			<primary_key>id</primary_key>
-			<azureid>id</azureid>
-			<azuretenant_id>tenantId</azuretenant_id>
-			<discover_objects>discover_objects</discover_objects>
-			<name>displayName</name>
-			<org_id>org_id</org_id>
-			<provider_id>provider_id</provider_id>
-			<subscriptionid>subscriptionId</subscriptionid>
-			<status>state</status>
-		</fields>
-		<defaults>
-			<discover_objects>no</discover_objects>
-			<org_id>Demo</org_id>
-			<provider_id>Demo</provider_id>
-			<status>implementation</status>
-		</defaults>
-	</azuresubscriptionazurecollector>
 
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
