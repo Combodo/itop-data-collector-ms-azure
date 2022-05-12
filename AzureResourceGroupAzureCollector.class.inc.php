@@ -11,6 +11,18 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	public function AttributeIsOptional($sAttCode): bool
+	{
+		if ($sAttCode == 'services_list') {
+			return true;
+		}
+
+		return parent::AttributeIsOptional($sAttCode);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function BuildUrl($aParameters): string
 	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
@@ -26,7 +38,7 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	protected function ReportObjects($aData, $sObjectL1, $sObjectL2, $sObjectL3): void
+	protected function ReportObjects($aData, $sObjectL1, $sObjectL2, $sObjectL3)
 	{
 		foreach ($aData['value'] as $aObject) {
 			$this->oMSCollectionPlan->AddMSObjectsToConsider($sObjectL1, $aObject['name'], null);

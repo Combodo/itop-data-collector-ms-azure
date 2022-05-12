@@ -8,6 +8,18 @@ class AzureSubscriptionAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	public function AttributeIsOptional($sAttCode): bool
+	{
+		if ($sAttCode == 'services_list') {
+			return true;
+		}
+
+		return parent::AttributeIsOptional($sAttCode);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function BuildUrl($aParameters): string
 	{
 		return $this->sResource.'/subscriptions?api-version='.$this->sApiVersion;

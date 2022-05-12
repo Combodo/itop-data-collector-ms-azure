@@ -11,6 +11,18 @@ class AzureNetworkInterfaceAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	public function AttributeIsOptional($sAttCode): bool
+	{
+		if ($sAttCode == 'services_list') {
+			return true;
+		}
+
+		return parent::AttributeIsOptional($sAttCode);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function BuildUrl($aParameters): string
 	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
