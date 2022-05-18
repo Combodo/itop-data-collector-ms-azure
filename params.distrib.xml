@@ -26,7 +26,6 @@
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
 			<azuretenant_id>tenantId</azuretenant_id>
-			<discover_objects>discover_objects</discover_objects>
 			<name>displayName</name>
 			<org_id>org_id</org_id>
 			<provider_id>provider_id</provider_id>
@@ -34,7 +33,6 @@
 			<status>state</status>
 		</fields>
 		<defaults>
-			<discover_objects>no</discover_objects>
 			<org_id>Demo</org_id>
 			<provider_id>Demo</provider_id>
 			<status>implementation</status>
