@@ -6,6 +6,7 @@ class AzureNetworkInterfaceAzureCollector extends MSJsonCollector
 	// Required parameters to build URL
 	protected static $aURIParameters = [
 		1 => self::URI_PARAM_SUBSCRIPTION,
+		2 => self::URI_PARAM_RESOURCEGROUP,
 	];
 
 	/**
@@ -25,13 +26,25 @@ class AzureNetworkInterfaceAzureCollector extends MSJsonCollector
 	 */
 	protected function BuildUrl($aParameters): string
 	{
-		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
+		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
+				$aParameters)) {
 			return '';
 		} else {
 			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
+			$sUrl .= '/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP];
 			$sUrl .= '/providers/Microsoft.Network/networkInterfaces?api-version='.$this->sApiVersion;
 
 			return $sUrl;
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function ReportObjects($aData, $sObjectL1, $sObjectL2, $sObjectL3)
+	{
+		foreach ($aData['value'] as $aObject) {
+			$this->oMSCollectionPlan->AddMSObjectsToConsider($sObjectL1, $sObjectL2, $aObject['name']);
 		}
 	}
 
