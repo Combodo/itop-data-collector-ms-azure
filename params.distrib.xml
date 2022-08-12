@@ -17,7 +17,7 @@
 
 	<!-- Subscriptions -->
 	<azuresubscriptionazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>subscriptions</ms_class>
 		<api_version>2020-01-01</api_version>
 		<jsonfile>data/AzureSubscription.json</jsonfile>
@@ -41,7 +41,7 @@
 
 	<!-- App Services -->
 	<azureappserviceazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>Site</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -76,7 +76,7 @@
 
 	<!-- Disks -->
 	<azurediskazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>Disk</ms_class>
 		<api_version>2020-12-01</api_version>
 		<jsonfile>data/AzureDisk.json</jsonfile>
@@ -117,7 +117,7 @@
 
 	<!-- Kubernetes services -->
 	<azurekubernetesserviceazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>managedClusters</ms_class>
 		<api_version>2021-10-01</api_version>
 		<jsonfile>data/AzureKubernetesService.json</jsonfile>
@@ -156,7 +156,7 @@
 
 	<!-- Load balancers -->
 	<azureloadbalancerazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>LoadBalancer</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -187,7 +187,7 @@
 
 	<!-- Locations -->
 	<azurelocationazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>locations</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
@@ -208,7 +208,7 @@
 
 	<!-- MariaDBs -->
 	<azuremariadbazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MariaDB</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDB.json</jsonfile>
@@ -236,7 +236,7 @@
 
 	<!-- MariaDB servers -->
 	<azuremariadbserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MariaDBServer</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDBServer.json</jsonfile>
@@ -277,7 +277,7 @@
 
 	<!-- MSSQls -->
 	<azuremssqlazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>SQL</ms_class>
 		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQL.json</jsonfile>
@@ -305,7 +305,7 @@
 
 	<!-- MSSQl servers -->
 	<azuremssqlserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>SQLServer</ms_class>
 		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQLServer.json</jsonfile>
@@ -346,7 +346,7 @@
 
 	<!-- MySQLs -->
 	<azuremysqlazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MySQL</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQL.json</jsonfile>
@@ -374,7 +374,7 @@
 
 	<!-- MySQl servers -->
 	<azuremysqlserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>MySQLServer</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQLServer.json</jsonfile>
@@ -417,7 +417,7 @@
 	<azurenetworkinterfaceazurecollector>
 		<enable>yes</enable>
 		<ms_class>networkInterface</ms_class>
-		<api_version>2021-03-01</api_version>
+		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureNetworkInterface.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -448,9 +448,52 @@
 		</defaults>
 	</azurenetworkinterfaceazurecollector>
 
+	<!-- Network interface IP configurations -->
+	<azurenetworkinterfaceipconfigazurecollector>
+		<enable>yes</enable>
+		<ms_class>subnet</ms_class>
+		<api_version>2022-01-01</api_version>
+		<jsonfile>data/AzureNetworkInterfaceIPConfig.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azurenetworkinterface_id>azurenetworkinterface_id</azurenetworkinterface_id>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubnet_id>azuresubnet_id</azuresubnet_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<primary>primary</primary>
+			<private_ip>private_ip</private_ip>
+			<private_ip_allocation_method>private_ip_allocation_method</private_ip_allocation_method>
+			<private_ip_version>private_ip_version</private_ip_version>
+			<public_ip_id>private_ip</public_ip_id>
+			<provisioning_status>provisioning_status</provisioning_status>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<azurenetworkinterface_id></azurenetworkinterface_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubnet_id></azuresubnet_id>
+			<azuresubscription_id></azuresubscription_id>
+			<azurevnet_id></azurevnet_id>
+			<business_criticity>medium</business_criticity>
+			<org_id>Demo</org_id>
+			<primary></primary>
+			<private_ip></private_ip>
+			<private_ip_allocation_method></private_ip_allocation_method>
+			<private_ip_version></private_ip_version>
+			<public_ip_id></public_ip_id>
+			<provisioning_status></provisioning_status>
+			<status>implementation</status>
+		</defaults>
+	</azurenetworkinterfaceipconfigazurecollector>
+
 	<!-- PostgreSQL -->
 	<azurepostgreazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>PostgreSQL</ms_class>
 		<api_version>2020-11-05-preview</api_version>
 		<jsonfile>data/AzurePostgre.json</jsonfile>
@@ -478,7 +521,7 @@
 
 	<!-- PostgreSQL servers -->
 	<azurepostgreserverazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>PostgreServer</ms_class>
 		<api_version>2020-02-14-preview</api_version>
 		<jsonfile>data/AzurePostgreServer.json</jsonfile>
@@ -519,7 +562,7 @@
 
 	<!-- Resources group -->
 	<azureresourcegroupazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>resourceGroups</ms_class>
 		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
@@ -544,7 +587,7 @@
 
 	<!-- Storage accounts -->
 	<azurestorageaccountazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>storageAccount</ms_class>
 		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
@@ -573,9 +616,46 @@
 		</defaults>
 	</azurestorageaccountazurecollector>
 
+	<!-- Subnets -->
+	<azuresubnetazurecollector>
+		<enable>yes</enable>
+		<ms_class>subnet</ms_class>
+		<api_version>2022-01-01</api_version>
+		<jsonfile>data/AzureSubnet.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureci_id>azureci_id</azureci_id>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<azurevnet_id>azurevnet_id</azurevnet_id>
+			<business_criticity>business_criticity</business_criticity>
+			<ip>ip</ip>
+			<location_id>location</location_id>
+			<mask>mask</mask>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<provisioning_status>provisioning_status</provisioning_status>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<azureci_id></azureci_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<azurevnet_id></azurevnet_id>
+			<business_criticity>medium</business_criticity>
+			<ip></ip>
+			<mask></mask>
+			<org_id>Demo</org_id>
+			<provisioning_status></provisioning_status>
+			<status>implementation</status>
+		</defaults>
+	</azuresubnetazurecollector>
+
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VirtualMachine</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
@@ -610,9 +690,9 @@
 
 	<!-- VNETs -->
 	<azurevnetazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VNet</ms_class>
-		<api_version>2021-03-01</api_version>
+		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
 		<path>value</path>
 		<fields>
@@ -641,7 +721,7 @@
 
 	<!-- VNET Gateways -->
 	<azurevnetgatewayazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>VNetGateway</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
@@ -690,10 +770,12 @@
 		<azuremysql_synchro_name>Azure MySQLs Discovery</azuremysql_synchro_name>
 		<azuremysqlserver_synchro_name>Azure MySQL Servers Discovery</azuremysqlserver_synchro_name>
 		<azurenetworkinterface_synchro_name>Azure Network Interfaces Discovery</azurenetworkinterface_synchro_name>
+		<azurenetworkinterfaceipconfig_synchro_name>Azure Network Interface IP Configurations Discovery</azurenetworkinterfaceipconfig_synchro_name>
 		<azurepostgre_synchro_name>Azure PostgreSQLs Discovery</azurepostgre_synchro_name>
 		<azurepostgreserver_synchro_name>Azure PostgreSQL Servers Discovery</azurepostgreserver_synchro_name>
 		<azureresourcegroup_synchro_name>Azure Resources Group Discovery</azureresourcegroup_synchro_name>
 		<azurestorageaccount_synchro_name>Azure Storage Accounts Discovery</azurestorageaccount_synchro_name>
+		<azuresubnet_synchro_name>Azure Subnets Discovery</azuresubnet_synchro_name>
 		<azuresubscription_synchro_name>Azure Subscriptions Discovery</azuresubscription_synchro_name>
 		<azurevirtualmachine_synchro_name>Azure Virtual Machines Discovery</azurevirtualmachine_synchro_name>
 		<azurevirtualmachinesize_synchro_name>Azure Virtual Machine Sizes Discovery</azurevirtualmachinesize_synchro_name>
@@ -716,5 +798,23 @@
 		<pattern>/false/disabled</pattern>
 		<pattern>/.*/disabled</pattern>
 	</disk_encryption_mapping>
-
+	<subnet_mask_mapping type="array">
+		<pattern>/16/255.255.0.0</pattern>
+    <pattern>/17/255.255.128.0</pattern>
+    <pattern>/18/255.255.192.0</pattern>
+    <pattern>/19/255.255.224.0</pattern>
+    <pattern>/20/255.255.240.0</pattern>
+    <pattern>/21/255.255.248.0</pattern>
+    <pattern>/22/255.255.252.0</pattern>
+    <pattern>/23/255.255.254.0</pattern>
+    <pattern>/24/255.255.255.0</pattern>
+    <pattern>/25/255.255.255.128</pattern>
+    <pattern>/26/255.255.255.192</pattern>
+    <pattern>/27/255.255.255.224</pattern>
+    <pattern>/28/255.255.255.240</pattern>
+    <pattern>/29/255.255.255.248</pattern>
+    <pattern>/30/255.255.255.252</pattern>
+    <pattern>/31/255.255.255.254</pattern>
+    <pattern>/32/255.255.255.255</pattern>
+	</subnet_mask_mapping>
 </parameters>
