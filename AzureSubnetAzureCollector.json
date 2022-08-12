@@ -29,6 +29,15 @@
       "friendlyname": "applicationsolution_list"
     },
     {
+      "attcode": "azureci_id",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "azureci_id"
+    },
+    {
       "attcode": "azureid",
       "update": "1",
       "reconcile": "1",
@@ -192,14 +201,6 @@
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute",
       "friendlyname": "status"
-    },
-    {
-      "attcode": "mask",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "mask"
     },
     {
       "attcode": "tickets_list",
