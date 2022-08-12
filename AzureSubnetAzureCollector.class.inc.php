@@ -137,6 +137,7 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 			$aData['ip'] = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/', true);
 			$aData['mask'] = $this->oSubnetMaskMapping->MapValue(trim(strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/'), '/'), '');
 			if (array_key_exists('delegations', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aDelegations = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['delegations'];
 
 			}
 		}
