@@ -52,7 +52,7 @@ class AzureDiskAzureCollector extends MSJsonCollector
 	public function Prepare(): bool
 	{
 		// Create MappingTable
-		$this->oStatusMapping = new MappingTable('disk_encryption_mapping');
+		$this->oDiskEncryptionMapping = new MappingTable('disk_encryption_mapping');
 
 		return parent::Prepare();
 	}
@@ -134,7 +134,7 @@ class AzureDiskAzureCollector extends MSJsonCollector
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['azurestatus'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskState']);
 			if (array_key_exists('encryptionSettingsCollection', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
-				$aData['encryption'] = $this->oStatusMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['encryptionSettingsCollection']['enabled'], 'disabled');
+				$aData['encryption'] = $this->oDiskEncryptionMapping->MapValue($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['encryptionSettingsCollection']['enabled'], 'disabled');
 			} else {
 				$aData['encryption'] = 'disabled';
 			}
