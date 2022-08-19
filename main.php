@@ -22,8 +22,9 @@ $aCollectorClasses = [
 	'AzureDiskAzureCollector',                      // b- Disks
 	'AzureVNetAzureCollector',                      // c- Virtual Networks
 	'AzureNetworkInterfaceAzureCollector',          // d- Network Interfaces
-	'AzureNetworkInterfaceIPConfigAzureCollector',  // e- Network Interface IP Configuration
-	'AzureSubnetAzureCollector',                    // f- Subnets
+	'AzureSubnetAzureCollector',                    // e- Subnets
+	'AzurePublicIPAddressAzureCollector',           // f- Public IP Addresses
+	'AzureNetworkInterfaceIPConfigAzureCollector',  // g- Network Interface IP Configuration
 	'AzureVNetGatewayAzureCollector',               // Virtual Network gateways
 ];
 
