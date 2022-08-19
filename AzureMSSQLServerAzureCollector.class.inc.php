@@ -44,7 +44,10 @@ class AzureMSSQLServerAzureCollector extends MSJsonCollector
 	protected function ReportObjects($aData, $sObjectL1, $sObjectL2, $sObjectL3)
 	{
 		foreach ($aData['value'] as $aObject) {
-			$this->oMSCollectionPlan->AddMSObjectsToConsider($sObjectL1, $sObjectL2, $aObject['name']);
+			$this->oMSCollectionPlan->AddMSObjectsToConsider(
+				['class' => self::URI_PARAM_SUBSCRIPTION, 'id' => $sObjectL1],
+				['class' => self::URI_PARAM_RESOURCEGROUP, 'id' => $sObjectL2],
+				['class' => self::URI_PARAM_SERVER, 'id' => $aObject['name']]);
 		}
 	}
 
