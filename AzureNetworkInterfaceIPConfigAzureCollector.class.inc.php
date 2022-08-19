@@ -139,6 +139,11 @@ class AzureNetworkInterfaceIPConfigAzureCollector extends MSJsonCollector
 			$aData['private_ip_version'] = strtolower($sProperties['privateIPAddressVersion']);
 			$aData['private_ip_allocation_method'] = $sProperties['privateIPAllocationMethod'];
 			$aData['primary'] = $sProperties['primary'];
+			if (array_key_exists('publicIPAddress', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['public_ip_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAddress']['id'];
+			} else {
+				$aData['public_ip_id'] = '';
+			}
 			if (array_key_exists('subnet', $sProperties)) {
 				$aData['azuresubnet_id'] = $sProperties['subnet']['id'];
 			}
