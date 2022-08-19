@@ -560,6 +560,49 @@
 		</defaults>
 	</azurepostgreserverazurecollector>
 
+	<!-- Public IP addresses -->
+	<azurepublicipaddressazurecollector>
+		<enable>yes</enable>
+		<ms_class>subnet</ms_class>
+		<api_version>2022-01-01</api_version>
+		<jsonfile>data/AzurePublicIPAddress.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<allocation_method>allocation_method</allocation_method>
+			<azureid>id</azureid>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<azurevnet_id>azurevnet_id</azurevnet_id>
+			<business_criticity>business_criticity</business_criticity>
+			<fqdn>fqdn</fqdn>
+			<ip>ip</ip>
+			<location_id>location</location_id>
+			<nicipconfig_id>nicipconfig_id</nicipconfig_id>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<provisioning_status>provisioning_status</provisioning_status>
+			<short_name>short_name</short_name>
+			<status>state</status>
+			<version>version</version>
+		</fields>
+		<defaults>
+			<allocation_method></allocation_method>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubscription_id></azuresubscription_id>
+			<azurevnet_id></azurevnet_id>
+			<business_criticity>medium</business_criticity>
+			<fqdn></fqdn>
+			<ip></ip>
+			<mask></mask>
+			<org_id>Demo</org_id>
+			<provisioning_status></provisioning_status>
+			<status>implementation</status>
+			<short_name></short_name>
+			<version></version>
+		</defaults>
+	</azurepublicipaddressazurecollector>
+
 	<!-- Resources group -->
 	<azureresourcegroupazurecollector>
 		<enable>no</enable>
@@ -690,7 +733,7 @@
 
 	<!-- VNETs -->
 	<azurevnetazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>VNet</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -773,6 +816,7 @@
 		<azurenetworkinterfaceipconfig_synchro_name>Azure Network Interface IP Configurations Discovery</azurenetworkinterfaceipconfig_synchro_name>
 		<azurepostgre_synchro_name>Azure PostgreSQLs Discovery</azurepostgre_synchro_name>
 		<azurepostgreserver_synchro_name>Azure PostgreSQL Servers Discovery</azurepostgreserver_synchro_name>
+		<azurepublicipaddress_synchro_name>Azure Public IP Addresses Discovery</azurepublicipaddress_synchro_name>
 		<azureresourcegroup_synchro_name>Azure Resources Group Discovery</azureresourcegroup_synchro_name>
 		<azurestorageaccount_synchro_name>Azure Storage Accounts Discovery</azurestorageaccount_synchro_name>
 		<azuresubnet_synchro_name>Azure Subnets Discovery</azuresubnet_synchro_name>
