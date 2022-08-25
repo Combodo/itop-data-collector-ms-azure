@@ -21,8 +21,7 @@
       "update": "1",
       "reconcile": "1",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureid"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "azuretenant_id",
@@ -30,16 +29,14 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "tenantid",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azuretenant_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "billing_frequency",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "billing_frequency"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "contacts_list",
@@ -50,8 +47,7 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "contacts_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "contracttype_id",
@@ -59,48 +55,42 @@
       "reconcile": "0",
       "update_policy": "master_unlocked",
       "reconciliation_attcode": "",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "contracttype_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "cost",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "cost"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "cost_currency",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "cost_currency"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "cost_unit",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "cost_unit"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "description",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_unlocked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "description"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "discover_objects",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_unlocked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "discover_objects"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "documents_list",
@@ -111,24 +101,21 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "documents_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "end_date",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "end_date"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "name",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "name"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "org_id",
@@ -136,8 +123,7 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "org_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "provider_id",
@@ -145,32 +131,28 @@
       "reconcile": "0",
       "update_policy": "write_if_empty",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "provider_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "start_date",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "start_date"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "status",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "status"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "subscriptionid",
       "update": "1",
       "reconcile": "1",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "subscriptionid"
+      "finalclass": "SynchroAttribute"
     }
   ],
   "user_delete_policy": "administrators",

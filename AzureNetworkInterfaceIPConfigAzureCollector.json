@@ -25,16 +25,14 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "applicationsolution_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "azureid",
       "update": "1",
       "reconcile": "1",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "azureid"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "azurenetworkinterface_id",
@@ -42,8 +40,7 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azurenetworkinterface_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "azureresourcegroup_id",
@@ -51,8 +48,7 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azureresourcegroup_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "azuresubscription_id",
@@ -60,8 +56,7 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "subscriptionid",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azuresubscription_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "azuresubnet_id",
@@ -69,16 +64,14 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "azureid",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "azuresubnet_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "business_criticity",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "business_criticity"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "contacts_list",
@@ -89,16 +82,14 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "contacts_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "description",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "description"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "documents_list",
@@ -109,24 +100,21 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "documents_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "move2production",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "move2production"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "name",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "name"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "org_id",
@@ -134,40 +122,35 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "org_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "primary",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "primary"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "private_ip",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "private_ip"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "private_ip_allocation_method",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "private_ip_allocation_method"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "private_ip_version",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "private_ip_version"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "providercontracts_list",
@@ -178,16 +161,14 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "providercontracts_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "provisioning_status",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "provisioning_status"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "public_ip_id",
@@ -195,8 +176,7 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "reconciliation_attcode": "azureid",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "public_ip_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "services_list",
@@ -207,16 +187,14 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "services_list"
+      "finalclass": "SynchroAttLinkSet"
     },
     {
       "attcode": "status",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "status"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "tickets_list",
@@ -227,8 +205,7 @@
       "attribute_separator": ";",
       "value_separator": ":",
       "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet",
-      "friendlyname": "tickets_list"
+      "finalclass": "SynchroAttLinkSet"
     }
   ],
   "user_delete_policy": "administrators",

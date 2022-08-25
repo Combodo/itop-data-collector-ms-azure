@@ -21,40 +21,35 @@
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "address"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "city",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "city"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "code",
       "update": "1",
       "reconcile": "1",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "code"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "country",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "country"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "name",
       "update": "1",
       "reconcile": "1",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "name"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "org_id",
@@ -62,24 +57,21 @@
       "reconcile": "1",
       "update_policy": "master_locked",
       "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey",
-      "friendlyname": "org_id"
+      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "postal_code",
       "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "postal_code"
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "status",
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute",
-      "friendlyname": "status"
+      "finalclass": "SynchroAttribute"
     }
   ],
   "user_delete_policy": "administrators",
