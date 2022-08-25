@@ -22,7 +22,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 					foreach ($aResult['objects'] as $sKey => $aData) {
 						$aAzureSubscriptionAttributes = $aData['fields'];
 						$iSubscriptionId = $aAzureSubscriptionAttributes['subscriptionid'];
-						$this->aMSObjectsToConsider[$iSubscriptionId] = [];
+						$this->AddMSObjectsToConsider(['class' => MSJsonCollector::URI_PARAM_SUBSCRIPTION, 'id' => $iSubscriptionId], [], []);
 
 						Utils::Log(LOG_INFO, 'Name: '.$aAzureSubscriptionAttributes['name'].' - ID: '.$iSubscriptionId);
 					}
@@ -37,12 +37,12 @@ class AzureCollectionPlan extends MSCollectionPlan
 		}
 
 		// Fetch from iTop the list of Resource Groups that belong to subscriptions to discover
-		if (!empty($this->aMSObjectsToConsider)) {
+		if ($this->IsSubscriptionToConsider()) {
 			Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Resource groups ----------');
 			$bFirstEntry = true;
 			$sSubscriptionList = '';
-			foreach ($this->aMSObjectsToConsider as $sObjectL1 => $aObjectL1) {
-				$sSubscriptionList .= ($bFirstEntry) ? "'".$sObjectL1."'" : ",'".$sObjectL1."'";
+			foreach ($this->aMSObjectsToConsider[MSJsonCollector::URI_PARAM_SUBSCRIPTION] as $sSubscription => $aSubscription) {
+				$sSubscriptionList .= ($bFirstEntry) ? "'".$sSubscription."'" : ",'".$sSubscription."'";
 				$bFirstEntry = false;
 			}
 			$oRestClient = new RestClient();
@@ -60,8 +60,8 @@ class AzureCollectionPlan extends MSCollectionPlan
 						foreach ($aResult['objects'] as $sKey => $aData) {
 							$aAzureResourceGroupAttributes = $aData['fields'];
 							$sResourceGroupName = $aAzureResourceGroupAttributes['name'];
-							$this->AddMSObjectsToConsider($aAzureResourceGroupAttributes['azuresubscription_subscriptionid'],
-								$sResourceGroupName, null);
+							$this->AddMSObjectsToConsider(['class' => MSJsonCollector::URI_PARAM_SUBSCRIPTION, 'id' => $aAzureResourceGroupAttributes['azuresubscription_subscriptionid']],
+								['class' => MSJsonCollector::URI_PARAM_RESOURCEGROUP, 'id' => $sResourceGroupName], []);
 
 							Utils::Log(LOG_INFO,
 								'Subscription ID: '.$aAzureResourceGroupAttributes['azuresubscription_name'].' - Name: '.$sResourceGroupName);
