@@ -17,6 +17,10 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 	{
 		if ($sAttCode == 'services_list') {
 			return true;
+		} elseif (($sAttCode == 'ip') && ($this->oMSCollectionPlan->bTeemIpIsInstalled)) {
+			return true;
+		} elseif (($sAttCode == 'ip_id') && (!$this->oMSCollectionPlan->bTeemIpIsInstalled)) {
+			return true;
 		}
 
 		return parent::AttributeIsOptional($sAttCode);

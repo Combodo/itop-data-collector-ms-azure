@@ -1,8 +1,12 @@
 <?php
 require_once(APPROOT.'collectors/msbase/MSCollectionPlan.class.inc.php');
+require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
 
 class AzureCollectionPlan extends MSCollectionPlan
 {
+	public $bTeemIpIsInstalled;
+	public $bTeemIpZoneMgmtIsInstalled;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -77,6 +81,47 @@ class AzureCollectionPlan extends MSCollectionPlan
 			}
 		}
 
+		// Check if TeemIp is installed or not
+		Utils::Log(LOG_INFO, 'Detecting if TeemIp is installed on remote iTop server');
+		$this->bTeemIpIsInstalled = false;
+		$oRestClient = new RestClient();
+		try {
+			$aResult = $oRestClient->Get('IPAddress', 'SELECT IPAddress WHERE id = 0');
+			if ($aResult['code'] == 0) {
+				$this->bTeemIpIsInstalled = true;
+				Utils::Log(LOG_INFO, 'Yes, TeemIp is installed');
+			} else {
+				Utils::Log(LOG_INFO, $sMessage = 'TeemIp is NOT installed');
+			}
+		} catch (Exception $e) {
+			$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
+			if (is_a($e, "IOException")) {
+				Utils::Log(LOG_ERR, $sMessage);
+				throw $e;
+			}
+		}
+
+		// Check if TeemIp Zone Management is installed or not
+		$this->bTeemIpZoneMgmtIsInstalled = false;
+		if ($this->bTeemIpIsInstalled) {
+			Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
+			$oRestClient = new RestClient();
+			try {
+				$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
+				if ($aResult['code'] == 0) {
+					$this->bTeemIpZoneMgmtIsInstalled = true;
+					Utils::Log(LOG_INFO, 'Yes, TeemIp Zone Management extension is installed');
+				} else {
+					Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
+				}
+			} catch (Exception $e) {
+				$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
+				if (is_a($e, "IOException")) {
+					Utils::Log(LOG_ERR, $sMessage);
+					throw $e;
+				}
+			}
+		}
 	}
 
 	/**
