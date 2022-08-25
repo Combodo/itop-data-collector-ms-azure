@@ -42,7 +42,7 @@
 	<!-- App Services -->
 	<azureappserviceazurecollector>
 		<enable>no</enable>
-		<ms_class>Site</ms_class>
+		<ms_class>sites</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
 		<path>value</path>
@@ -77,7 +77,7 @@
 	<!-- Disks -->
 	<azurediskazurecollector>
 		<enable>no</enable>
-		<ms_class>Disk</ms_class>
+		<ms_class>disks</ms_class>
 		<api_version>2020-12-01</api_version>
 		<jsonfile>data/AzureDisk.json</jsonfile>
 		<path>value</path>
@@ -157,7 +157,7 @@
 	<!-- Load balancers -->
 	<azureloadbalancerazurecollector>
 		<enable>no</enable>
-		<ms_class>LoadBalancer</ms_class>
+		<ms_class>loadBalancers</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
 		<path>value</path>
@@ -185,10 +185,50 @@
 		</defaults>
 	</azureloadbalancerazurecollector>
 
+	<!-- Load balancer frontend IP configurations -->
+	<azureloadbalancerfrontendipconfigazurecollector>
+		<enable>yes</enable>
+		<ms_class>frontendIPConfigurations</ms_class>
+		<api_version>2022-01-01</api_version>
+		<jsonfile>data/AzureLoadBalancerFrontendIPConfig.json</jsonfile>
+		<path>value</path>
+		<fields>
+			<primary_key>id</primary_key>
+			<azureid>id</azureid>
+			<azureloadbalancer_id>azureloadbalancer_id</azureloadbalancer_id>
+			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
+			<azuresubnet_id>azuresubnet_id</azuresubnet_id>
+			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
+			<business_criticity>business_criticity</business_criticity>
+			<name>name</name>
+			<org_id>org_id</org_id>
+			<primary>primary</primary>
+			<private_ip>private_ip</private_ip>
+			<private_ip_allocation_method>private_ip_allocation_method</private_ip_allocation_method>
+			<private_ip_version>private_ip_version</private_ip_version>
+			<public_ip_id>private_ip</public_ip_id>
+			<provisioning_status>provisioning_status</provisioning_status>
+			<status>state</status>
+		</fields>
+		<defaults>
+			<azureloadbalancer_id></azureloadbalancer_id>
+			<azureresourcegroup_id></azureresourcegroup_id>
+			<azuresubnet_id></azuresubnet_id>
+			<azuresubscription_id></azuresubscription_id>
+			<business_criticity>medium</business_criticity>
+			<org_id>Demo</org_id>
+			<private_ip></private_ip>
+			<private_ip_allocation_method></private_ip_allocation_method>
+			<private_ip_version></private_ip_version>
+			<provisioning_status></provisioning_status>
+			<status>implementation</status>
+		</defaults>
+	</azureloadbalancerfrontendipconfigazurecollector>
+
 	<!-- Locations -->
 	<azurelocationazurecollector>
 		<enable>no</enable>
-		<ms_class>locations</ms_class>
+		<ms_class>location</ms_class>
 		<api_version>2021-04-01-preview</api_version>
 		<jsonfile>data/AzureLocation.json</jsonfile>
 		<path>value</path>
@@ -209,7 +249,7 @@
 	<!-- MariaDBs -->
 	<azuremariadbazurecollector>
 		<enable>no</enable>
-		<ms_class>MariaDB</ms_class>
+		<ms_class>databases</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDB.json</jsonfile>
 		<path>value</path>
@@ -237,7 +277,7 @@
 	<!-- MariaDB servers -->
 	<azuremariadbserverazurecollector>
 		<enable>no</enable>
-		<ms_class>MariaDBServer</ms_class>
+		<ms_class>servers</ms_class>
 		<api_version>2018-06-01-preview</api_version>
 		<jsonfile>data/AzureMariaDBServer.json</jsonfile>
 		<path>value</path>
@@ -278,7 +318,7 @@
 	<!-- MSSQls -->
 	<azuremssqlazurecollector>
 		<enable>no</enable>
-		<ms_class>SQL</ms_class>
+		<ms_class>databases</ms_class>
 		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQL.json</jsonfile>
 		<path>value</path>
@@ -306,7 +346,7 @@
 	<!-- MSSQl servers -->
 	<azuremssqlserverazurecollector>
 		<enable>no</enable>
-		<ms_class>SQLServer</ms_class>
+		<ms_class>servers</ms_class>
 		<api_version>2021-08-01-preview</api_version>
 		<jsonfile>data/AzureMSSQLServer.json</jsonfile>
 		<path>value</path>
@@ -347,7 +387,7 @@
 	<!-- MySQLs -->
 	<azuremysqlazurecollector>
 		<enable>no</enable>
-		<ms_class>MySQL</ms_class>
+		<ms_class>databases</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQL.json</jsonfile>
 		<path>value</path>
@@ -375,7 +415,7 @@
 	<!-- MySQl servers -->
 	<azuremysqlserverazurecollector>
 		<enable>no</enable>
-		<ms_class>MySQLServer</ms_class>
+		<ms_class>servers</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureMySQLServer.json</jsonfile>
 		<path>value</path>
@@ -415,8 +455,8 @@
 
 	<!-- Network interfaces -->
 	<azurenetworkinterfaceazurecollector>
-		<enable>yes</enable>
-		<ms_class>networkInterface</ms_class>
+		<enable>no</enable>
+		<ms_class>networkInterfaces</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureNetworkInterface.json</jsonfile>
 		<path>value</path>
@@ -450,8 +490,8 @@
 
 	<!-- Network interface IP configurations -->
 	<azurenetworkinterfaceipconfigazurecollector>
-		<enable>yes</enable>
-		<ms_class>subnet</ms_class>
+		<enable>no</enable>
+		<ms_class>ipConfigurations</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureNetworkInterfaceIPConfig.json</jsonfile>
 		<path>value</path>
@@ -478,7 +518,6 @@
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubnet_id></azuresubnet_id>
 			<azuresubscription_id></azuresubscription_id>
-			<azurevnet_id></azurevnet_id>
 			<business_criticity>medium</business_criticity>
 			<org_id>Demo</org_id>
 			<primary></primary>
@@ -494,7 +533,7 @@
 	<!-- PostgreSQL -->
 	<azurepostgreazurecollector>
 		<enable>no</enable>
-		<ms_class>PostgreSQL</ms_class>
+		<ms_class>databases</ms_class>
 		<api_version>2020-11-05-preview</api_version>
 		<jsonfile>data/AzurePostgre.json</jsonfile>
 		<path>value</path>
@@ -522,7 +561,7 @@
 	<!-- PostgreSQL servers -->
 	<azurepostgreserverazurecollector>
 		<enable>no</enable>
-		<ms_class>PostgreServer</ms_class>
+		<ms_class>servers</ms_class>
 		<api_version>2020-02-14-preview</api_version>
 		<jsonfile>data/AzurePostgreServer.json</jsonfile>
 		<path>value</path>
@@ -562,8 +601,8 @@
 
 	<!-- Public IP addresses -->
 	<azurepublicipaddressazurecollector>
-		<enable>yes</enable>
-		<ms_class>subnet</ms_class>
+		<enable>no</enable>
+		<ms_class>publicIPAddresses</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzurePublicIPAddress.json</jsonfile>
 		<path>value</path>
@@ -606,7 +645,7 @@
 	<!-- Resources group -->
 	<azureresourcegroupazurecollector>
 		<enable>no</enable>
-		<ms_class>resourceGroups</ms_class>
+		<ms_class>resourcegroups</ms_class>
 		<api_version>2020-09-01</api_version>
 		<jsonfile>data/AzureResourceGroup.json</jsonfile>
 		<path>value</path>
@@ -631,7 +670,7 @@
 	<!-- Storage accounts -->
 	<azurestorageaccountazurecollector>
 		<enable>no</enable>
-		<ms_class>storageAccount</ms_class>
+		<ms_class>storageAccounts</ms_class>
 		<api_version>2021-04-01</api_version>
 		<jsonfile>data/AzureStorageAccount.json</jsonfile>
 		<path>value</path>
@@ -662,7 +701,7 @@
 	<!-- Subnets -->
 	<azuresubnetazurecollector>
 		<enable>yes</enable>
-		<ms_class>subnet</ms_class>
+		<ms_class>subnets</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureSubnet.json</jsonfile>
 		<path>value</path>
@@ -675,6 +714,7 @@
 			<azurevnet_id>azurevnet_id</azurevnet_id>
 			<business_criticity>business_criticity</business_criticity>
 			<ip>ip</ip>
+			<ip_id>ip_id</ip_id>
 			<location_id>location</location_id>
 			<mask>mask</mask>
 			<name>name</name>
@@ -689,6 +729,7 @@
 			<azurevnet_id></azurevnet_id>
 			<business_criticity>medium</business_criticity>
 			<ip></ip>
+			<ip_id></ip_id>
 			<mask></mask>
 			<org_id>Demo</org_id>
 			<provisioning_status></provisioning_status>
@@ -699,7 +740,7 @@
 	<!-- Virtual machines -->
 	<azurevirtualmachineazurecollector>
 		<enable>no</enable>
-		<ms_class>VirtualMachine</ms_class>
+		<ms_class>virtualMachines</ms_class>
 		<api_version>2021-11-01</api_version>
 		<jsonfile>data/AzureVirtualMachine.json</jsonfile>
 		<path>value</path>
@@ -734,7 +775,7 @@
 	<!-- VNETs -->
 	<azurevnetazurecollector>
 		<enable>yes</enable>
-		<ms_class>VNet</ms_class>
+		<ms_class>virtualNetworks</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
 		<path>value</path>
@@ -765,7 +806,7 @@
 	<!-- VNET Gateways -->
 	<azurevnetgatewayazurecollector>
 		<enable>no</enable>
-		<ms_class>VNetGateway</ms_class>
+		<ms_class>virtualNetworkGateways</ms_class>
 		<api_version>2021-03-01</api_version>
 		<jsonfile>data/AzureVNetGateway.json</jsonfile>
 		<path>value</path>
@@ -805,6 +846,7 @@
 		<azuredisk_synchro_name>Azure Disks Discovery</azuredisk_synchro_name>
 		<azurekubernetesservice_synchro_name>Azure Kubernetes Services Discovery</azurekubernetesservice_synchro_name>
 		<azureloadbalancer_synchro_name>Azure Load Balancers Discovery</azureloadbalancer_synchro_name>
+		<azureloadbalancerfrontendipconfig_synchro_name>Azure Load Balancer Frontend IP Configurations Discovery</azureloadbalancerfrontendipconfig_synchro_name>
 		<azurelocation_synchro_name>Azure Locations Discovery</azurelocation_synchro_name>
 		<azuremariadb_synchro_name>Azure MariaDBs Discovery</azuremariadb_synchro_name>
 		<azuremariadbserver_synchro_name>Azure MariaDB Servers Discovery</azuremariadbserver_synchro_name>
