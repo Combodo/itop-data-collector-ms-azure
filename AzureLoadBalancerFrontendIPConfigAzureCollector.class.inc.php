@@ -124,9 +124,19 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$sProperties = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'];
 			$aData['provisioning_status'] = strtolower($sProperties['provisioningState']);
-			$aData['private_ip'] = $sProperties['privateIPAddress'];
-			$aData['private_ip_version'] = strtolower($sProperties['privateIPAddressVersion']);
-			$aData['private_ip_allocation_method'] = $sProperties['privateIPAllocationMethod'];
+			if (array_key_exists('privateIPAddress', $sProperties)) {
+				$aData['private_ip'] = $sProperties['privateIPAddress'];
+			}
+			if (array_key_exists('privateIPAddressVersion', $sProperties)) {
+				$aData['private_ip_version'] = strtolower($sProperties['privateIPAddressVersion']);
+			} else {
+				$aData['private_ip_version'] = 'ipv4';
+			}
+			if (array_key_exists('privateIPAllocationMethod', $sProperties)) {
+				$aData['private_ip_allocation_method'] = strtolower($sProperties['privateIPAllocationMethod']);
+			} else {
+				$aData['private_ip_allocation_method'] = 'dynamic';
+			}
 			if (array_key_exists('subnet', $sProperties)) {
 				$aData['azuresubnet_id'] = $sProperties['subnet']['id'];
 			}
