@@ -121,6 +121,11 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 				$aData['fqdn'] = '';
 				$aData['short_name'] = '';
 			}
+			if (array_key_exists('ipConfiguration', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+				$aData['ipconfig_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipConfiguration']['id'];
+			} else {
+				$aData['ipconfig_id'] = 0;
+			}
 		}
 
 		return $aData;
