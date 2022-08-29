@@ -1,11 +1,11 @@
 {
-  "name": "$azurevirtualmachine_synchro_name$ - $ms_tenantid_short$",
-  "description": "Discovery of Azure virtual machines by Azure collector",
+  "name": "$azurevnetgateway_synchro_name$ - $ms_tenantid_short$",
+  "description": "Discovery of Azure VNet Gateways by Azure collector",
   "status": "$synchro_status$",
   "user_id": "$synchro_user$",
   "notify_contact_id": "$contact_to_notify$",
-  "scope_class": "AzureVirtualMachine",
-  "database_table_name": "synchro_data_azurevirtualmachine_$ms_tenantid_short$",
+  "scope_class": "AzureVNetGateway",
+  "database_table_name": "synchro_data_azurevnetgateway_$ms_tenantid_short$",
   "scope_restriction": "",
   "full_load_periodicity": "$full_load_interval$",
   "reconciliation_policy": "use_attributes",
@@ -20,7 +20,7 @@
       "attcode": "applicationsolution_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -51,13 +51,6 @@
       "finalclass": "SynchroAttExtKey"
     },
     {
-      "attcode": "azurevmsize",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "write_if_empty",
-      "finalclass": "SynchroAttribute"
-    },
-    {
       "attcode": "business_criticity",
       "update": "1",
       "reconcile": "0",
@@ -68,7 +61,7 @@
       "attcode": "contacts_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -79,14 +72,14 @@
       "attcode": "description",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "documents_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -105,7 +98,7 @@
       "attcode": "move2production",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
@@ -124,25 +117,10 @@
       "finalclass": "SynchroAttExtKey"
     },
     {
-      "attcode": "osfamily_id",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey"
-    },
-    {
-      "attcode": "osversion",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute"
-    },
-    {
       "attcode": "providercontracts_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -160,18 +138,7 @@
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
-      "row_separator": "|",
-      "attribute_separator": ";",
-      "value_separator": ":",
-      "attribute_qualifier": "'",
-      "finalclass": "SynchroAttLinkSet"
-    },
-    {
-      "attcode": "softwareinstances_list",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -189,7 +156,7 @@
       "attcode": "tickets_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",

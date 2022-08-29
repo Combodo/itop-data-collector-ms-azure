@@ -20,14 +20,14 @@
       "attcode": "address",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "city",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
@@ -41,7 +41,7 @@
       "attcode": "country",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
@@ -63,7 +63,7 @@
       "attcode": "postal_code",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {

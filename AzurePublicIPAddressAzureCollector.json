@@ -27,7 +27,7 @@
       "attcode": "applicationsolution_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -61,14 +61,14 @@
       "attcode": "business_criticity",
       "update": "1",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "write_if_empty",
       "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "contacts_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -79,14 +79,14 @@
       "attcode": "description",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "documents_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -108,10 +108,18 @@
       "finalclass": "SynchroAttribute"
     },
     {
+      "attcode": "ipconfig_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "code",
+      "finalclass": "SynchroAttExtKey"
+    },
+    {
       "attcode": "location_id",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "reconciliation_attcode": "code",
       "finalclass": "SynchroAttExtKey"
     },
@@ -119,7 +127,7 @@
       "attcode": "move2production",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "finalclass": "SynchroAttribute"
     },
     {
@@ -128,14 +136,6 @@
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute"
-    },
-    {
-      "attcode": "nicipconfig_id",
-      "update": "0",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "reconciliation_attcode": "name",
-      "finalclass": "SynchroAttExtKey"
     },
     {
       "attcode": "org_id",
@@ -149,7 +149,7 @@
       "attcode": "providercontracts_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -167,7 +167,7 @@
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
@@ -192,7 +192,7 @@
       "attcode": "tickets_list",
       "update": "0",
       "reconcile": "0",
-      "update_policy": "master_locked",
+      "update_policy": "master_unlocked",
       "row_separator": "|",
       "attribute_separator": ";",
       "value_separator": ":",
