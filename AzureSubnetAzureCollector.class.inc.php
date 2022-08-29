@@ -138,16 +138,26 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			$aData['ip'] = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/', true);
 			$aData['mask'] = $this->oSubnetMaskMapping->MapValue(trim(strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/'), '/'), '');
 			if (array_key_exists('delegations', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
 				$aDelegations = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['delegations'];
 
 			}
+			$sIP = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/', true);
+			if ($this->oMSCollectionPlan->bTeemIpIsInstalled) {
+				$aData['ip_id'] = $sIP;
+				if (array_key_exists('ip', $aData)) {
+					unset($aData['ip']);
+				}
+			} else {
+				$aData['ip'] = $sIP;
+				if (array_key_exists('ip_id', $aData)) {
+					unset($aData['ip_id']);
+				}
+			}
 		}
 
 		return $aData;
 	}
-
 }
 
