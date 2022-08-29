@@ -7,7 +7,7 @@ class AzurePostgreAzureCollector extends MSJsonCollector
 	protected static $aURIParameters = [
 		1 => self::URI_PARAM_SUBSCRIPTION,
 		2 => self::URI_PARAM_RESOURCEGROUP,
-		3 => self::URI_PARAM_SERVER,
+		3 => self::URI_PARAM_POSTGRE_SERVER,
 	];
 
 	/**

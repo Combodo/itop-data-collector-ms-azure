@@ -47,7 +47,7 @@ class AzureMSSQLServerAzureCollector extends MSJsonCollector
 			$this->oMSCollectionPlan->AddMSObjectsToConsider(
 				['class' => self::URI_PARAM_SUBSCRIPTION, 'id' => $sObjectL1],
 				['class' => self::URI_PARAM_RESOURCEGROUP, 'id' => $sObjectL2],
-				['class' => self::URI_PARAM_SERVER, 'id' => $aObject['name']]);
+				['class' => self::URI_PARAM_MSSQL_SERVER, 'id' => $aObject['name']]);
 		}
 	}
 
