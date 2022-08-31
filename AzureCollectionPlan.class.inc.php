@@ -81,38 +81,20 @@ class AzureCollectionPlan extends MSCollectionPlan
 			}
 		}
 
-		// Check if TeemIp is installed or not
-		Utils::Log(LOG_INFO, 'Detecting if TeemIp is installed on remote iTop server');
+		// If TeemIp should be considered, check if it is installed or not
+		Utils::Log(LOG_INFO, '---------- Check TeemIp / IPAM for iTop parameters ----------');
 		$this->bTeemIpIsInstalled = false;
-		$oRestClient = new RestClient();
-		try {
-			$aResult = $oRestClient->Get('IPAddress', 'SELECT IPAddress WHERE id = 0');
-			if ($aResult['code'] == 0) {
-				$this->bTeemIpIsInstalled = true;
-				Utils::Log(LOG_INFO, 'Yes, TeemIp is installed');
-			} else {
-				Utils::Log(LOG_INFO, $sMessage = 'TeemIp is NOT installed');
-			}
-		} catch (Exception $e) {
-			$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
-			if (is_a($e, "IOException")) {
-				Utils::Log(LOG_ERR, $sMessage);
-				throw $e;
-			}
-		}
-
-		// Check if TeemIp Zone Management is installed or not
-		$this->bTeemIpZoneMgmtIsInstalled = false;
-		if ($this->bTeemIpIsInstalled) {
-			Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
+		$aTeemIpDiscovery = Utils::GetConfigurationValue('teemip_discovery', []);
+		if (!empty($aTeemIpDiscovery) && isset($aTeemIpDiscovery['enable']) && ($aTeemIpDiscovery['enable'] == 'yes')) {
+			Utils::Log(LOG_INFO, 'TeemIp should be considered. Detecting if it is installed on remote iTop server');
 			$oRestClient = new RestClient();
 			try {
-				$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
+				$aResult = $oRestClient->Get('IPAddress', 'SELECT IPAddress WHERE id = 0');
 				if ($aResult['code'] == 0) {
-					$this->bTeemIpZoneMgmtIsInstalled = true;
-					Utils::Log(LOG_INFO, 'Yes, TeemIp Zone Management extension is installed');
+					$this->bTeemIpIsInstalled = true;
+					Utils::Log(LOG_INFO, 'Yes, TeemIp is installed');
 				} else {
-					Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
+					Utils::Log(LOG_INFO, $sMessage = 'TeemIp is NOT installed');
 				}
 			} catch (Exception $e) {
 				$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
@@ -121,30 +103,53 @@ class AzureCollectionPlan extends MSCollectionPlan
 					throw $e;
 				}
 			}
+
+			// Check if TeemIp Zone Management is installed or not
+			$this->bTeemIpZoneMgmtIsInstalled = false;
+			if ($this->bTeemIpIsInstalled) {
+				Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
+				$oRestClient = new RestClient();
+				try {
+					$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
+					if ($aResult['code'] == 0) {
+						$this->bTeemIpZoneMgmtIsInstalled = true;
+						Utils::Log(LOG_INFO, 'Yes, TeemIp Zone Management extension is installed');
+					} else {
+						Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
+					}
+				} catch (Exception $e) {
+					$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
+					if (is_a($e, "IOException")) {
+						Utils::Log(LOG_ERR, $sMessage);
+						throw $e;
+					}
+				}
+			}
+		} else {
+			Utils::Log(LOG_INFO, 'TeemIp should not be considered.');
 		}
 	}
 
 	/**
 	 * Tell if a collector needs to be orchestrated or not
 	 *
-	 * @param $sCollectorClass
+	 * @param $sCollector
 	 *
 	 * @return bool
 	 * @throws \Exception
 	 */
-	public function CollectorToBeLaunched($sCollectorClass): bool
+	public
+	function CollectorToBeLaunched($sCollector): bool
 	{
-		$aParamsSourceJson = Utils::GetConfigurationValue(strtolower($sCollectorClass), array());
-		if ($aParamsSourceJson === null) {
-			return false;
-		} elseif (isset($aParamsSourceJson['enable']) && ($aParamsSourceJson['enable'] == 'yes')) {
-			$aURIParameters = $sCollectorClass::GetURIParameters();
+		$aCollectorParams = Utils::GetConfigurationValue(strtolower($sCollector), []);
+		if (!empty($aCollectorParams) && isset($aCollectorParams['enable']) && ($aCollectorParams['enable'] == 'yes')) {
+			$aURIParameters = $sCollector::GetURIParameters();
 			foreach ($aURIParameters as $index => $sParameter) {
 				switch ($sParameter) {
 					case MSJsonCollector::URI_PARAM_SUBSCRIPTION:
 						if (!$this->IsSubscriptionToConsider()) {
 							// All Azure objects being attached to a subscription, their discovery is only possible in the case where there is at least one subscription to discover.
-							Utils::Log(LOG_INFO, $sCollectorClass.' will NOT be launched as no subscription should be discovered');
+							Utils::Log(LOG_INFO, $sCollector.' will NOT be launched as no subscription should be discovered');
 
 							return false;
 						}
@@ -153,9 +158,9 @@ class AzureCollectionPlan extends MSCollectionPlan
 					case MSJsonCollector::URI_PARAM_RESOURCEGROUP:
 						if (!$this->IsResourceGroupToConsider()) {
 							// If no resource group is already identified, let's check that discovery of resource group is enable.
-							$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupAzureCollector'), array());
+							$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupAzureCollector'), []);
 							if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
-								Utils::Log(LOG_INFO, $sCollectorClass.' will NOT be launched as no resource group should be discovered');
+								Utils::Log(LOG_INFO, $sCollector.' will NOT be launched as no resource group should be discovered');
 
 								return false;
 							}
@@ -163,16 +168,16 @@ class AzureCollectionPlan extends MSCollectionPlan
 						break;
 
 					default:
-						$aParamsParamClassJson = Utils::GetConfigurationValue(strtolower('Azure'.$sParameter.'AzureCollector'), array());
+						$aParamsParamClassJson = Utils::GetConfigurationValue(strtolower('Azure'.$sParameter.'AzureCollector'), []);
 						if (!isset($aParamsParamClassJson['enable']) || ($aParamsParamClassJson['enable'] != 'yes')) {
-							Utils::Log(LOG_INFO, $sCollectorClass.' will not be launched as no '.$sParameter.' should be discovered');
+							Utils::Log(LOG_INFO, $sCollector.' will not be launched as no '.$sParameter.' should be discovered');
 
 							return false;
 						}
 						break;
 				}
 			}
-			Utils::Log(LOG_INFO, $sCollectorClass.' will be launched !');
+			Utils::Log(LOG_INFO, $sCollector.' will be launched !');
 
 			return true;
 		}
