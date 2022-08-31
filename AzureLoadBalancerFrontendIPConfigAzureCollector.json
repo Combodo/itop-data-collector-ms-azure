@@ -172,6 +172,14 @@
       "finalclass": "SynchroAttribute"
     },
     {
+      "attcode": "public_ip_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "azureid",
+      "finalclass": "SynchroAttExtKey"
+    },
+    {
       "attcode": "services_list",
       "update": "0",
       "reconcile": "0",

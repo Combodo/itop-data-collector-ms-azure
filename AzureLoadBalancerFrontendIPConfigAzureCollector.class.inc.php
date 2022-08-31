@@ -140,6 +140,9 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			if (array_key_exists('subnet', $sProperties)) {
 				$aData['azuresubnet_id'] = $sProperties['subnet']['id'];
 			}
+			if (array_key_exists('publicIPAddress', $sProperties)) {
+				$aData['public_ip_id'] = $sProperties['publicIPAddress']['id'];
+			}
 		}
 
 		return $aData;
