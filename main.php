@@ -1,8 +1,8 @@
 <?php
 
-// List of collector to potentially launch.
+// List of Azure class collectors to potentially launch.
 // --->>> Warning: order is important for some classes, the ones listed with numbers or letters; alphabetical order is ok for others <<<---
-$aCollectorClasses = [
+$sClassCollectors = [
 	'AzureSubscriptionAzureCollector',                  // 1- Subscriptions
 	'AzureLocationAzureCollector',                      // 2- Locations
 	'AzureResourceGroupAzureCollector',                 // 3- Resources group
@@ -36,9 +36,10 @@ $oAzureCollectionPlan = new AzureCollectionPlan();
 // Collect objects as required
 $iIndex = 1;
 Utils::Log(LOG_INFO, "---------- Azure Collectors to launched ----------");
-foreach ($aCollectorClasses as $sCollectorClass) {
-	require_once(APPROOT.'collectors/'.$sCollectorClass.'.class.inc.php');
-	if ($oAzureCollectionPlan->CollectorToBeLaunched($sCollectorClass)) {
-		Orchestrator::AddCollector($iIndex++, $sCollectorClass);
+foreach ($sClassCollectors as $sCollector) {
+	require_once(APPROOT.'collectors/'.$sCollector.'.class.inc.php');
+	if ($oAzureCollectionPlan->CollectorToBeLaunched($sCollector)) {
+		Orchestrator::AddCollector($iIndex++, $sCollector);
 	}
 }
+Utils::Log(LOG_INFO, "---------- Start collection process ----------");
