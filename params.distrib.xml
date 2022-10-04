@@ -156,7 +156,7 @@
 
 	<!-- Load balancers -->
 	<azureloadbalancerazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>loadBalancers</ms_class>
 		<api_version>2021-05-01</api_version>
 		<jsonfile>data/AzureLoadBalancer.json</jsonfile>
@@ -203,11 +203,11 @@
 			<name>name</name>
 			<org_id>org_id</org_id>
 			<primary>primary</primary>
-			<private_ip>private_ip</private_ip>
-			<private_ip_allocation_method>private_ip_allocation_method</private_ip_allocation_method>
-			<private_ip_version>private_ip_version</private_ip_version>
-			<public_ip_id>private_ip</public_ip_id>
-			<provisioning_status>provisioning_status</provisioning_status>
+			<private_ip>privateIPAddress</private_ip>
+			<private_ip_allocation_method>privateIPAllocationMethod</private_ip_allocation_method>
+			<private_ip_version>privateIPAddressVersion</private_ip_version>
+			<public_ip_id>publicIPAddress</public_ip_id>
+			<provisioning_status>provisioningState</provisioning_status>
 			<status>state</status>
 		</fields>
 		<defaults>
@@ -221,6 +221,7 @@
 			<private_ip_allocation_method></private_ip_allocation_method>
 			<private_ip_version></private_ip_version>
 			<provisioning_status></provisioning_status>
+			<public_ip_id></public_ip_id>
 			<status>implementation</status>
 		</defaults>
 	</azureloadbalancerfrontendipconfigazurecollector>
@@ -464,7 +465,6 @@
 			<primary_key>id</primary_key>
 			<azureid>id</azureid>
 			<azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
-			<azurestatus>azurestatus</azurestatus>
 			<azuresubscription_id>azuresubscription_id</azuresubscription_id>
 			<azurevirtualmachine_id>azurevirtualmachine_id</azurevirtualmachine_id>
 			<azurevnets_list>azurevnets_list</azurevnets_list>
@@ -477,7 +477,6 @@
 		</fields>
 		<defaults>
 			<azureresourcegroup_id></azureresourcegroup_id>
-			<azurestatus></azurestatus>
 			<azuresubscription_id></azuresubscription_id>
 			<azurevirtualmachine_id></azurevirtualmachine_id>
 			<azurevnets_list></azurevnets_list>
@@ -490,7 +489,7 @@
 
 	<!-- Network interface IP configurations -->
 	<azurenetworkinterfaceipconfigazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>ipConfigurations</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureNetworkInterfaceIPConfig.json</jsonfile>
@@ -509,7 +508,7 @@
 			<private_ip>private_ip</private_ip>
 			<private_ip_allocation_method>private_ip_allocation_method</private_ip_allocation_method>
 			<private_ip_version>private_ip_version</private_ip_version>
-			<public_ip_id>private_ip</public_ip_id>
+			<public_ip_id>public_ip_id</public_ip_id>
 			<provisioning_status>provisioning_status</provisioning_status>
 			<status>state</status>
 		</fields>
@@ -601,7 +600,7 @@
 
 	<!-- Public IP addresses -->
 	<azurepublicipaddressazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>publicIPAddresses</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzurePublicIPAddress.json</jsonfile>
@@ -616,8 +615,7 @@
 			<business_criticity>business_criticity</business_criticity>
 			<fqdn>fqdn</fqdn>
 			<ip>ip</ip>
-			<location_id>location</location_id>
-			<nicipconfig_id>nicipconfig_id</nicipconfig_id>
+			<azureipconfig_id>ipConfiguration</azureipconfig_id>
 			<name>name</name>
 			<org_id>org_id</org_id>
 			<provisioning_status>provisioning_status</provisioning_status>
@@ -629,10 +627,10 @@
 			<allocation_method></allocation_method>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
-			<azurevnet_id></azurevnet_id>
 			<business_criticity>medium</business_criticity>
 			<fqdn></fqdn>
 			<ip></ip>
+			<azureipconfig_id></azureipconfig_id>
 			<mask></mask>
 			<org_id>Demo</org_id>
 			<provisioning_status></provisioning_status>
@@ -700,7 +698,7 @@
 
 	<!-- Subnets -->
 	<azuresubnetazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>subnets</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureSubnet.json</jsonfile>
@@ -723,7 +721,6 @@
 			<status>state</status>
 		</fields>
 		<defaults>
-			<azureci_id></azureci_id>
 			<azureresourcegroup_id></azureresourcegroup_id>
 			<azuresubscription_id></azuresubscription_id>
 			<azurevnet_id></azurevnet_id>
@@ -774,7 +771,7 @@
 
 	<!-- VNETs -->
 	<azurevnetazurecollector>
-		<enable>yes</enable>
+		<enable>no</enable>
 		<ms_class>virtualNetworks</ms_class>
 		<api_version>2022-01-01</api_version>
 		<jsonfile>data/AzureVNet.json</jsonfile>
@@ -870,6 +867,11 @@
 		<synchro_status>production</synchro_status>
 		<full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
 	</json_placeholders>
+
+	<!-- TeemIp discovery options -->
+	<teemip_discovery>
+		<enable>yes</enable>
+	</teemip_discovery>
 
 	<!-- mapping tables -->
 	<subscription_status_mapping type="array">
