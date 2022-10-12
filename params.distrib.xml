@@ -41,7 +41,7 @@
 
 	<!-- App Services -->
 	<azureappserviceazurecollector>
-		<enable>no</enable>
+		<enable>yes</enable>
 		<ms_class>sites</ms_class>
 		<api_version>2021-02-01</api_version>
 		<jsonfile>data/AzureAppServices.json</jsonfile>
@@ -829,41 +829,163 @@
 		</defaults>
 	</azurevnetgatewayazurecollector>
 
+	<!-- Class collection sequence -->
+	<collectors_launch_sequence type="array">
+		<!-- Warning: order is important for some classes: 1 to 3 and , the ones listed with numbers or letters; alphabetical order is ok for others -->
+		<collector>
+			<!-- Subscriptions -->
+			<name>AzureSubscriptionAzureCollector</name>
+			<rank>1</rank>
+		</collector>
+		<collector>
+			<!-- Locations -->
+			<name>AzureLocationAzureCollector</name>
+			<rank>2</rank>
+		</collector>
+		<collector>
+			<!-- Resources group -->
+			<name>AzureResourceGroupAzureCollector</name>
+			<rank>3</rank>
+		</collector>
+		<collector>
+			<!-- App Services -->
+			<name>AzureAppServiceAzureCollector</name>
+			<rank>10</rank>
+		</collector>
+		<collector>
+			<!-- Kubernetes Services -->
+			<name>AzureKubernetesServiceAzureCollector</name>
+			<rank>11</rank>
+		</collector>
+		<collector>
+			<!-- Load Balancers -->
+			<name>AzureLoadBalancerAzureCollector</name>
+			<rank>12</rank>
+		</collector>
+		<collector>
+			<!-- Maria DB Servers -->
+			<name>AzureMariaDBServerAzureCollector</name>
+			<rank>13</rank>
+		</collector>
+		<collector>
+			<!-- Maria DBs -->
+			<name>AzureMariaDBAzureCollector</name>
+			<rank>14</rank>
+		</collector>
+		<collector>
+			<!-- MySQL DB Servers -->
+			<name>AzureMySQLServerAzureCollector</name>
+			<rank>15</rank>
+		</collector>
+		<collector>
+			<!-- MySQL DBs -->
+			<name>AzureMySQLAzureCollector</name>
+			<rank>16</rank>
+		</collector>
+		<collector>
+			<!-- MS SQL DB Servers -->
+			<name>AzureMSSQLServerAzureCollector</name>
+			<rank>17</rank>
+		</collector>
+		<collector>
+			<!-- MS SQL DBs -->
+			<name>AzureMSSQLAzureCollector</name>
+			<rank>18</rank>
+		</collector>
+		<collector>
+			<!-- PostgreSQL Servers -->
+			<name>AzurePostgreServerAzureCollector</name>
+			<rank>19</rank>
+		</collector>
+		<collector>
+			<!-- PostgreSQL DBs -->
+			<name>AzurePostgreAzureCollector</name>
+			<rank>20</rank>
+		</collector>
+		<collector>
+			<!-- Storage Accounts -->
+			<name>AzureStorageAccountAzureCollector</name>
+			<rank>21</rank>
+		</collector>
+		<collector>
+			<!-- Virtual Machines -->
+			<name>AzureVirtualMachineAzureCollector</name>
+			<rank>50</rank>
+		</collector>
+		<collector>
+			<!-- Disks -->
+			<name>AzureDiskAzureCollector</name>
+			<rank>51</rank>
+		</collector>
+		<collector>
+			<!-- Virtual Networks -->
+			<name>AzureVNetAzureCollector</name>
+			<rank>52</rank>
+		</collector>
+		<collector>
+			<!-- Network Interfaces -->
+			<name>AzureNetworkInterfaceAzureCollector</name>
+			<rank>53</rank>
+		</collector>
+		<collector>
+			<!-- Subnets -->
+			<name>AzureSubnetAzureCollector</name>
+			<rank>54</rank>
+		</collector>
+		<collector>
+			<!-- Public IP Addresses -->
+			<name>AzurePublicIPAddressAzureCollector</name>
+			<rank>55</rank>
+		</collector>
+		<collector>
+			<!-- Network Interface IP Configuration -->
+			<name>AzureNetworkInterfaceIPConfigAzureCollector</name>
+			<rank>56</rank>
+		</collector>
+		<collector>
+			<!-- Load Balancer Frontend IP Configuration -->
+			<name>AzureLoadBalancerFrontendIPConfigAzureCollector</name>
+			<rank>57</rank>
+		</collector>
+		<collector>
+			<!-- Virtual Network gateways -->
+			<name>AzureVNetGatewayAzureCollector</name>
+			<rank>58</rank>
+		</collector>
+	</collectors_launch_sequence>
+
 	<!-- Synchronization parameters -->
 	<contact_to_notify></contact_to_notify>
 	<synchro_user></synchro_user>
+	<name_prefix>Azure </name_prefix>
+	<name_postfix> Discovery</name_postfix>
 	<json_placeholders>
-		<!-- For compatibility with the version 1.1.x of the collector, define the data table names as following:
-		<prefix></prefix>
-		<persons_data_table>synchro_data_PersonAD</persons_data_table>
-		<users_data_table></users_data_table>
-		 -->
 		<ms_tenantid_short></ms_tenantid_short>
-		<azureappservice_synchro_name>Azure App Services Discovery</azureappservice_synchro_name>
-		<azuredisk_synchro_name>Azure Disks Discovery</azuredisk_synchro_name>
-		<azurekubernetesservice_synchro_name>Azure Kubernetes Services Discovery</azurekubernetesservice_synchro_name>
-		<azureloadbalancer_synchro_name>Azure Load Balancers Discovery</azureloadbalancer_synchro_name>
-		<azureloadbalancerfrontendipconfig_synchro_name>Azure Load Balancer Frontend IP Configurations Discovery</azureloadbalancerfrontendipconfig_synchro_name>
-		<azurelocation_synchro_name>Azure Locations Discovery</azurelocation_synchro_name>
-		<azuremariadb_synchro_name>Azure MariaDBs Discovery</azuremariadb_synchro_name>
-		<azuremariadbserver_synchro_name>Azure MariaDB Servers Discovery</azuremariadbserver_synchro_name>
-		<azuremssql_synchro_name>Azure MS SQLs Discovery</azuremssql_synchro_name>
-		<azuremssqlserver_synchro_name>Azure MS SQL Servers Discovery</azuremssqlserver_synchro_name>
-		<azuremysql_synchro_name>Azure MySQLs Discovery</azuremysql_synchro_name>
-		<azuremysqlserver_synchro_name>Azure MySQL Servers Discovery</azuremysqlserver_synchro_name>
-		<azurenetworkinterface_synchro_name>Azure Network Interfaces Discovery</azurenetworkinterface_synchro_name>
-		<azurenetworkinterfaceipconfig_synchro_name>Azure Network Interface IP Configurations Discovery</azurenetworkinterfaceipconfig_synchro_name>
-		<azurepostgre_synchro_name>Azure PostgreSQLs Discovery</azurepostgre_synchro_name>
-		<azurepostgreserver_synchro_name>Azure PostgreSQL Servers Discovery</azurepostgreserver_synchro_name>
-		<azurepublicipaddress_synchro_name>Azure Public IP Addresses Discovery</azurepublicipaddress_synchro_name>
-		<azureresourcegroup_synchro_name>Azure Resources Group Discovery</azureresourcegroup_synchro_name>
-		<azurestorageaccount_synchro_name>Azure Storage Accounts Discovery</azurestorageaccount_synchro_name>
-		<azuresubnet_synchro_name>Azure Subnets Discovery</azuresubnet_synchro_name>
-		<azuresubscription_synchro_name>Azure Subscriptions Discovery</azuresubscription_synchro_name>
-		<azurevirtualmachine_synchro_name>Azure Virtual Machines Discovery</azurevirtualmachine_synchro_name>
-		<azurevirtualmachinesize_synchro_name>Azure Virtual Machine Sizes Discovery</azurevirtualmachinesize_synchro_name>
-		<azurevnet_synchro_name>Azure VNets Discovery</azurevnet_synchro_name>
-		<azurevnetgateway_synchro_name>Azure VNet Gateways Discovery</azurevnetgateway_synchro_name>
+		<azureappservice_synchro_name>$name_prefix$App Services$name_postfix$</azureappservice_synchro_name>
+		<azuredisk_synchro_name>$name_prefix$Disks$name_postfix$</azuredisk_synchro_name>
+		<azurekubernetesservice_synchro_name>$name_prefix$Kubernetes Services$name_postfix$</azurekubernetesservice_synchro_name>
+		<azureloadbalancer_synchro_name>$name_prefix$Load Balancers$name_postfix$</azureloadbalancer_synchro_name>
+		<azureloadbalancerfrontendipconfig_synchro_name>$name_prefix$Load Balancer Frontend IP Configurations$name_postfix$</azureloadbalancerfrontendipconfig_synchro_name>
+		<azurelocation_synchro_name>$name_prefix$Locations$name_postfix$</azurelocation_synchro_name>
+		<azuremariadb_synchro_name>$name_prefix$MariaDBs$name_postfix$</azuremariadb_synchro_name>
+		<azuremariadbserver_synchro_name>$name_prefix$MariaDB Servers$name_postfix$</azuremariadbserver_synchro_name>
+		<azuremssql_synchro_name>$name_prefix$MS SQLs$name_postfix$</azuremssql_synchro_name>
+		<azuremssqlserver_synchro_name>$name_prefix$MS SQL Servers$name_postfix$</azuremssqlserver_synchro_name>
+		<azuremysql_synchro_name>$name_prefix$MySQLs$name_postfix$</azuremysql_synchro_name>
+		<azuremysqlserver_synchro_name>$name_prefix$MySQL Servers$name_postfix$</azuremysqlserver_synchro_name>
+		<azurenetworkinterface_synchro_name>$name_prefix$Network Interfaces$name_postfix$</azurenetworkinterface_synchro_name>
+		<azurenetworkinterfaceipconfig_synchro_name>$name_prefix$Network Interface IP Configurations$name_postfix$</azurenetworkinterfaceipconfig_synchro_name>
+		<azurepostgre_synchro_name>$name_prefix$PostgreSQLs$name_postfix$</azurepostgre_synchro_name>
+		<azurepostgreserver_synchro_name>$name_prefix$PostgreSQL Servers$name_postfix$</azurepostgreserver_synchro_name>
+		<azurepublicipaddress_synchro_name>$name_prefix$Public IP Addresses$name_postfix$</azurepublicipaddress_synchro_name>
+		<azureresourcegroup_synchro_name>$name_prefix$Resources Group$name_postfix$</azureresourcegroup_synchro_name>
+		<azurestorageaccount_synchro_name>$name_prefix$Storage Accounts$name_postfix$</azurestorageaccount_synchro_name>
+		<azuresubnet_synchro_name>$name_prefix$Subnets$name_postfix$</azuresubnet_synchro_name>
+		<azuresubscription_synchro_name>$name_prefix$Subscriptions$name_postfix$</azuresubscription_synchro_name>
+		<azurevirtualmachine_synchro_name>$name_prefix$Virtual Machines$name_postfix$</azurevirtualmachine_synchro_name>
+		<azurevirtualmachinesize_synchro_name>$name_prefix$Virtual Machine Sizes$name_postfix$</azurevirtualmachinesize_synchro_name>
+		<azurevnet_synchro_name>$name_prefix$VNets$name_postfix$</azurevnet_synchro_name>
+		<azurevnetgateway_synchro_name>$name_prefix$VNet Gateways$name_postfix$</azurevnetgateway_synchro_name>
 		<synchro_status>production</synchro_status>
 		<full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
 	</json_placeholders>
