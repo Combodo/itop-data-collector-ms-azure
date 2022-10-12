@@ -6,6 +6,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 {
 	public $bTeemIpIsInstalled;
 	public $bTeemIpZoneMgmtIsInstalled;
+	public $bTeemIpNMEIsInstalled;
 
 	public function __construct()
 	{
@@ -104,10 +105,10 @@ class AzureCollectionPlan extends MSCollectionPlan
 				}
 			}
 
-			// Check if TeemIp Zone Management is installed or not
-			$this->bTeemIpZoneMgmtIsInstalled = false;
 			if ($this->bTeemIpIsInstalled) {
+				// Check if TeemIp Zone Management is installed or not
 				Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
+				$this->bTeemIpZoneMgmtIsInstalled = false;
 				$oRestClient = new RestClient();
 				try {
 					$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
@@ -118,7 +119,27 @@ class AzureCollectionPlan extends MSCollectionPlan
 						Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
 					}
 				} catch (Exception $e) {
-					$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
+					$sMessage = 'TeemIp Zone Management extension is considered as NOT installed due to: '.$e->getMessage();
+					if (is_a($e, "IOException")) {
+						Utils::Log(LOG_ERR, $sMessage);
+						throw $e;
+					}
+				}
+
+				// Check if TeemIp Network Management Extended is installed or not
+				Utils::Log(LOG_INFO, 'Detecting if TeemIp Network Management Extended extension is installed on remote server');
+				$this->bTeemIpNMEIsInstalled = false;
+				$oRestClient = new RestClient();
+				try {
+					$aResult = $oRestClient->Get('InterfaceSpeed', 'SELECT InterfaceSpeed WHERE id = 0');
+					if ($aResult['code'] == 0) {
+						$this->bTeemIpNMEIsInstalled = true;
+						Utils::Log(LOG_INFO, 'Yes, TeemIp Network Management Extended is installed');
+					} else {
+						Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is NOT installed');
+					}
+				} catch (Exception $e) {
+					$sMessage = 'TeemIp Network Management Extended is considered as NOT installed due to: '.$e->getMessage();
 					if (is_a($e, "IOException")) {
 						Utils::Log(LOG_ERR, $sMessage);
 						throw $e;
@@ -131,15 +152,9 @@ class AzureCollectionPlan extends MSCollectionPlan
 	}
 
 	/**
-	 * Tell if a collector needs to be orchestrated or not
-	 *
-	 * @param $sCollector
-	 *
-	 * @return bool
-	 * @throws \Exception
+	 * @inheritdoc
 	 */
-	public
-	function CollectorToBeLaunched($sCollector): bool
+	public function IsCollectorToBeLaunched($sCollector): bool
 	{
 		$aCollectorParams = Utils::GetConfigurationValue(strtolower($sCollector), []);
 		if (!empty($aCollectorParams) && isset($aCollectorParams['enable']) && ($aCollectorParams['enable'] == 'yes')) {
@@ -183,5 +198,15 @@ class AzureCollectionPlan extends MSCollectionPlan
 		}
 
 		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function AddCollectorsToOrchestrator(): bool
+	{
+		Utils::Log(LOG_INFO, "---------- Azure Collectors to launched ----------");
+
+		return parent::AddCollectorsToOrchestrator();
 	}
 }
