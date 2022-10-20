@@ -168,55 +168,6 @@ class AzureCollectionPlan extends MSCollectionPlan
 	/**
 	 * @inheritdoc
 	 */
-	public function IsCollectorToBeLaunched($sCollector): bool
-	{
-		$aCollectorParams = Utils::GetConfigurationValue(strtolower($sCollector), []);
-		if (!empty($aCollectorParams) && isset($aCollectorParams['enable']) && ($aCollectorParams['enable'] == 'yes')) {
-			$aURIParameters = $sCollector::GetURIParameters();
-			foreach ($aURIParameters as $index => $sParameter) {
-				switch ($sParameter) {
-					case MSJsonCollector::URI_PARAM_SUBSCRIPTION:
-						if (!$this->IsSubscriptionToConsider()) {
-							// All Azure objects being attached to a subscription, their discovery is only possible in the case where there is at least one subscription to discover.
-							Utils::Log(LOG_INFO, $sCollector.' will NOT be launched as no subscription should be discovered');
-
-							return false;
-						}
-						break;
-
-					case MSJsonCollector::URI_PARAM_RESOURCEGROUP:
-						if (!$this->IsResourceGroupToConsider()) {
-							// If no resource group is already identified, let's check that discovery of resource group is enable.
-							$aParamsResourceGroupJson = Utils::GetConfigurationValue(strtolower('AzureResourceGroupAzureCollector'), []);
-							if (!isset($aParamsResourceGroupJson['enable']) || ($aParamsResourceGroupJson['enable'] != 'yes')) {
-								Utils::Log(LOG_INFO, $sCollector.' will NOT be launched as no resource group should be discovered');
-
-								return false;
-							}
-						}
-						break;
-
-					default:
-						$aParamsParamClassJson = Utils::GetConfigurationValue(strtolower('Azure'.$sParameter.'AzureCollector'), []);
-						if (!isset($aParamsParamClassJson['enable']) || ($aParamsParamClassJson['enable'] != 'yes')) {
-							Utils::Log(LOG_INFO, $sCollector.' will not be launched as no '.$sParameter.' should be discovered');
-
-							return false;
-						}
-						break;
-				}
-			}
-			Utils::Log(LOG_INFO, $sCollector.' will be launched !');
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function AddCollectorsToOrchestrator(): bool
 	{
 		Utils::Log(LOG_INFO, "---------- Azure Collectors to launched ----------");
