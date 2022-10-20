@@ -1,6 +1,6 @@
 <?php
-require_once(APPROOT.'collectors/msbase/MSCollectionPlan.class.inc.php');
-require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/src/MSCollectionPlan.class.inc.php');
+require_once(APPROOT.'collectors/msbase/src/MSJsonCollector.class.inc.php');
 
 class AzureCollectionPlan extends MSCollectionPlan
 {
@@ -8,9 +8,23 @@ class AzureCollectionPlan extends MSCollectionPlan
 	public $bTeemIpZoneMgmtIsInstalled;
 	public $bTeemIpNMEIsInstalled;
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	/**
+	 * Initialize collection plan
+	 *
+	 * @return void
+	 * @throws \IOException
+	 */
+	public function Init()
+	{
+		parent::Init();
 
 		// Fetch from iTop the list of subscriptions to discover
 		Utils::Log(LOG_INFO, '---------- Fetch from iTop the list of Subscriptions to discover ----------');
