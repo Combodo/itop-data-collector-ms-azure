@@ -1,5 +1,5 @@
 <?php
-require_once(APPROOT.'collectors/msbase/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/src/MSJsonCollector.class.inc.php');
 
 class AzureKubernetesServiceAzureCollector extends MSJsonCollector
 {
