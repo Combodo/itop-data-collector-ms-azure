@@ -925,6 +925,7 @@
 		<collector>
 			<!-- Subnets -->
 			<name>AzureSubnetAzureCollector</name>
+			<enable>yes</enable>
 			<rank>54</rank>
 		</collector>
 		<collector>
