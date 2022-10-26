@@ -22,7 +22,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 	 * @return void
 	 * @throws \IOException
 	 */
-	public function Init()
+	public function Init(): void
 	{
 		parent::Init();
 
