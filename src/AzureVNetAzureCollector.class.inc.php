@@ -120,7 +120,6 @@ class AzureVNetAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$aData['address_space'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressSpace']['addressPrefixes']['0'];
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 
 		return $aData;
