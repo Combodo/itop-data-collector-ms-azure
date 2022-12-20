@@ -2,6 +2,5 @@
 
 // Initialize collection plan
 require_once(APPROOT.'collectors/src/AzureCollectionPlan.class.inc.php');
-$oAzureCollectionPlan = new AzureCollectionPlan();
-$oAzureCollectionPlan->Init();
-$oAzureCollectionPlan->AddCollectorsToOrchestrator();
+require_once(APPROOT.'core/orchestrator.class.inc.php');
+Orchestrator::UseCollectionPlan('AzureCollectionPlan');
