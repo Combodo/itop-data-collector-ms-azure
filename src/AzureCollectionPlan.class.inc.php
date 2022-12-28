@@ -4,9 +4,10 @@ require_once(APPROOT.'collectors/msbase/src/MSJsonCollector.class.inc.php');
 
 class AzureCollectionPlan extends MSCollectionPlan
 {
-	public $bTeemIpIsInstalled;
-	public $bTeemIpZoneMgmtIsInstalled;
-	public $bTeemIpNMEIsInstalled;
+	private $bTeemIpIsInstalled;
+    private $bTeemIpIpDiscoveryIsInstalled;
+    private $bTeemIpNMEIsInstalled;
+    private $bTeemIpZoneMgmtIsInstalled;
 
 	/**
 	 * @inheritdoc
@@ -99,7 +100,10 @@ class AzureCollectionPlan extends MSCollectionPlan
 		// If TeemIp should be considered, check if it is installed or not
 		Utils::Log(LOG_INFO, '---------- Check TeemIp / IPAM for iTop parameters ----------');
 		$this->bTeemIpIsInstalled = false;
-		$aTeemIpDiscovery = Utils::GetConfigurationValue('teemip_discovery', []);
+        $this->bTeemIpIpDiscoveryIsInstalled = false;
+        $this->bTeemIpNMEIsInstalled = false;
+        $this->bTeemIpZoneMgmtIsInstalled = false;
+        $aTeemIpDiscovery = Utils::GetConfigurationValue('teemip_discovery', []);
 		if (!empty($aTeemIpDiscovery) && isset($aTeemIpDiscovery['enable']) && ($aTeemIpDiscovery['enable'] == 'yes')) {
 			Utils::Log(LOG_INFO, 'TeemIp should be considered. Detecting if it is installed on remote iTop server');
 			$oRestClient = new RestClient();
@@ -120,9 +124,46 @@ class AzureCollectionPlan extends MSCollectionPlan
 			}
 
 			if ($this->bTeemIpIsInstalled) {
+                // Check if TeemIp IpDiscovery is installed or not
+                Utils::Log(LOG_INFO, 'Detecting if TeemIp IP Discovery extension is installed on remote server');
+                $oRestClient = new RestClient();
+                try {
+                    $aResult = $oRestClient->Get('IPDiscovery', 'SELECT IPDiscovery WHERE id = 0');
+                    if ($aResult['code'] == 0) {
+                        $this->bTeemIpIpDiscoveryIsInstalled = true;
+                        Utils::Log(LOG_INFO, 'Yes, TeemIp IP Discovery is installed');
+                    } else {
+                        Utils::Log(LOG_INFO, 'TeemIp IP Discovery is NOT installed');
+                    }
+                } catch (Exception $e) {
+                    $sMessage = 'TeemIp IP Discovery is considered as NOT installed due to: '.$e->getMessage();
+                    if (is_a($e, "IOException")) {
+                        Utils::Log(LOG_ERR, $sMessage);
+                        throw $e;
+                    }
+                }
+
+                // Check if TeemIp Network Management Extended is installed or not
+                Utils::Log(LOG_INFO, 'Detecting if TeemIp Network Management Extended extension is installed on remote server');
+                $oRestClient = new RestClient();
+                try {
+                    $aResult = $oRestClient->Get('InterfaceSpeed', 'SELECT InterfaceSpeed WHERE id = 0');
+                    if ($aResult['code'] == 0) {
+                        $this->bTeemIpNMEIsInstalled = true;
+                        Utils::Log(LOG_INFO, 'Yes, TeemIp Network Management Extended is installed');
+                    } else {
+                        Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is NOT installed');
+                    }
+                } catch (Exception $e) {
+                    $sMessage = 'TeemIp Network Management Extended is considered as NOT installed due to: '.$e->getMessage();
+                    if (is_a($e, "IOException")) {
+                        Utils::Log(LOG_ERR, $sMessage);
+                        throw $e;
+                    }
+                }
+
 				// Check if TeemIp Zone Management is installed or not
 				Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
-				$this->bTeemIpZoneMgmtIsInstalled = false;
 				$oRestClient = new RestClient();
 				try {
 					$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
@@ -139,31 +180,51 @@ class AzureCollectionPlan extends MSCollectionPlan
 						throw $e;
 					}
 				}
-
-				// Check if TeemIp Network Management Extended is installed or not
-				Utils::Log(LOG_INFO, 'Detecting if TeemIp Network Management Extended extension is installed on remote server');
-				$this->bTeemIpNMEIsInstalled = false;
-				$oRestClient = new RestClient();
-				try {
-					$aResult = $oRestClient->Get('InterfaceSpeed', 'SELECT InterfaceSpeed WHERE id = 0');
-					if ($aResult['code'] == 0) {
-						$this->bTeemIpNMEIsInstalled = true;
-						Utils::Log(LOG_INFO, 'Yes, TeemIp Network Management Extended is installed');
-					} else {
-						Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is NOT installed');
-					}
-				} catch (Exception $e) {
-					$sMessage = 'TeemIp Network Management Extended is considered as NOT installed due to: '.$e->getMessage();
-					if (is_a($e, "IOException")) {
-						Utils::Log(LOG_ERR, $sMessage);
-						throw $e;
-					}
-				}
 			}
 		} else {
 			Utils::Log(LOG_INFO, 'TeemIp should not be considered.');
 		}
 	}
+
+    /**
+     * Check if TeemIp is installed
+     *
+     * @return bool
+     */
+    public function IsTeemIpinstalled(): bool
+    {
+        return $this->bTeemIpIsInstalled;
+    }
+
+    /**
+     * Check if TeemIp Ip Discovey extension is installed
+     *
+     * @return bool
+     */
+    public function IsTeemIpIpDiscoveryinstalled(): bool
+    {
+        return $this->bTeemIpIpDiscoveryIsInstalled;
+    }
+
+    /**
+     * Check if TeemIp Network Management Extended extension is installed
+     *
+     * @return bool
+     */
+    public function IsTeemIpNMEInstalled(): bool
+    {
+        return $this->bTeemIpNMEIsInstalled;
+    }
+
+    /**
+     * Check if TeemIp Zone Management is installed
+     *
+     * @return bool
+     */
+    public function IsTeemIpZoneMgmtInstalled(): bool
+    {
+        return $this->bTeemIpZoneMgmtIsInstalled;
+    }
 
 	/**
 	 * @inheritdoc
