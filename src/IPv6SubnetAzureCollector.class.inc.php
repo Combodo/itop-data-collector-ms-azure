@@ -55,7 +55,7 @@ class IPv6SubnetAzureCollector extends MSJsonCollector
 			return $sUrl;
 		}
 	}
-
+    
 	/**
 	 * @inheritdoc
 	 */
