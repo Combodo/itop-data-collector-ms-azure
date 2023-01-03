@@ -67,8 +67,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 			}
 			$oRestClient = new RestClient();
 			try {
-				$aResult = $oRestClient->Get('AzureResourceGroup',
-					'SELECT AzureResourceGroup AS rg JOIN AzureSubscription AS s ON rg.azuresubscription_id =  s.id WHERE s.subscriptionid IN ('.$sSubscriptionList.')');
+				$aResult = $oRestClient->Get('AzureResourceGroup', 'SELECT AzureResourceGroup AS rg JOIN AzureSubscription AS s ON rg.azuresubscription_id =  s.id WHERE s.subscriptionid IN ('.$sSubscriptionList.')');
 				if ($aResult['code'] != 0) {
 					Utils::Log(LOG_ERR, "{$aResult['message']} ({$aResult['code']})");
 				} else {
@@ -98,92 +97,83 @@ class AzureCollectionPlan extends MSCollectionPlan
 		}
 
 		// If TeemIp should be considered, check if it is installed or not
-		Utils::Log(LOG_INFO, '---------- Check TeemIp / IPAM for iTop parameters ----------');
+		Utils::Log(LOG_INFO, '---------- Check TeemIp installation ----------');
 		$this->bTeemIpIsInstalled = false;
         $this->bTeemIpIpDiscoveryIsInstalled = false;
         $this->bTeemIpNMEIsInstalled = false;
         $this->bTeemIpZoneMgmtIsInstalled = false;
-        $aTeemIpDiscovery = Utils::GetConfigurationValue('teemip_discovery', []);
-		if (!empty($aTeemIpDiscovery) && isset($aTeemIpDiscovery['enable']) && ($aTeemIpDiscovery['enable'] == 'yes')) {
-			Utils::Log(LOG_INFO, 'TeemIp should be considered. Detecting if it is installed on remote iTop server');
-			$oRestClient = new RestClient();
-			try {
-				$aResult = $oRestClient->Get('IPAddress', 'SELECT IPAddress WHERE id = 0');
-				if ($aResult['code'] == 0) {
-					$this->bTeemIpIsInstalled = true;
-					Utils::Log(LOG_INFO, 'Yes, TeemIp is installed');
-				} else {
-					Utils::Log(LOG_INFO, $sMessage = 'TeemIp is NOT installed');
-				}
-			} catch (Exception $e) {
-				$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
-				if (is_a($e, "IOException")) {
-					Utils::Log(LOG_ERR, $sMessage);
-					throw $e;
-				}
+		$oRestClient = new RestClient();
+		try {
+			$aResult = $oRestClient->Get('IPAddress', 'SELECT IPAddress WHERE id = 0');
+			if ($aResult['code'] == 0) {
+				$this->bTeemIpIsInstalled = true;
+				Utils::Log(LOG_INFO, 'TeemIp is installed');
+			} else {
+				Utils::Log(LOG_INFO, $sMessage = 'TeemIp is NOT installed');
 			}
-
-			if ($this->bTeemIpIsInstalled) {
-                // Check if TeemIp IpDiscovery is installed or not
-                Utils::Log(LOG_INFO, 'Detecting if TeemIp IP Discovery extension is installed on remote server');
-                $oRestClient = new RestClient();
-                try {
-                    $aResult = $oRestClient->Get('IPDiscovery', 'SELECT IPDiscovery WHERE id = 0');
-                    if ($aResult['code'] == 0) {
-                        $this->bTeemIpIpDiscoveryIsInstalled = true;
-                        Utils::Log(LOG_INFO, 'Yes, TeemIp IP Discovery is installed');
-                    } else {
-                        Utils::Log(LOG_INFO, 'TeemIp IP Discovery is NOT installed');
-                    }
-                } catch (Exception $e) {
-                    $sMessage = 'TeemIp IP Discovery is considered as NOT installed due to: '.$e->getMessage();
-                    if (is_a($e, "IOException")) {
-                        Utils::Log(LOG_ERR, $sMessage);
-                        throw $e;
-                    }
-                }
-
-                // Check if TeemIp Network Management Extended is installed or not
-                Utils::Log(LOG_INFO, 'Detecting if TeemIp Network Management Extended extension is installed on remote server');
-                $oRestClient = new RestClient();
-                try {
-                    $aResult = $oRestClient->Get('InterfaceSpeed', 'SELECT InterfaceSpeed WHERE id = 0');
-                    if ($aResult['code'] == 0) {
-                        $this->bTeemIpNMEIsInstalled = true;
-                        Utils::Log(LOG_INFO, 'Yes, TeemIp Network Management Extended is installed');
-                    } else {
-                        Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is NOT installed');
-                    }
-                } catch (Exception $e) {
-                    $sMessage = 'TeemIp Network Management Extended is considered as NOT installed due to: '.$e->getMessage();
-                    if (is_a($e, "IOException")) {
-                        Utils::Log(LOG_ERR, $sMessage);
-                        throw $e;
-                    }
-                }
-
-				// Check if TeemIp Zone Management is installed or not
-				Utils::Log(LOG_INFO, 'Detecting if TeemIp Zone Management extension is installed on remote server');
-				$oRestClient = new RestClient();
-				try {
-					$aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
-					if ($aResult['code'] == 0) {
-						$this->bTeemIpZoneMgmtIsInstalled = true;
-						Utils::Log(LOG_INFO, 'Yes, TeemIp Zone Management extension is installed');
-					} else {
-						Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
-					}
-				} catch (Exception $e) {
-					$sMessage = 'TeemIp Zone Management extension is considered as NOT installed due to: '.$e->getMessage();
-					if (is_a($e, "IOException")) {
-						Utils::Log(LOG_ERR, $sMessage);
-						throw $e;
-					}
-				}
+		} catch (Exception $e) {
+			$sMessage = 'TeemIp is considered as NOT installed due to: '.$e->getMessage();
+			if (is_a($e, "IOException")) {
+				Utils::Log(LOG_ERR, $sMessage);
+				throw $e;
 			}
-		} else {
-			Utils::Log(LOG_INFO, 'TeemIp should not be considered.');
 		}
+
+		if ($this->bTeemIpIsInstalled) {
+            // Check if TeemIp IpDiscovery is installed or not
+            $oRestClient = new RestClient();
+            try {
+                $aResult = $oRestClient->Get('IPDiscovery', 'SELECT IPDiscovery WHERE id = 0');
+                if ($aResult['code']==0) {
+                    $this->bTeemIpIpDiscoveryIsInstalled = true;
+                    Utils::Log(LOG_INFO, 'TeemIp IP Discovery is installed');
+                } else {
+                    Utils::Log(LOG_INFO, 'TeemIp IP Discovery is NOT installed');
+                }
+            } catch (Exception $e) {
+                $sMessage = 'TeemIp IP Discovery is considered as NOT installed due to: '.$e->getMessage();
+                if (is_a($e, "IOException")) {
+                    Utils::Log(LOG_ERR, $sMessage);
+                    throw $e;
+                }
+            }
+
+            // Check if TeemIp Network Management Extended is installed or not
+            $oRestClient = new RestClient();
+            try {
+                $aResult = $oRestClient->Get('InterfaceSpeed', 'SELECT InterfaceSpeed WHERE id = 0');
+                if ($aResult['code']==0) {
+                    $this->bTeemIpNMEIsInstalled = true;
+                    Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is installed');
+                } else {
+                    Utils::Log(LOG_INFO, 'TeemIp Network Management Extended is NOT installed');
+                }
+            } catch (Exception $e) {
+                $sMessage = 'TeemIp Network Management Extended is considered as NOT installed due to: '.$e->getMessage();
+                if (is_a($e, "IOException")) {
+                    Utils::Log(LOG_ERR, $sMessage);
+                    throw $e;
+                }
+            }
+
+            // Check if TeemIp Zone Management is installed or not
+            $oRestClient = new RestClient();
+            try {
+                $aResult = $oRestClient->Get('Zone', 'SELECT Zone WHERE id = 0');
+                if ($aResult['code']==0) {
+                    $this->bTeemIpZoneMgmtIsInstalled = true;
+                    Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is installed');
+                } else {
+                    Utils::Log(LOG_INFO, 'TeemIp Zone Management extension is NOT installed');
+                }
+            } catch (Exception $e) {
+                $sMessage = 'TeemIp Zone Management extension is considered as NOT installed due to: '.$e->getMessage();
+                if (is_a($e, "IOException")) {
+                    Utils::Log(LOG_ERR, $sMessage);
+                    throw $e;
+                }
+            }
+        }
 	}
 
     /**
