@@ -1107,11 +1107,6 @@
     <full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
   </json_placeholders>
 
-  <!-- TeemIp discovery options -->
-  <teemip_discovery>
-    <enable>yes</enable>
-  </teemip_discovery>
-
   <!-- Mapping tables -->
   <subscription_status_mapping type="array">
     <pattern>/Deleted/obsolete</pattern>
