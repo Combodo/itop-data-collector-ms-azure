@@ -21,12 +21,12 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 
         if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
             if ($sAttCode == 'ip') return true;
-            if ($sAttCode=='mask') return true;
-            if ($sAttCode=='ipsubnet_id') return false;
+            if ($sAttCode =='mask') return true;
+            if ($sAttCode =='ipsubnet_id') return false;
         } else {
             if ($sAttCode == 'ip') return false;
-            if ($sAttCode=='mask') return false;
-            if ($sAttCode=='ipsubnet_id') return true;
+            if ($sAttCode =='mask') return false;
+            if ($sAttCode =='ipsubnet_id') return true;
         }
 
 		return parent::AttributeIsOptional($sAttCode);
