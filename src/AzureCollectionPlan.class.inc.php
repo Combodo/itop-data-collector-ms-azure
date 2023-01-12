@@ -181,7 +181,7 @@ class AzureCollectionPlan extends MSCollectionPlan
      *
      * @return bool
      */
-    public function IsTeemIpinstalled(): bool
+    public function IsTeemIpInstalled(): bool
     {
         return $this->bTeemIpIsInstalled;
     }
