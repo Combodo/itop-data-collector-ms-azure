@@ -119,8 +119,8 @@ class AzureLoadBalancerAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			$aData['sku'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['name']);
+			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
+			//$aData['sku'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['name']);
 		}
 
 		return $aData;
