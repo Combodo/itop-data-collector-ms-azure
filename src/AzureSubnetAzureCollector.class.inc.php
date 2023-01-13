@@ -21,12 +21,12 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 
         if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
             if ($sAttCode == 'ip') return true;
-            if ($sAttCode =='mask') return true;
-            if ($sAttCode =='ipsubnet_id') return false;
+            if ($sAttCode == 'mask') return true;
+            if ($sAttCode == 'ipsubnet_id') return false;
         } else {
             if ($sAttCode == 'ip') return false;
-            if ($sAttCode =='mask') return false;
-            if ($sAttCode =='ipsubnet_id') return true;
+            if ($sAttCode == 'mask') return false;
+            if ($sAttCode == 'ipsubnet_id') return true;
         }
 
 		return parent::AttributeIsOptional($sAttCode);
@@ -144,7 +144,7 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 		}
         if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
             if ($iLineIndex == 0) {
-                // Make sure bith lookup tables are correctly initialized
+                // Make sure both lookup tables are correctly initialized
                 $this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
                 $this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
             } elseif (!$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
@@ -163,7 +163,7 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
+			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 			if (array_key_exists('delegations', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
 				$aDelegations = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['delegations'];
 
