@@ -91,9 +91,9 @@
       <name>name</name>
       <org_id>org_id</org_id>
       <osfamily_id>osfamily_id</osfamily_id>
-      <provisioning_status>provisioning_status</provisioning_status>
-      <size>size</size>
-      <sku>sku</sku>
+      <provisioning_status>properties/provisioningState</provisioning_status>
+      <size>properties/diskSizeGB</size>
+      <sku>sku/name</sku>
       <status>state</status>
     </fields>
     <defaults>
@@ -131,9 +131,9 @@
       <name>name</name>
       <org_id>org_id</org_id>
       <outbound_type>outbound_type</outbound_type>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningStat</provisioning_status>
       <status>state</status>
-      <version>version</version>
+      <version>properties/kubernetesVersion</version>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -165,8 +165,8 @@
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
-      <sku>sku</sku>
+      <provisioning_status>properties/provisioningState</provisioning_status>
+      <sku>sku/name</sku>
       <status>state</status>
     </fields>
     <defaults>
@@ -198,10 +198,11 @@
       <org_id>org_id</org_id>
       <primary>primary</primary>
       <private_ip>privateIPAddress</private_ip>
+      <ip_id>ip_id</ip_id>
       <private_ip_allocation_method>privateIPAllocationMethod</private_ip_allocation_method>
       <private_ip_version>privateIPAddressVersion</private_ip_version>
       <public_ip_id>publicIPAddress</public_ip_id>
-      <provisioning_status>provisioningState</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -212,6 +213,7 @@
       <business_criticity>medium</business_criticity>
       <org_id>Demo</org_id>
       <private_ip></private_ip>
+      <ip_id></ip_id>
       <private_ip_allocation_method></private_ip_allocation_method>
       <private_ip_version></private_ip_version>
       <provisioning_status></provisioning_status>
@@ -491,10 +493,11 @@
       <org_id>org_id</org_id>
       <primary>primary</primary>
       <private_ip>private_ip</private_ip>
+      <ip_id>ip_id</ip_id>
       <private_ip_allocation_method>private_ip_allocation_method</private_ip_allocation_method>
       <private_ip_version>private_ip_version</private_ip_version>
       <public_ip_id>public_ip_id</public_ip_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -503,6 +506,7 @@
       <azuresubnet_id></azuresubnet_id>
       <azuresubscription_id></azuresubscription_id>
       <business_criticity>medium</business_criticity>
+      <ip_id></ip_id>
       <org_id>Demo</org_id>
       <primary></primary>
       <private_ip></private_ip>
@@ -622,7 +626,7 @@
     <path>value</path>
     <fields>
       <primary_key>id</primary_key>
-      <allocation_method>allocation_method</allocation_method>
+      <allocation_method>properties/publicIPAllocationMethod</allocation_method>
       <azureid>id</azureid>
       <azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
@@ -630,13 +634,14 @@
       <business_criticity>business_criticity</business_criticity>
       <fqdn>fqdn</fqdn>
       <ip>ip</ip>
+      <ip_id>ip_id</ip_id>
       <azureipconfig_id>ipConfiguration</azureipconfig_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <short_name>short_name</short_name>
       <status>state</status>
-      <version>version</version>
+      <version>properties/publicIPAddressVersion</version>
     </fields>
     <defaults>
       <allocation_method></allocation_method>
@@ -645,6 +650,7 @@
       <business_criticity>medium</business_criticity>
       <fqdn></fqdn>
       <ip></ip>
+      <ip_id></ip_id>
       <azureipconfig_id></azureipconfig_id>
       <mask></mask>
       <org_id>Demo</org_id>
@@ -723,12 +729,13 @@
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
       <azurevnet_id>azurevnet_id</azurevnet_id>
       <business_criticity>business_criticity</business_criticity>
+      <ip></ip>
       <ipsubnet_id>subnet_id</ipsubnet_id>
       <location_id>location</location_id>
       <mask>mask</mask>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -837,6 +844,22 @@
     </defaults>
   </azurevnetgatewayazurecollector>
 
+  <!-- IPv4 Addresses -->
+  <ipv4addressazurecollector>
+    <csv_file>data/IPv4Address.csv</csv_file>
+    <fields>
+      <primary_key>primary_key</primary_key>
+      <ip>ip_id</ip>
+      <short_name>name</short_name>
+    </fields>
+    <defaults>
+      <ipconfig_id></ipconfig_id>
+      <org_id>Demo</org_id>
+      <status>allocated</status>
+      <subnet_id></subnet_id>
+    </defaults>
+  </ipv4addressazurecollector>
+
   <!-- IPv4 Subnets -->
   <ipv4subnetazurecollector>
     <ms_class>subnets</ms_class>
@@ -849,7 +872,6 @@
       <block_id>block_id</block_id>
       <ip>ip</ip>
       <ipconfig_id>ipconfig_id</ipconfig_id>
-      <location_id>location</location_id>
       <mask>mask</mask>
       <name>name</name>
       <org_id>org_id</org_id>
@@ -881,7 +903,6 @@
       <block_id>block_id</block_id>
       <ip>ip</ip>
       <ipconfig_id>ipconfig_id</ipconfig_id>
-      <location_id>location</location_id>
       <mask>mask</mask>
       <name>name</name>
       <org_id>org_id</org_id>
@@ -932,12 +953,12 @@
     <collector>
       <name>AzureKubernetesServiceAzureCollector</name>
       <enable>no</enable>
-      <!--rank>11</rank-->
+      <rank>11</rank>
     </collector>
     <!-- Load Balancers -->
     <collector>
       <name>AzureLoadBalancerAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>12</rank>
     </collector>
     <!-- Maria DB Servers -->
@@ -1009,49 +1030,49 @@
     <!-- Virtual Networks -->
     <collector>
       <name>AzureVNetAzureCollector</name>
-      <enable>yes</enable>
+      <enable>no</enable>
       <rank>52</rank>
     </collector>
     <!-- Network Interfaces -->
     <collector>
       <name>AzureNetworkInterfaceAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>53</rank>
     </collector>
     <!-- IPv4 Subnets -->
     <collector>
       <name>IPv4SubnetAzureCollector</name>
-      <enable>yes</enable>
+      <enable>no</enable>
       <rank>54</rank>
     </collector>
     <!-- IPv6 Subnets -->
     <collector>
       <name>IPv6SubnetAzureCollector</name>
-      <enable>yes</enable>
+      <enable>no</enable>
       <rank>55</rank>
     </collector>
     <!-- Subnets -->
     <collector>
       <name>AzureSubnetAzureCollector</name>
-      <enable>yes</enable>
+      <enable>no</enable>
       <rank>56</rank>
     </collector>
     <!-- Public IP Addresses -->
     <collector>
       <name>AzurePublicIPAddressAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>57</rank>
     </collector>
     <!-- Network Interface IP Configuration -->
     <collector>
       <name>AzureNetworkInterfaceIPConfigAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>58</rank>
     </collector>
     <!-- Load Balancer Frontend IP Configuration -->
     <collector>
       <name>AzureLoadBalancerFrontendIPConfigAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>59</rank>
     </collector>
     <!-- Virtual Network gateways -->
@@ -1065,6 +1086,18 @@
       <name>AzurePrivateEndpointAzureCollector</name>
       <enable>no</enable>
       <rank>61</rank>
+    </collector>
+    <!-- IPv4 Addresses -->
+    <collector>
+      <name>IPv4AddressAzureCollector</name>
+      <enable>yes</enable>
+      <rank>100</rank>
+    </collector>
+    <!-- IPv6 Addresses -->
+    <collector>
+      <name>IPv6AddressAzureCollector</name>
+      <enable>no</enable>
+      <rank>101</rank>
     </collector>
   </collectors_launch_sequence>
 
@@ -1101,6 +1134,8 @@
     <azurevirtualmachinesize_synchro_name>$name_prefix$ Virtual Machine Sizes $name_postfix$</azurevirtualmachinesize_synchro_name>
     <azurevnet_synchro_name>$name_prefix$ VNets $name_postfix$</azurevnet_synchro_name>
     <azurevnetgateway_synchro_name>$name_prefix$ VNet Gateways $name_postfix$</azurevnetgateway_synchro_name>
+    <ipv4address_synchro_name>IPv4 Address Azure $name_postfix$</ipv4address_synchro_name>
+    <ipv6address_synchro_name>IPv6 Address Azure $name_postfix$</ipv6address_synchro_name>
     <ipv4subnet_synchro_name>IPv4 Subnet Azure $name_postfix$</ipv4subnet_synchro_name>
     <ipv6subnet_synchro_name>IPv6 Subnet Azure $name_postfix$</ipv6subnet_synchro_name>
     <synchro_status>production</synchro_status>
