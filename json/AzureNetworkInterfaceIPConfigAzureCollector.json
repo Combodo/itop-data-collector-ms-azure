@@ -103,6 +103,14 @@
       "finalclass": "SynchroAttLinkSet"
     },
     {
+      "attcode": "ip_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "id",
+      "finalclass": "SynchroAttExtKey"
+    },
+    {
       "attcode": "location_id",
       "update": "0",
       "reconcile": "0",
