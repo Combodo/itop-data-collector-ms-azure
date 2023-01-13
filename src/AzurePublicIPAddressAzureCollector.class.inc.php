@@ -16,6 +16,18 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 	{
 	    if ($sAttCode == 'services_list') return true;
 
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($sAttCode == 'fqdn') return true;
+			if ($sAttCode == 'ip') return true;
+			if ($sAttCode == 'ip_id') return false;
+			if ($sAttCode == 'short_name') return true;
+		} else {
+			if ($sAttCode == 'fqdn') return false;
+			if ($sAttCode == 'ip') return false;
+			if ($sAttCode == 'ip_id') return true;
+			if ($sAttCode == 'short_name') return false;
+		}
+
 		return parent::AttributeIsOptional($sAttCode);
 	}
 
@@ -42,6 +54,19 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 	protected function MustProcessBeforeSynchro(): bool
 	{
 		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function InitProcessBeforeSynchro(): void
+	{
+		// Create address mapping table
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			$this->oIPv4AddressMapping = new LookupTable('SELECT IPv4Address', array('org_id_friendlyname', 'ip'));
+			$this->oIPv6AddressMapping = new LookupTable('SELECT IPv6Address', array('org_id_friendlyname', 'ip'));
+		}
+
 	}
 
 	/**
@@ -88,10 +113,22 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 	{
 		// Process each line of the CSV
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azureresourcegroup_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown code');
+			throw new IgnoredRowException('Unknown resource group');
 		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azuresubscription_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown code');
+			throw new IgnoredRowException('Unknown subscription');
+		}
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($iLineIndex == 0) {
+				// Make sure both lookup tables are correctly initialized
+				$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', 0);
+				$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', 0);
+			} else {
+				// Try to map IP - non mandatory
+				if (!$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex)) {
+					$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex);
+				}
+			}
 		}
 	}
 
@@ -104,26 +141,50 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['allocation_method'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAllocationMethod']);
+			//$aData['allocation_method'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAllocationMethod']);
+			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
+			//$aData['version'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAddressVersion']);
+
 			if (array_key_exists('ipAddress', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
-				$aData['ip'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipAddress']);
+				$sIP = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipAddress']);
 			} else {
-				$aData['ip'] = '';
+				$sIP = '';
 			}
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			$aData['version'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAddressVersion']);
-			if (array_key_exists('dnsSettings', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
-				$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['dnsSettings']['fqdn'];
-				$aData['short_name'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['dnsSettings']['domainNameLabel'];
+			if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+				if (array_key_exists('ip', $aData)) {
+					unset($aData['ip']);
+				}
+				$aData['ip_id'] = $sIP;
+				if (array_key_exists('fqdn', $aData)) {
+					unset($aData['fqdn']);
+				}
+				if (array_key_exists('short_name', $aData)) {
+					unset($aData['short_name']);
+				}
 			} else {
-				$aData['fqdn'] = '';
-				$aData['short_name'] = '';
+				$aData['ip'] = $sIP;
+				if (array_key_exists('ip_id', $aData)) {
+					unset($aData['ip_id']);
+				}
+				if (array_key_exists('dnsSettings', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
+					$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['dnsSettings']['fqdn'];
+					$aData['short_name'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['dnsSettings']['domainNameLabel'];
+				} else {
+					$aData['fqdn'] = '';
+					$aData['short_name'] = '';
+				}
 			}
 			if (array_key_exists('ipConfiguration', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
 				$aData['azureipconfig_id'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipConfiguration']['id'];
 			} else {
 				$aData['azureipconfig_id'] = 0;
 			}
+		}
+
+		// Add entry to IP Address csv file
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			// Add entry to IP Address csv file
+			IPv4AddressAzureCollector::AddLineToCsvFile($aData);
 		}
 
 		return $aData;

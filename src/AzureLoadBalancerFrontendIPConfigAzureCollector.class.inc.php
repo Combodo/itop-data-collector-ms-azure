@@ -15,8 +15,14 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 	 */
 	public function AttributeIsOptional($sAttCode): bool
 	{
-		if ($sAttCode == 'services_list') {
-			return true;
+		if ($sAttCode == 'services_list') return true;
+
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($sAttCode == 'private_ip') return true;
+			if ($sAttCode == 'ip_id') return false;
+		} else {
+			if ($sAttCode == 'private_ip') return false;
+			if ($sAttCode == 'ip_id') return true;
 		}
 
 		return parent::AttributeIsOptional($sAttCode);
@@ -46,6 +52,19 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 	protected function MustProcessBeforeSynchro(): bool
 	{
 		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function InitProcessBeforeSynchro(): void
+	{
+		// Create address mapping table
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			$this->oIPv4AddressMapping = new LookupTable('SELECT IPv4Address', array('org_id_friendlyname', 'ip'));
+			$this->oIPv6AddressMapping = new LookupTable('SELECT IPv6Address', array('org_id_friendlyname', 'ip'));
+		}
+
 	}
 
 	/**
@@ -103,13 +122,25 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 	{
 		// Process each line of the CSV
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azureresourcegroup_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown code');
+			throw new IgnoredRowException('Unknown resource group');
 		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azuresubscription_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown code');
+			throw new IgnoredRowException('Unknown subscription');
 		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azureloadbalancer_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown code');
+			throw new IgnoredRowException('Unknown load balancer');
+		}
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($iLineIndex == 0) {
+				// Make sure both lookup tables are correctly initialized
+				$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', 0);
+				$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', 0);
+			} else {
+				// Try to map IP - non mandatory
+				if (!$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex)) {
+					$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex);
+				}
+			}
 		}
 	}
 
@@ -123,9 +154,23 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$sProperties = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'];
-			$aData['provisioning_status'] = strtolower($sProperties['provisioningState']);
+			//$aData['provisioning_status'] = strtolower($sProperties['provisioningState']);
+
 			if (array_key_exists('privateIPAddress', $sProperties)) {
-				$aData['private_ip'] = $sProperties['privateIPAddress'];
+				$sIP = $sProperties['privateIPAddress'];
+			} else {
+				$sIP = '';
+			}
+			if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+				if (array_key_exists('private_ip', $aData)) {
+					unset($aData['private_ip']);
+				}
+				$aData['ip_id'] = $sIP;
+			} else {
+				$aData['private_ip'] = $sIP;
+				if (array_key_exists('ip_id', $aData)) {
+					unset($aData['ip_id']);
+				}
 			}
 			if (array_key_exists('privateIPAddressVersion', $sProperties)) {
 				$aData['private_ip_version'] = strtolower($sProperties['privateIPAddressVersion']);
@@ -145,6 +190,17 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			}
 		}
 
+		// Add entry to IP Address csv file
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			// Add entry to IP Address csv file
+			if (is_array($aData) && array_key_exists('private_ip_version', $aData) && ($aData['ip_id'] != '')) {
+				if (strtolower($aData['private_ip_version']) == 'ipv4') {
+					IPv4AddressAzureCollector::AddLineToCsvSourceFile($aData);
+				} else {
+					IPv6AddressAzureCollector::AddLineToCsvSourceFile($aData);
+				}
+			}
+		}
 		return $aData;
 	}
 
