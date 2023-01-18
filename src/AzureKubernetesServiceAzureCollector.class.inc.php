@@ -122,8 +122,6 @@ class AzureKubernetesServiceAzureCollector extends MSJsonCollector
 			} else {
 				$aData['outbound_type'] = '';
 			}
-			//$aData['provisioning_status'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState'];
-			//$aData['version'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['kubernetesVersion'];
 		}
 
 		return $aData;

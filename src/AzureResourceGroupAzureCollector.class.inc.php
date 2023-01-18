@@ -93,20 +93,5 @@ class AzureResourceGroupAzureCollector extends MSJsonCollector
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function Fetch()
-	{
-		$aData = parent::Fetch();
-		if ($aData !== false) {
-			// Then process each collected status
-			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-		}
-
-		return $aData;
-	}
-
 }
 

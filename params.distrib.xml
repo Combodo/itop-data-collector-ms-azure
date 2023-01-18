@@ -66,7 +66,7 @@
       <business_criticity>medium</business_criticity>
       <ftps_hostname></ftps_hostname>
       <org_id>Demo</org_id>
-      <provisioning_status>ready</provisioning_status>
+      <provisioning_status></provisioning_status>
       <status>implementation</status>
       <url></url>
     </defaults>
@@ -112,7 +112,7 @@
     </defaults>
   </azurediskazurecollector>
 
-<!-- Kubernetes services -->
+  <!-- Kubernetes services -->
   <azurekubernetesserviceazurecollector>
     <ms_class>managedClusters</ms_class>
     <api_version>2021-10-01</api_version>
@@ -281,17 +281,17 @@
       <azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
       <business_criticity>business_criticity</business_criticity>
-      <capacity>capacity</capacity>
-      <fqdn>fqdn</fqdn>
+      <capacity>sku/capacity</capacity>
+      <fqdn>properties/fullyQualifiedDomainName</fqdn>
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/userVisibleState</provisioning_status>
       <status>state</status>
       <storage>storage</storage>
-      <tier>tier</tier>
+      <tier>sku/tier</tier>
       <type>type</type>
-      <version>version</version>
+      <version>properties/version</version>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -348,17 +348,17 @@
       <azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
       <business_criticity>business_criticity</business_criticity>
-      <capacity>capacity</capacity>
-      <fqdn>fqdn</fqdn>
+      <capacity>properties/replicaCapacity</capacity>
+      <fqdn>properties/fullyQualifiedDomainName</fqdn>
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
       <provisioning_status>properties/state</provisioning_status>
       <status>state</status>
       <storage>storage</storage>
-      <tier>tier</tier>
+      <tier>sku/tier</tier>
       <type>type</type>
-      <version>version</version>
+      <version>properties/version</version>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -415,17 +415,17 @@
       <azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
       <business_criticity>business_criticity</business_criticity>
-      <capacity>capacity</capacity>
-      <fqdn>fqdn</fqdn>
+      <capacity>properties/replicaCapacity</capacity>
+      <fqdn>properties/fullyQualifiedDomainName</fqdn>
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/state</provisioning_status>
       <status>state</status>
       <storage>storage</storage>
-      <tier>tier</tier>
+      <tier>sku/tier</tier>
       <type>type</type>
-      <version>version</version>
+      <version>properties/version</version>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -460,7 +460,7 @@
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioningState</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -558,16 +558,16 @@
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
       <business_criticity>business_criticity</business_criticity>
       <capacity>capacity</capacity>
-      <fqdn>fqdn</fqdn>
+      <fqdn>properties/fullyQualifiedDomainName</fqdn>
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioningState</provisioning_status>
+      <provisioning_status>properties/state</provisioning_status>
       <status>state</status>
       <storage>storage</storage>
-      <tier>tier</tier>
+      <tier>sku/tier</tier>
       <type>type</type>
-      <version>version</version>
+      <version>properties/version</version>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -675,7 +675,7 @@
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioningState</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
     </fields>
     <defaults>
       <azuresubscription_id></azuresubscription_id>
@@ -700,9 +700,9 @@
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
-      <tier>tier</tier>
+      <tier>sku/tier</tier>
     </fields>
     <defaults>
       <azureresourcegroup_id></azureresourcegroup_id>
@@ -763,14 +763,14 @@
       <azureid>id</azureid>
       <azureresourcegroup_id>azureresourcegroup_id</azureresourcegroup_id>
       <azuresubscription_id>azuresubscription_id</azuresubscription_id>
-      <azurevmsize>azurevmsize</azurevmsize>
+      <azurevmsize>properties/hardwareProfile/vmSize</azurevmsize>
       <business_criticity>business_criticity</business_criticity>
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
       <osfamily_id>osfamily_id</osfamily_id>
       <osversion>osversion</osversion>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -831,7 +831,7 @@
       <location_id>location</location_id>
       <name>name</name>
       <org_id>org_id</org_id>
-      <provisioning_status>provisioning_status</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
     </fields>
     <defaults>
@@ -860,23 +860,30 @@
     </defaults>
   </ipv4addressazurecollector>
 
+  <!-- IPv6 Addresses -->
+  <ipv6addressazurecollector>
+    <csv_file>data/IPv6Address.csv</csv_file>
+    <fields>
+      <primary_key>primary_key</primary_key>
+      <ip>ip_id</ip>
+      <short_name>name</short_name>
+    </fields>
+    <defaults>
+      <ipconfig_id></ipconfig_id>
+      <org_id>Demo</org_id>
+      <status>allocated</status>
+      <subnet_id></subnet_id>
+    </defaults>
+  </ipv6addressazurecollector>
+
   <!-- IPv4 Subnets -->
   <ipv4subnetazurecollector>
-    <ms_class>subnets</ms_class>
-    <api_version>2022-01-01</api_version>
-    <jsonfile>data/IPv4Subnet.json</jsonfile>
-    <path>value</path>
+    <csv_file>data/IPv4Subnet.csv</csv_file>
     <fields>
-      <primary_key>id</primary_key>
-      <azuresubnet_id>id</azuresubnet_id>
-      <block_id>block_id</block_id>
-      <ip>ip</ip>
-      <ipconfig_id>ipconfig_id</ipconfig_id>
+      <primary_key>primary_key</primary_key>
+      <ip>ipsubnet_id</ip>
       <mask>mask</mask>
       <name>name</name>
-      <org_id>org_id</org_id>
-      <status>state</status>
-      <type>type</type>
     </fields>
     <defaults>
       <azuresubnet_id></azuresubnet_id>
@@ -893,21 +900,12 @@
 
   <!-- IPv6 Subnets -->
   <ipv6subnetazurecollector>
-    <ms_class>subnets</ms_class>
-    <api_version>2022-01-01</api_version>
-    <jsonfile>data/IPv6Subnet.json</jsonfile>
-    <path>value</path>
+    <csv_file>data/IPv6Subnet.csv</csv_file>
     <fields>
-      <primary_key>id</primary_key>
-      <azuresubnet_id>id</azuresubnet_id>
-      <block_id>block_id</block_id>
-      <ip>ip</ip>
-      <ipconfig_id>ipconfig_id</ipconfig_id>
+      <primary_key>primary_key</primary_key>
+      <ip>ipsubnet_id</ip>
       <mask>mask</mask>
       <name>name</name>
-      <org_id>org_id</org_id>
-      <status>state</status>
-      <type>type</type>
     </fields>
     <defaults>
       <azuresubnet_id></azuresubnet_id>
@@ -934,25 +932,25 @@
     <!-- Locations -->
     <collector>
       <name>AzureLocationAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>2</rank>
     </collector>
     <!-- Resources group -->
     <collector>
       <name>AzureResourceGroupAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>3</rank>
     </collector>
     <!-- App Services -->
     <collector>
       <name>AzureAppServiceAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>10</rank>
     </collector>
     <!-- Kubernetes Services -->
     <collector>
       <name>AzureKubernetesServiceAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>11</rank>
     </collector>
     <!-- Load Balancers -->
@@ -964,73 +962,73 @@
     <!-- Maria DB Servers -->
     <collector>
       <name>AzureMariaDBServerAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>13</rank>
     </collector>
     <!-- Maria DBs -->
     <collector>
       <name>AzureMariaDBAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>14</rank>
     </collector>
     <!-- MySQL DB Servers -->
     <collector>
       <name>AzureMySQLServerAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>15</rank>
     </collector>
     <!-- MySQL DBs -->
     <collector>
       <name>AzureMySQLAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>16</rank>
     </collector>
     <!-- MS SQL DB Servers -->
     <collector>
       <name>AzureMSSQLServerAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>17</rank>
     </collector>
     <!-- MS SQL DBs -->
     <collector>
       <name>AzureMSSQLAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>18</rank>
     </collector>
     <!-- PostgreSQL Servers -->
     <collector>
       <name>AzurePostgreServerAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>19</rank>
     </collector>
     <!-- PostgreSQL DBs -->
     <collector>
       <name>AzurePostgreAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>20</rank>
     </collector>
     <!-- Storage Accounts -->
     <collector>
       <name>AzureStorageAccountAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>21</rank>
     </collector>
     <!-- Virtual Machines -->
     <collector>
       <name>AzureVirtualMachineAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>50</rank>
     </collector>
     <!-- Disks -->
     <collector>
       <name>AzureDiskAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>51</rank>
     </collector>
     <!-- Virtual Networks -->
     <collector>
       <name>AzureVNetAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>52</rank>
     </collector>
     <!-- Network Interfaces -->
@@ -1039,53 +1037,41 @@
       <enable>yes</enable>
       <rank>53</rank>
     </collector>
-    <!-- IPv4 Subnets -->
-    <collector>
-      <name>IPv4SubnetAzureCollector</name>
-      <enable>no</enable>
-      <rank>54</rank>
-    </collector>
-    <!-- IPv6 Subnets -->
-    <collector>
-      <name>IPv6SubnetAzureCollector</name>
-      <enable>no</enable>
-      <rank>55</rank>
-    </collector>
     <!-- Subnets -->
     <collector>
       <name>AzureSubnetAzureCollector</name>
-      <enable>no</enable>
-      <rank>56</rank>
+      <enable>yes</enable>
+      <rank>54</rank>
     </collector>
     <!-- Public IP Addresses -->
     <collector>
       <name>AzurePublicIPAddressAzureCollector</name>
       <enable>yes</enable>
-      <rank>57</rank>
+      <rank>55</rank>
     </collector>
     <!-- Network Interface IP Configuration -->
     <collector>
       <name>AzureNetworkInterfaceIPConfigAzureCollector</name>
       <enable>yes</enable>
-      <rank>58</rank>
+      <rank>56</rank>
     </collector>
     <!-- Load Balancer Frontend IP Configuration -->
     <collector>
       <name>AzureLoadBalancerFrontendIPConfigAzureCollector</name>
       <enable>yes</enable>
-      <rank>59</rank>
+      <rank>57</rank>
     </collector>
     <!-- Virtual Network gateways -->
     <collector>
       <name>AzureVNetGatewayAzureCollector</name>
-      <enable>no</enable>
-      <rank>60</rank>
+      <enable>yes</enable>
+      <rank>58</rank>
     </collector>
     <!-- Private Endpoint -->
     <collector>
       <name>AzurePrivateEndpointAzureCollector</name>
-      <enable>no</enable>
-      <rank>61</rank>
+      <enable>yes</enable>
+      <rank>59</rank>
     </collector>
     <!-- IPv4 Addresses -->
     <collector>
@@ -1098,6 +1084,18 @@
       <name>IPv6AddressAzureCollector</name>
       <enable>no</enable>
       <rank>101</rank>
+    </collector>
+    <!-- IPv4 Subnets -->
+    <collector>
+      <name>IPv4SubnetAzureCollector</name>
+      <enable>yes</enable>
+      <rank>102</rank>
+    </collector>
+    <!-- IPv6 Subnets -->
+    <collector>
+      <name>IPv6SubnetAzureCollector</name>
+      <enable>no</enable>
+      <rank>103</rank>
     </collector>
   </collectors_launch_sequence>
 

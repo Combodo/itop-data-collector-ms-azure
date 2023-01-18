@@ -148,7 +148,6 @@ class AzureNetworkInterfaceAzureCollector extends MSJsonCollector
 				}
 			}
 			$aData['azurevnets_list'] = $sVnetsList;
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 		}
 
 		return $aData;

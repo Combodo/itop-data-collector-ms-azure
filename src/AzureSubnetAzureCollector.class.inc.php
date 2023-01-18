@@ -3,9 +3,9 @@ require_once(APPROOT.'collectors/msbase/src/MSJsonCollector.class.inc.php');
 
 class AzureSubnetAzureCollector extends MSJsonCollector
 {
-    private $sIPv4Pattern = "((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))";
+	private $sIPv4Pattern = "((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))";
 
-    // Required parameters to build URL
+	// Required parameters to build URL
 	protected static $aURIParameters = [
 		1 => self::URI_PARAM_SUBSCRIPTION,
 		2 => self::URI_PARAM_RESOURCEGROUP,
@@ -19,15 +19,15 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 	{
 		if ($sAttCode == 'services_list') return true;
 
-        if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-            if ($sAttCode == 'ip') return true;
-            if ($sAttCode == 'mask') return true;
-            if ($sAttCode == 'ipsubnet_id') return false;
-        } else {
-            if ($sAttCode == 'ip') return false;
-            if ($sAttCode == 'mask') return false;
-            if ($sAttCode == 'ipsubnet_id') return true;
-        }
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($sAttCode == 'ip') return true;
+			if ($sAttCode == 'mask') return true;
+			if ($sAttCode == 'ipsubnet_id') return false;
+		} else {
+			if ($sAttCode == 'ip') return false;
+			if ($sAttCode == 'mask') return false;
+			if ($sAttCode == 'ipsubnet_id') return true;
+		}
 
 		return parent::AttributeIsOptional($sAttCode);
 	}
@@ -61,19 +61,19 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-    protected function InitProcessBeforeSynchro(): void
-    {
-        // Create subnet mapping table
-        if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-            $this->oSubnetIPv4Mapping = new LookupTable('SELECT IPv4Subnet', array('org_id_friendlyname', 'ip'));
-            $this->oSubnetIPv6Mapping = new LookupTable('SELECT IPv6Subnet', array('org_id_friendlyname', 'ip'));
-     }
-
-    }
-
-    public function Prepare(): bool
+	protected function InitProcessBeforeSynchro(): void
 	{
-        // Create mask mapping table
+		// Create subnet mapping table
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			$this->oSubnetIPv4Mapping = new LookupTable('SELECT IPv4Subnet', array('org_id_friendlyname', 'ip'));
+			$this->oSubnetIPv6Mapping = new LookupTable('SELECT IPv6Subnet', array('org_id_friendlyname', 'ip'));
+		}
+
+	}
+
+	public function Prepare(): bool
+	{
+		// Create mask mapping table
 		$this->oIPv4SubnetMaskMapping = new MappingTable('ipv4_subnet_mask_mapping');
 
 		return parent::Prepare();
@@ -142,16 +142,16 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azurevnet_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
 		}
-        if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-            if ($iLineIndex == 0) {
-                // Make sure both lookup tables are correctly initialized
-                $this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
-                $this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
-            } elseif (!$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
-                      !$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex)) {
-                throw new IgnoredRowException('Unknown Subnet');
-            }
-        }
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			if ($iLineIndex == 0) {
+				// Make sure both lookup tables are correctly initialized
+				$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
+				$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
+			} elseif (!$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
+				!$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex)) {
+				throw new IgnoredRowException('Unknown Subnet');
+			}
+		}
 	}
 
 	/**
@@ -163,7 +163,6 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
 			if (array_key_exists('delegations', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
 				$aDelegations = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['delegations'];
 
@@ -180,13 +179,25 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 					unset($aData['ipsubnet_id']);
 				}
 			}
-            $sMask = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/');
-            if (preg_match($this->sIPv4Pattern, $sIP)) {
-                // Map /n mask format into x.y.z.t in case of IPv4 subnet
-                $aData['mask'] = $this->oIPv4SubnetMaskMapping->MapValue(trim($sMask, '/'), '');
-            } else {
-                $aData['mask'] = $sMask;
-            }
+			$sMask = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/');
+			if (preg_match($this->sIPv4Pattern, $sIP)) {
+				// Map /n mask format into x.y.z.t in case of IPv4 subnet
+				$aData['mask'] = $this->oIPv4SubnetMaskMapping->MapValue(trim($sMask, '/'), '');
+			} else {
+				$aData['mask'] = $sMask;
+			}
+		}
+
+		// Add entry to IP Subnet csv file
+		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+			// Add entry to IP Address csv file
+			if (is_array($aData) && ($aData['ipsubnet_id'] != '')) {
+				if (preg_match($this->sIPv4Pattern, $aData['ipsubnet_id'])) {
+					IPv4SubnetAzureCollector::RegisterLine($aData);
+				} else {
+					IPv6SubnetAzureCollector::RegisterLine($aData);
+				}
+			}
 		}
 
 		return $aData;

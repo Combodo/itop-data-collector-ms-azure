@@ -132,13 +132,7 @@ class AzureMariaDBServerAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['capacity'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['capacity'];
-			$aData['fqdn'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['fullyQualifiedDomainName'];
-			$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['userVisibleState']);
-			$aData['storage'] = str_replace(',', '.',
-				$this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['storageMB'] / 1000);
-			$aData['tier'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['tier'];
-			$aData['version'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['version'];
+			$aData['storage'] = str_replace(',', '.', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['storageMB'] / 1000);
 		}
 
 		return $aData;

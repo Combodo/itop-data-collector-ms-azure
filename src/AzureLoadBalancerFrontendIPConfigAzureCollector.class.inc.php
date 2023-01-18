@@ -154,7 +154,6 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
 			$sProperties = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'];
-			//$aData['provisioning_status'] = strtolower($sProperties['provisioningState']);
 
 			if (array_key_exists('privateIPAddress', $sProperties)) {
 				$sIP = $sProperties['privateIPAddress'];
@@ -195,12 +194,13 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 			// Add entry to IP Address csv file
 			if (is_array($aData) && array_key_exists('private_ip_version', $aData) && ($aData['ip_id'] != '')) {
 				if (strtolower($aData['private_ip_version']) == 'ipv4') {
-					IPv4AddressAzureCollector::AddLineToCsvSourceFile($aData);
+					IPv4AddressAzureCollector::RegisterLine($aData);
 				} else {
-					IPv6AddressAzureCollector::AddLineToCsvSourceFile($aData);
+					IPv6AddressAzureCollector::RegisterLine($aData);
 				}
 			}
 		}
+
 		return $aData;
 	}
 

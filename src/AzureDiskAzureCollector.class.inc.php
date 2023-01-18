@@ -143,9 +143,6 @@ class AzureDiskAzureCollector extends MSJsonCollector
 			} else {
 				$aData['osfamily_id'] = '';
 			}
-			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			//$aData['size'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['diskSizeGB'];
-			//$aData['sku'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['name'];
 		}
 
 		return $aData;

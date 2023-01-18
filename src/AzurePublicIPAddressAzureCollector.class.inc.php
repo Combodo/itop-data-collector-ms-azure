@@ -14,7 +14,7 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 	 */
 	public function AttributeIsOptional($sAttCode): bool
 	{
-	    if ($sAttCode == 'services_list') return true;
+		if ($sAttCode == 'services_list') return true;
 
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 			if ($sAttCode == 'fqdn') return true;
@@ -141,9 +141,6 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			//$aData['allocation_method'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAllocationMethod']);
-			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			//$aData['version'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['publicIPAddressVersion']);
 
 			if (array_key_exists('ipAddress', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties'])) {
 				$sIP = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['ipAddress']);
@@ -184,7 +181,13 @@ class AzurePublicIPAddressAzureCollector extends MSJsonCollector
 		// Add entry to IP Address csv file
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 			// Add entry to IP Address csv file
-			IPv4AddressAzureCollector::AddLineToCsvFile($aData);
+			if (is_array($aData) && array_key_exists('version', $aData) && ($aData['ip_id'] != '')) {
+				if (strtolower($aData['version']) == 'ipv4') {
+					IPv4AddressAzureCollector::RegisterLine($aData);
+				} else {
+					IPv6AddressAzureCollector::RegisterLine($aData);
+				}
+			}
 		}
 
 		return $aData;

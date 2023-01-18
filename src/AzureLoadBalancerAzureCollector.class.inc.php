@@ -110,21 +110,5 @@ class AzureLoadBalancerAzureCollector extends MSJsonCollector
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function Fetch()
-	{
-		$aData = parent::Fetch();
-		if ($aData !== false) {
-			// Then process specific data
-			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			//$aData['provisioning_status'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['provisioningState']);
-			//$aData['sku'] = strtolower($this->aJson[$this->aJsonKey[$iJsonIdx]]['sku']['name']);
-		}
-
-		return $aData;
-	}
-
 }
 
