@@ -1,7 +1,7 @@
 <?php
 require_once(APPROOT.'collectors/msbase/src/MSCsvCollector.class.inc.php');
 
-class IPv4SubnetAzureCollector extends MSCsvCollector
+class IPv6AddressAzureCollector extends MSCsvCollector
 {
 	protected static $sCsvSourceFilePath = null;
 	protected static $aHeaderColumns = null;
@@ -28,7 +28,6 @@ class IPv4SubnetAzureCollector extends MSCsvCollector
 			static::$bHasStaticBeenInitialized = true;
 		}
 	}
-
 
 	/**
 	 * Register a new line into the CSV source file
@@ -85,7 +84,7 @@ class IPv4SubnetAzureCollector extends MSCsvCollector
 	protected function InitProcessBeforeSynchro(): void
 	{
 		// Create IPConfig mapping table
-		$this->oIPv4SubnetIPConfigMapping = new LookupTable('SELECT IPConfig', array('org_id_friendlyname'));
+		$this->oIPv6AddressIPConfigMapping = new LookupTable('SELECT IPConfig', array('org_id_friendlyname'));
 	}
 
 	/**
@@ -93,7 +92,7 @@ class IPv4SubnetAzureCollector extends MSCsvCollector
 	 */
 	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex)
 	{
-		if (!$this->oIPv4SubnetIPConfigMapping->Lookup($aLineData, array('org_id'), 'ipconfig_id', $iLineIndex)) {
+		if (!$this->oIPv6AddressIPConfigMapping->Lookup($aLineData, array('org_id'), 'ipconfig_id', $iLineIndex)) {
 			throw new IgnoredRowException('Unknown IP Config');
 		}
 	}

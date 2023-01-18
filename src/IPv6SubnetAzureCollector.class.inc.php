@@ -1,61 +1,76 @@
 <?php
-require_once(APPROOT.'collectors/msbase/src/MSJsonCollector.class.inc.php');
+require_once(APPROOT.'collectors/msbase/src/MSCsvCollector.class.inc.php');
 
-class IPv6SubnetAzureCollector extends MSJsonCollector
+class IPv6SubnetAzureCollector extends MSCsvCollector
 {
-	// Required parameters to build URL
-	protected static $aURIParameters = [
-		1 => self::URI_PARAM_SUBSCRIPTION,
-		2 => self::URI_PARAM_RESOURCEGROUP,
-		3 => self::URI_PARAM_VNET,
-	];
+	protected static $sCsvSourceFilePath = null;
+	protected static $aHeaderColumns = null;
+	protected static $aJsonToCsv = null;
+	protected static $bCsvSourceFileExits = false;
+	protected static $bHasStaticBeenInitialized = false;
 
-    /**
-     * @inheritdoc
-     */
-    public function CheckToLaunch($aOrchestratedCollectors): bool
-    {
-        if (parent::CheckToLaunch($aOrchestratedCollectors)) {
-            if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function AttributeIsOptional($sAttCode): bool
-    {
-        if ($this->oMSCollectionPlan->IsTeemIpIpDiscoveryinstalled()) {
-            // TODO
-        } else {
-            // TODO
-        }
-
-        return parent::AttributeIsOptional($sAttCode);
-    }
-
-    /**
+	/**
 	 * @inheritdoc
 	 */
-	protected function BuildUrl($aParameters): string
+	public function Init(): void
 	{
-		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
-				$aParameters) || !array_key_exists(self::URI_PARAM_VNET, $aParameters)) {
-			return '';
-		} else {
-			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
-			$sUrl .= '/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP];
-			$sUrl .= '/providers/Microsoft.Network/virtualNetworks/'.$aParameters[self::URI_PARAM_VNET];
-			$sUrl .= '/subnets?api-version='.$this->sApiVersion;
+		parent::Init();
 
-			return $sUrl;
+		if (!static::$bHasStaticBeenInitialized) {
+			// Init variables
+			static::$sCsvSourceFilePath = static::GetCsvSourceFilePath();
+			static::$aHeaderColumns = static::GetCsvSourceFileHeader();
+			static::$aJsonToCsv = static::GetJsonToCsv();
+
+			// Init CSV source file
+			static::$bCsvSourceFileExits = static::InitCsvSourceFile(static::$sCsvSourceFilePath, static::$aHeaderColumns);
+
+			static::$bHasStaticBeenInitialized = true;
 		}
 	}
-    
+
+
+	/**
+	 * Register a new line into the CSV source file
+	 *
+	 * @param $aData
+	 * @return bool
+	 * @throws Exception
+	 */
+	public static function RegisterLine($aData): bool
+	{
+		if (static::$bCsvSourceFileExits) {
+			return parent::AddLineToCsvSourceFile($aData, static::$sCsvSourceFilePath, static::$aJsonToCsv);
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function CheckToLaunch($aOrchestratedCollectors): bool
+	{
+		if (parent::CheckToLaunch($aOrchestratedCollectors)) {
+			if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function AttributeIsOptional($sAttCode): bool
+	{
+		if ($sAttCode == 'services_list') return true;
+
+		return parent::AttributeIsOptional($sAttCode);
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -67,49 +82,19 @@ class IPv6SubnetAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-    protected function InitProcessBeforeSynchro(): void
-    {
-        // Create IPConfig mapping table
-        $this->oIPv6SubnetIPConfigMapping = new LookupTable('SELECT IPConfig', array('org_id_friendlyname'));
-    }
-
-    /**
-	 * @inheritdoc
-	 */
-	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex)
+	protected function InitProcessBeforeSynchro(): void
 	{
-        if (!$this->oIPv6SubnetIPConfigMapping->Lookup($aLineData, array('org_id'), 'ipconfig_id', $iLineIndex)) {
-            throw new IgnoredRowException('Unknown IP Config');
-        }
+		// Create IPConfig mapping table
+		$this->oIPv6SubnetIPConfigMapping = new LookupTable('SELECT IPConfig', array('org_id_friendlyname'));
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function Fetch()
+	protected function ProcessLineBeforeSynchro(&$aLineData, $iLineIndex)
 	{
-        // The collect has returned a set of IPv4 and IPv6 subnets. We need to extract the IPv6 ones only
-        $bEndOfCollect = false;
-        $bFoundIPv6Subnet = false;
-        while (!$bEndOfCollect && !$bFoundIPv6Subnet) {
-            $aData = parent::Fetch();
-            if ($aData !== false) {
-                // Then process specific data
-                $iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-                $sIP = strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/', true);
-                if (strpos($sIP, ":") !== false) {
-                    // IPv6 format vs Ipv4 one is simply tested by presence of ':' in address. Assumption is made that Azure returns coorectly formed IPs.
-                    $bFoundIPv6Subnet = true;
-                    $aData['ip'] = $sIP;
-                    $aData['mask'] = trim(strstr($this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['addressPrefix'], '/'), '/');
-                }
-
-            } else {
-                $bEndOfCollect = true;
-            }
-        }
-
-		return $aData;
+		if (!$this->oIPv6SubnetIPConfigMapping->Lookup($aLineData, array('org_id'), 'ipconfig_id', $iLineIndex)) {
+			throw new IgnoredRowException('Unknown IP Config');
+		}
 	}
 }
-
