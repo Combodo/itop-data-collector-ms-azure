@@ -43,6 +43,14 @@
       "finalclass": "SynchroAttExtKey"
     },
     {
+      "attcode": "azuresku_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey"
+    },
+    {
       "attcode": "azurestatus",
       "update": "1",
       "reconcile": "0",
@@ -56,6 +64,13 @@
       "update_policy": "master_locked",
       "reconciliation_attcode": "subscriptionid",
       "finalclass": "SynchroAttExtKey"
+    },
+    {
+      "attcode": "azuretags",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "azurevirtualmachine_id",
@@ -174,20 +189,6 @@
       "value_separator": ":",
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet"
-    },
-    {
-      "attcode": "size",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute"
-    },
-    {
-      "attcode": "sku",
-      "update": "1",
-      "reconcile": "0",
-      "update_policy": "master_locked",
-      "finalclass": "SynchroAttribute"
     },
     {
       "attcode": "status",
