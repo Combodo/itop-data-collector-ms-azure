@@ -59,26 +59,33 @@
       "reconcile" : "0",
       "update_policy" : "master_locked",
       "reconciliation_attcode" : "azureid",
-      "finalclass" : "SynchroAttExtKey"
+      "finalclass": "SynchroAttExtKey"
     },
     {
-      "attcode" : "azuresubscription_id",
-      "update" : "1",
-      "reconcile" : "0",
-      "update_policy" : "master_locked",
-      "reconciliation_attcode" : "subscriptionid",
-      "finalclass" : "SynchroAttExtKey"
+      "attcode": "azuresubscription_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "subscriptionid",
+      "finalclass": "SynchroAttExtKey"
     },
     {
-      "attcode" : "business_criticity",
-      "update" : "1",
-      "reconcile" : "0",
-      "update_policy" : "write_if_empty",
-      "finalclass" : "SynchroAttribute"
+      "attcode": "azuretags",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute"
     },
     {
-      "attcode" : "contacts_list",
-      "update" : "0",
+      "attcode": "business_criticity",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "write_if_empty",
+      "finalclass": "SynchroAttribute"
+    },
+    {
+      "attcode": "contacts_list",
+      "update": "0",
       "reconcile" : "0",
       "update_policy" : "master_unlocked",
       "row_separator" : "|",
