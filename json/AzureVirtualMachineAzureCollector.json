@@ -43,6 +43,14 @@
       "finalclass": "SynchroAttExtKey"
     },
     {
+      "attcode": "azuresku_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey"
+    },
+    {
       "attcode": "azuresubscription_id",
       "update": "1",
       "reconcile": "0",
@@ -51,10 +59,17 @@
       "finalclass": "SynchroAttExtKey"
     },
     {
-      "attcode": "azurevmsize",
+      "attcode": "azuretags",
       "update": "1",
       "reconcile": "0",
-      "update_policy": "write_if_empty",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute"
+    },
+    {
+      "attcode": "azurevmid",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
       "finalclass": "SynchroAttribute"
     },
     {
