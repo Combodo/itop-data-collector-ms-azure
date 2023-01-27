@@ -972,6 +972,7 @@
     <csv_file>data/IPv4Subnet.csv</csv_file>
     <fields>
       <primary_key>primary_key</primary_key>
+      <azuresubnet_id>azureid</azuresubnet_id>
       <ip>ipsubnet_id</ip>
       <mask>mask</mask>
       <name>name</name>
@@ -1041,7 +1042,7 @@
     <!-- App Services -->
     <collector>
       <name>AzureAppServiceAzureCollector</name>
-      <enable>yes</enable>
+      <enable>no</enable>
       <rank>10</rank>
     </collector>
     <!-- Kubernetes Services -->
@@ -1125,7 +1126,7 @@
     <!-- Virtual Networks -->
     <collector>
       <name>AzureVNetAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>52</rank>
     </collector>
     <!-- Network Interfaces -->
@@ -1137,7 +1138,7 @@
     <!-- Subnets -->
     <collector>
       <name>AzureSubnetAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>54</rank>
     </collector>
     <!-- Public IP Addresses -->
@@ -1173,7 +1174,7 @@
     <!-- IPv4 Subnets -->
     <collector>
       <name>IPv4SubnetAzureCollector</name>
-      <enable>no</enable>
+      <enable>yes</enable>
       <rank>100</rank>
     </collector>
     <!-- IPv6 Subnets -->

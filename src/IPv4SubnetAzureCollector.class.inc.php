@@ -67,6 +67,20 @@ class IPv4SubnetAzureCollector extends MSCsvCollector
 	public function AttributeIsOptional($sAttCode): bool
 	{
 		if ($sAttCode == 'services_list') return true;
+		if ($sAttCode == 'dhcp_range_discovery_enabled') return true;
+		if ($sAttCode == 'ipdiscovery_enabled') return true;
+		if ($sAttCode == 'ipdiscovery_id') return true;
+		if ($sAttCode == 'iplookup_discovered') return true;
+		if ($sAttCode == 'iplookup_duration') return true;
+		if ($sAttCode == 'iplookup_enabled') return true;
+		if ($sAttCode == 'scan_discovered') return true;
+		if ($sAttCode == 'scan_duration') return true;
+		if ($sAttCode == 'scan_enabled') return true;
+		if ($sAttCode == 'scan_cnx_refused_enabled') return true;
+		if ($sAttCode == 'ping_discovered') return true;
+		if ($sAttCode == 'ping_duration') return true;
+		if ($sAttCode == 'ping_enabled') return true;
+		if ($sAttCode == 'last_discovery_date') return true;
 
 		return parent::AttributeIsOptional($sAttCode);
 	}
