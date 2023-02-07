@@ -61,8 +61,8 @@ class AzureLoadBalancerFrontendIPConfigAzureCollector extends MSJsonCollector
 	{
 		// Create address mapping table
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-			$this->oIPv4AddressMapping = new LookupTable('SELECT IPv4Address', array('org_id_friendlyname', 'ip'));
-			$this->oIPv6AddressMapping = new LookupTable('SELECT IPv6Address', array('org_id_friendlyname', 'ip'));
+			$this->oIPv4AddressMapping = new LookupTable('SELECT IPv4Address WHERE azureip = \'yes\'', array('org_id_friendlyname', 'ip'));
+			$this->oIPv6AddressMapping = new LookupTable('SELECT IPv6Address WHERE azureip = \'yes\'', array('org_id_friendlyname', 'ip'));
 		}
 
 	}
