@@ -26,18 +26,6 @@ class AzureSKUAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
-	public function AttributeIsOptional($sAttCode): bool
-	{
-		if ($sAttCode == 'services_list') {
-			return true;
-		}
-
-		return parent::AttributeIsOptional($sAttCode);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function BuildUrl($aParameters): string
 	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters)) {
@@ -64,48 +52,25 @@ class AzureSKUAzureCollector extends MSJsonCollector
 			if (array_key_exists('size', $aSKU)) {
 				$aData['primary_key'] .= '-'.$aSKU['size'];
 			}
-			$sResourceType = $aSKU['resourceType'];
 			if (array_key_exists('capabilities', $aSKU)) {
 				$aCapabilities = $aSKU['capabilities'];
 				foreach ($aCapabilities as $aCapability) {
 					$sCapability = strtolower($aCapability['name']);
-					if ($sResourceType == 'disks') {
-						switch ($sCapability) {
-							case 'maxbandwidthmbps':
-								$aData['maximaxbandwidthmbps'] = $aCapability['value'];
+					switch ($sCapability) {
+						case 'maxbandwidthmbps':
+						case 'maxiops':
+						case 'maxsizegib':
+						case 'maxnetworkinterfaces':
+						case 'maxresourcevolumemb':
+						case 'memorygb':
+						case 'osvhdsizemb':
+						case 'vcpus':
+						case 'vcpuspercore':
+							$aData[$sCapability] = $aCapability['value'];
+							break;
 
-							case 'maxiops':
-								$aData['maxiops'] = $aCapability['value'];
-
-							case 'maxsizegib':
-								$aData['maxsizegib'] = $aCapability['value'];
-
-							default:
-								break;
-						}
-					} elseif ($sResourceType == 'virtualMachines') {
-						switch ($sCapability) {
-							case 'maxnetworkinterfaces':
-								$aData['maxnetworkinterfaces'] = $aCapability['value'];
-
-							case 'maxresourcevolumemb':
-								$aData['maxresourcevolumemb'] = $aCapability['value'];
-
-							case 'memorygb':
-								$aData['memorygb'] = $aCapability['value'];
-
-							case 'osvhdsizemb':
-								$aData['osvhdsizemb'] = $aCapability['value'];
-
-							case 'vcpus':
-								$aData['vcpus'] = $aCapability['value'];
-
-							case 'vcpuspercore':
-								$aData['vcpuspercore'] = $aCapability['value'];
-
-							default:
-								break;
-						}
+						default:
+							break;
 					}
 				}
 			}
@@ -114,5 +79,13 @@ class AzureSKUAzureCollector extends MSJsonCollector
 		return $aData;
 	}
 
-}
+	protected function AddRow($aRow)
+	{
+		$sResourceType = $aRow['type'];
+		// Only SKUs related to Disks and VirtualMachines are collected
+		if (($sResourceType == 'disks') || ($sResourceType == 'virtualMachines')) {
+			parent::AddRow($aRow);
+		}
+	}
 
+}
