@@ -940,6 +940,7 @@
       <short_name>name</short_name>
     </fields>
     <defaults>
+      <azureip>yes</azureip>
       <ipconfig_id></ipconfig_id>
       <org_id>Demo</org_id>
       <status>allocated</status>
@@ -956,6 +957,7 @@
       <short_name>name</short_name>
     </fields>
     <defaults>
+      <azureip>yes</azureip>
       <ipconfig_id></ipconfig_id>
       <org_id>Demo</org_id>
       <status>allocated</status>
