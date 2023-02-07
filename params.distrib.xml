@@ -96,6 +96,7 @@
       <org_id>org_id</org_id>
       <osfamily_id>osfamily_id</osfamily_id>
       <provisioning_status>properties/provisioningState</provisioning_status>
+      <size>properties/diskSizeGB</size>
       <status>state</status>
     </fields>
     <defaults>
@@ -110,6 +111,7 @@
       <org_id>Demo</org_id>
       <osfamily_id></osfamily_id>
       <provisioning_status></provisioning_status>
+      <size></size>
       <status>implementation</status>
     </defaults>
   </azurediskazurecollector>
