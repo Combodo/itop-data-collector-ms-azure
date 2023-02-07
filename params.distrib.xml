@@ -719,6 +719,47 @@
     </defaults>
   </azureresourcegroupazurecollector>
 
+  <!-- SKUs -->
+  <azureskuazurecollector>
+    <ms_class>skus</ms_class>
+    <api_version>2021-07-01</api_version>
+    <jsonfile>data/AzureSKU.json</jsonfile>
+    <path>value</path>
+    <location_filter>westeurope</location_filter>
+    <fields>
+      <primary_key>name</primary_key>
+      <family>family</family>
+      <maxbandwidthmbps>maxbandwidthmbps</maxbandwidthmbps>
+      <maxiops>maxnetwormaxiopskinterfaces</maxiops>
+      <maxnetworkinterfaces>maxnetworkinterfaces</maxnetworkinterfaces>
+      <maxresourcevolumemb>maxresourcevolumemb</maxresourcevolumemb>
+      <maxsizegib>maxsizegib</maxsizegib>
+      <memorygb>memorygb</memorygb>
+      <name>name</name>
+      <osvhdsizemb>osvhdsizemb</osvhdsizemb>
+      <size>size</size>
+      <tier>tier</tier>
+      <type>resourceType</type>
+      <vcpus>vcpus</vcpus>
+      <vcpuspercore>vcpuspercore</vcpuspercore>
+    </fields>
+    <defaults>
+      <family></family>
+      <maxbandwidthmbps></maxbandwidthmbps>
+      <maxiops></maxiops>
+      <maxnetworkinterfaces></maxnetworkinterfaces>
+      <maxresourcevolumemb></maxresourcevolumemb>
+      <memorygb></memorygb>
+      <maxsizegib></maxsizegib>
+      <osvhdsizemb></osvhdsizemb>
+      <size></size>
+      <tier></tier>
+      <type></type>
+      <vcpus></vcpus>
+      <vcpuspercore></vcpuspercore>
+    </defaults>
+  </azureskuazurecollector>
+
   <!-- Storage accounts -->
   <azurestorageaccountazurecollector>
     <ms_class>storageAccounts</ms_class>
@@ -750,53 +791,6 @@
       <tier></tier>
     </defaults>
   </azurestorageaccountazurecollector>
-
-  <!-- SKUs -->
-  <azureskuazurecollector>
-    <ms_class>skus</ms_class>
-    <api_version>2021-07-01</api_version>
-    <jsonfile>data/AzureSKU.json</jsonfile>
-    <path>value</path>
-    <location_filter>westeurope</location_filter>
-    <fields>
-      <primary_key>name</primary_key>
-      <business_criticity>business_criticity</business_criticity>
-      <family>family</family>
-      <maxbandwidthmbps>maxbandwidthmbps</maxbandwidthmbps>
-      <maxiops>maxnetwormaxiopskinterfaces</maxiops>
-      <maxnetworkinterfaces>maxnetworkinterfaces</maxnetworkinterfaces>
-      <maxresourcevolumemb>maxresourcevolumemb</maxresourcevolumemb>
-      <maxsizegib>maxsizegib</maxsizegib>
-      <memorygb>memorygb</memorygb>
-      <name>name</name>
-      <org_id>org_id</org_id>
-      <osvhdsizemb>osvhdsizemb</osvhdsizemb>
-      <size>size</size>
-      <status>state</status>
-      <tier>tier</tier>
-      <type>resourceType</type>
-      <vcpus>vcpus</vcpus>
-      <vcpuspercore>vcpuspercore</vcpuspercore>
-    </fields>
-    <defaults>
-      <business_criticity>medium</business_criticity>
-      <family></family>
-      <maxbandwidthmbps></maxbandwidthmbps>
-      <maxiops></maxiops>
-      <maxnetworkinterfaces></maxnetworkinterfaces>
-      <maxresourcevolumemb></maxresourcevolumemb>
-      <memorygb></memorygb>
-      <maxsizegib></maxsizegib>
-      <org_id>Demo</org_id>
-      <osvhdsizemb></osvhdsizemb>
-      <size></size>
-      <status>production</status>
-      <tier></tier>
-      <type></type>
-      <vcpus></vcpus>
-      <vcpuspercore></vcpuspercore>
-    </defaults>
-  </azureskuazurecollector>
 
   <!-- Subnets -->
   <azuresubnetazurecollector>
