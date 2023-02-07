@@ -49,6 +49,16 @@ class AzureDiskAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	protected function InitProcessBeforeSynchro(): void
+	{
+		// Create address mapping table
+		$this->oSKUMapping = new LookupTable('SELECT AzureSKU WHERE type = \'disks\'', array('name', 'maxsizegib'));
+
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function Prepare(): bool
 	{
 		// Create MappingTable
@@ -121,6 +131,9 @@ class AzureDiskAzureCollector extends MSJsonCollector
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azurevirtualmachine_id', $iLineIndex, true, false)) {
 			throw new IgnoredRowException('Unknown code');
 		}
+
+		$this->oSKUMapping->Lookup($aLineData, array('azuresku_id', 'size'), 'azuresku_id', $iLineIndex);
+
 	}
 
 	/**

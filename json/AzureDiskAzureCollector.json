@@ -47,7 +47,7 @@
       "update": "1",
       "reconcile": "0",
       "update_policy": "master_locked",
-      "reconciliation_attcode": "name",
+      "reconciliation_attcode": "",
       "finalclass": "SynchroAttExtKey"
     },
     {
@@ -189,6 +189,14 @@
       "value_separator": ":",
       "attribute_qualifier": "'",
       "finalclass": "SynchroAttLinkSet"
+    },
+    {
+      "attcode": "size",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "size"
     },
     {
       "attcode": "status",
