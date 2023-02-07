@@ -15,6 +15,18 @@ class AzureSKUAzureCollector extends MSJsonCollector
 	/**
 	 * @inheritdoc
 	 */
+	public function AttributeIsOptional($sAttCode): bool
+	{
+		if ($sAttCode == 'azuretags') {
+			return true;
+		}
+
+		return parent::AttributeIsOptional($sAttCode);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function Init(): void
 	{
 		parent::Init();
