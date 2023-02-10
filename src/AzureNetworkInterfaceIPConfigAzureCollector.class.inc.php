@@ -141,7 +141,7 @@ class AzureNetworkInterfaceIPConfigAzureCollector extends MSJsonCollector
 			throw new IgnoredRowException('Unknown subscription');
 		}
 		if (!$this->Lookup($aLineData, array('primary_key'), 'azurenetworkinterface_id', $iLineIndex, true, false)) {
-			throw new IgnoredRowException('Unknown network interfac');
+			throw new IgnoredRowException('Unknown network interface');
 		}
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 			if ($iLineIndex == 0) {
