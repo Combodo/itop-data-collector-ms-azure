@@ -111,7 +111,8 @@ class AzureVirtualMachineAzureCollector extends MSJsonCollector
 			} else {
 				$aData['osfamily_id'] = '';
 			}
-			if (array_key_exists('sku', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference'])) {
+			if (array_key_exists('imageReference', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']) &&
+				array_key_exists('sku', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference'])) {
 				$aData['osversion'] = $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storageProfile']['imageReference']['sku'];
 			} else {
 				$aData['osversion'] = '';
