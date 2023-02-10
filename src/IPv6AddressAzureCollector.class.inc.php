@@ -65,7 +65,14 @@ class IPv6AddressAzureCollector extends MSCsvCollector
 	 */
 	public function AttributeIsOptional($sAttCode): bool
 	{
+		if ($sAttCode == 'fqdn_from_iplookup') return true;
+		if ($sAttCode == 'last_discovery_date') return true;
+		if ($sAttCode == 'ping_before_assign') return true;
+		if ($sAttCode == 'responds_to_iplookup') return true;
+		if ($sAttCode == 'responds_to_ping') return true;
+		if ($sAttCode == 'responds_to_scan') return true;
 		if ($sAttCode == 'services_list') return true;
+		if ($sAttCode == 'view_id') return true;
 
 		return parent::AttributeIsOptional($sAttCode);
 	}
