@@ -18,10 +18,7 @@ class AzureCollectionPlan extends MSCollectionPlan
 	}
 
 	/**
-	 * Initialize collection plan
-	 *
-	 * @return void
-	 * @throws \IOException
+	 * @inheritdoc
 	 */
 	public function Init(): void
 	{
