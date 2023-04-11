@@ -149,7 +149,7 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 				$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
 			} elseif (!$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
 				!$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex)) {
-				throw new IgnoredRowException('Unknown Subnet');
+				Utils::Log(LOG_WARNING, '|->No IPv4 and no IPv6 subnet has been found in the given organization.');
 			}
 		}
 	}
