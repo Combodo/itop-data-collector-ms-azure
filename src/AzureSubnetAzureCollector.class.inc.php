@@ -65,8 +65,8 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 	{
 		// Create subnet mapping table
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
-			$this->oSubnetIPv4Mapping = new LookupTable('SELECT IPv4Subnet', array('org_id_friendlyname', 'ip'));
-			$this->oSubnetIPv6Mapping = new LookupTable('SELECT IPv6Subnet', array('org_id_friendlyname', 'ip'));
+			$this->oIPv4SubnetMapping = new LookupTable('SELECT IPv4Subnet', array('org_id_friendlyname', 'ip'));
+			$this->oIPv6SubnetMapping = new LookupTable('SELECT IPv6Subnet', array('org_id_friendlyname', 'ip'));
 		}
 
 	}
@@ -145,10 +145,12 @@ class AzureSubnetAzureCollector extends MSJsonCollector
 		if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 			if ($iLineIndex == 0) {
 				// Make sure both lookup tables are correctly initialized
-				$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
-				$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
-			} elseif (!$this->oSubnetIPv4Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
-				!$this->oSubnetIPv6Mapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex)) {
+				$this->oIPv4SubnetMapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
+				$this->oIPv6SubnetMapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', 0);
+			} else
+				// Try to map subnet - non mandatory
+				if (!$this->oIPv4SubnetMapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex) &&
+					!$this->oIPv6SubnetMapping->Lookup($aLineData, array('org_id', 'ipsubnet_id'), 'ipsubnet_id', $iLineIndex)) {
 				Utils::Log(LOG_WARNING, '|->No IPv4 and no IPv6 subnet has been found in the given organization.');
 			}
 		}

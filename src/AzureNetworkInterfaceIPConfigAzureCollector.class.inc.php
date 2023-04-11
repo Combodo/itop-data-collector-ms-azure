@@ -150,8 +150,9 @@ class AzureNetworkInterfaceIPConfigAzureCollector extends MSJsonCollector
 				$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', 0);
 			} else {
 				// Try to map IP - non mandatory
-				if (!$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex)) {
-					$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex);
+				if (!$this->oIPv4AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex) &&
+					!$this->oIPv6AddressMapping->Lookup($aLineData, array('org_id', 'ip_id'), 'ip_id', $iLineIndex)) {
+					Utils::Log(LOG_WARNING, '|->No IPv4 and no IPv6 has been found in the given organization.');
 				}
 			}
 		}
