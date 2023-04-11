@@ -54,6 +54,8 @@ class IPv6AddressAzureCollector extends MSCsvCollector
 		if (parent::CheckToLaunch($aOrchestratedCollectors)) {
 			if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 				return true;
+			} else {
+				Utils::Log(LOG_INFO, '> IPv6AddressAzureCollector will not be launched as TeemIp is not installed');
 			}
 		}
 

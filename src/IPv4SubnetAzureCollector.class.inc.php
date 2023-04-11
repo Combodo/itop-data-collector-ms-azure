@@ -55,6 +55,8 @@ class IPv4SubnetAzureCollector extends MSCsvCollector
 		if (parent::CheckToLaunch($aOrchestratedCollectors)) {
 			if ($this->oMSCollectionPlan->IsTeemIpInstalled()) {
 				return true;
+			} else {
+				Utils::Log(LOG_INFO, '> IPv4SubnetAzureCollector will not be launched as TeemIp is not installed');
 			}
 		}
 
