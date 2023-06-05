@@ -16,9 +16,8 @@ class AzureLocationAzureCollector extends MSJsonCollector
 	 */
 	public function AttributeIsOptional($sAttCode): bool
 	{
-		if ($sAttCode == 'services_list') {
-			return true;
-		}
+		if ($sAttCode == 'services_list') return true;
+		if ($sAttCode == 'azuretags') return true;
 
 		return parent::AttributeIsOptional($sAttCode);
 	}
