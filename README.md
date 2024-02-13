@@ -9,11 +9,13 @@ This module is the extra part to collect data from Microsoft Azure computing env
 [data collector base for Microsoft Azure and Graph](https://github.com/Combodo/itop-data-collector-ms-azure) as well as the 
 [collector base module](https://github.com/Combodo/itop-data-collector-base) to work.
 
-
 ## Download
 
-Not available yet.
+Release packages can be found on the [iTop Hub Store](https://store.itophub.io/en_US/taxons/all-extensions). This is the best way to get
+a running package as those contains all the needed modules and stable code.
 
+When downloading directly from GitHub (by cloning or downloading as zip) you will get potentially unstable code, and you will miss
+additional modules.
 
 ## About Us
 
