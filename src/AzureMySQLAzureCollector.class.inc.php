@@ -28,12 +28,12 @@ class AzureMySQLAzureCollector extends MSJsonCollector
 	protected function BuildUrl($aParameters): string
 	{
 		if (!array_key_exists(self::URI_PARAM_SUBSCRIPTION, $aParameters) || !array_key_exists(self::URI_PARAM_RESOURCEGROUP,
-				$aParameters) || !array_key_exists(self::URI_PARAM_SERVER, $aParameters)) {
+				$aParameters) || !array_key_exists(self::URI_PARAM_MySQL_SERVER, $aParameters)) {
 			return '';
 		} else {
 			$sUrl = $this->sResource.'subscriptions/'.$aParameters[self::URI_PARAM_SUBSCRIPTION];
 			$sUrl .= '/resourceGroups/'.$aParameters[self::URI_PARAM_RESOURCEGROUP];
-			$sUrl .= '/providers/Microsoft.DBforMySQL/flexibleServers/'.$aParameters[self::URI_PARAM_SERVER];
+			$sUrl .= '/providers/Microsoft.DBforMySQL/flexibleServers/'.$aParameters[self::URI_PARAM_MySQL_SERVER];
 			$sUrl .= '/databases?api-version='.$this->sApiVersion;
 
 			return $sUrl;
