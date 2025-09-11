@@ -372,7 +372,6 @@
       <org_id>org_id</org_id>
       <provisioning_status>properties/state</provisioning_status>
       <status>state</status>
-      <storage>storage</storage>
       <tier>sku/tier</tier>
       <type>type</type>
       <version>properties/version</version>

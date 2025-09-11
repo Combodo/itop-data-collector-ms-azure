@@ -132,7 +132,6 @@ class AzureMSSQLServerAzureCollector extends MSJsonCollector
 		if ($aData !== false) {
 			// Then process specific data
 			$iJsonIdx = $this->iIdx - 1; // Increment is done at the end of parent::Fetch()
-			$aData['storage'] = str_replace(',', '.', $this->aJson[$this->aJsonKey[$iJsonIdx]]['properties']['storage']['storageSizeGB']);
 		}
 
 		return $aData;
