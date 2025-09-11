@@ -136,7 +136,7 @@
       <name>name</name>
       <org_id>org_id</org_id>
       <outbound_type>outbound_type</outbound_type>
-      <provisioning_status>properties/provisioningStat</provisioning_status>
+      <provisioning_status>properties/provisioningState</provisioning_status>
       <status>state</status>
       <version>properties/kubernetesVersion</version>
     </fields>
