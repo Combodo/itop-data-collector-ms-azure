@@ -175,7 +175,7 @@
     },
     {
       "attcode": "storage",
-      "update": "1",
+      "update": "0",
       "reconcile": "0",
       "update_policy": "master_locked",
       "finalclass": "SynchroAttribute"
